@@ -6,6 +6,7 @@
     <StartupObject>Sub Main</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
+    <RootNamespace>RMIS_BFP_Tuao</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
