@@ -1,0 +1,24 @@
+[33mcommit d23e5c07c504e632deac8a5855b3433cf06ebeb2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Glenn-IT <glenard2308@gmail.com>
+Date:   Wed Apr 15 21:44:17 2026 +0800
+
+    Initi
+
+ RMIS_BFP_Tuao/Docs/Checklist.md                    |  38 [32m++[m[31m--[m
+ RMIS_BFP_Tuao/Forms/LoginForm.vb                   |   2 [32m+[m[31m-[m
+ RMIS_BFP_Tuao/Forms/MainForm.Designer.vb           | 104 [32m++++++[m[31m---[m
+ RMIS_BFP_Tuao/Forms/MainForm.resx                  | 120 [32m+++++++++++[m
+ RMIS_BFP_Tuao/Forms/Pages/UcAddRecord.vb           |  20 [32m+[m[31m-[m
+ RMIS_BFP_Tuao/Forms/Pages/UcDashboard.vb           |  18 [32m++[m
+ RMIS_BFP_Tuao/Forms/Pages/UcDevelopers.Designer.vb | 232 [32m++++++++++++++++++++[m[31m-[m
+ RMIS_BFP_Tuao/Forms/Pages/UcDevelopers.vb          |   1 [32m+[m
+ RMIS_BFP_Tuao/Forms/Pages/UcReports.Designer.vb    | 227 [32m+++++++++++++++++++[m[31m-[m
+ RMIS_BFP_Tuao/Forms/Pages/UcReports.vb             |  57 [32m+++++[m
+ RMIS_BFP_Tuao/Forms/Pages/UcSettings.Designer.vb   | 220 [32m++++++++++++++++++[m[31m-[m
+ RMIS_BFP_Tuao/Forms/Pages/UcSettings.vb            |  40 [32m++++[m
+ RMIS_BFP_Tuao/Forms/Pages/UcViewRecords.vb         |  54 [32m++[m[31m---[m
+ RMIS_BFP_Tuao/Models/PersonnelModel.vb             |  18 [32m++[m
+ RMIS_BFP_Tuao/Models/RecordModel.vb                |  13 [32m++[m
+ RMIS_BFP_Tuao/My Project/Application.myapp         |   2 [32m+[m[31m-[m
+ RMIS_BFP_Tuao/Services/RecordService.vb            | 100 [32m+++++++++[m
+ 17 files changed, 1161 insertions(+), 105 deletions(-)

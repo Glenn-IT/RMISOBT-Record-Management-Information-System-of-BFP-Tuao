@@ -120,33 +120,81 @@ Partial Class UcReports
         lblSumTitle.Size = New Size(200, 24)
         lblSumTitle.Location = New Point(0, 0)
 
-        Dim MakeCard As Action(Of Panel, Label, Label, Integer, Color, String, String) =
-            Sub(pnl As Panel, ttl As Label, val As Label,
-                x As Integer, accent As Color,
-                titleTxt As String, valueTxt As String)
-                pnl.Size = New Size(206, 72)
-                pnl.Location = New Point(x, 28)
-                pnl.BackColor = Color.White
-                ttl.Text = titleTxt
-                ttl.Font = New Font("Segoe UI", 8.5, FontStyle.Regular)
-                ttl.ForeColor = Color.Gray
-                ttl.AutoSize = False
-                ttl.Size = New Size(180, 20)
-                ttl.Location = New Point(14, 10)
-                val.Text = valueTxt
-                val.Font = New Font("Segoe UI", 22, FontStyle.Bold)
-                val.ForeColor = accent
-                val.AutoSize = False
-                val.Size = New Size(180, 38)
-                val.Location = New Point(12, 30)
-                pnl.Controls.Add(ttl)
-                pnl.Controls.Add(val)
-            End Sub
+        ' Card — Total Records
+        pnlCardTotal.Size = New Size(206, 72)
+        pnlCardTotal.Location = New Point(0, 28)
+        pnlCardTotal.BackColor = Color.White
+        lblCardTotalTitle.Text = "Total Records"
+        lblCardTotalTitle.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCardTotalTitle.ForeColor = Color.Gray
+        lblCardTotalTitle.AutoSize = False
+        lblCardTotalTitle.Size = New Size(180, 20)
+        lblCardTotalTitle.Location = New Point(14, 10)
+        lblCardTotalValue.Text = "0"
+        lblCardTotalValue.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCardTotalValue.ForeColor = Color.FromArgb(180, 20, 20)
+        lblCardTotalValue.AutoSize = False
+        lblCardTotalValue.Size = New Size(180, 38)
+        lblCardTotalValue.Location = New Point(12, 30)
+        pnlCardTotal.Controls.Add(lblCardTotalTitle)
+        pnlCardTotal.Controls.Add(lblCardTotalValue)
 
-        MakeCard(pnlCardTotal,    lblCardTotalTitle,    lblCardTotalValue,    0,   Color.FromArgb(180, 20, 20),   "Total Records",    "0")
-        MakeCard(pnlCardActive,   lblCardActiveTitle,   lblCardActiveValue,   214, Color.FromArgb(220, 120, 0),   "Active Cases",     "0")
-        MakeCard(pnlCardResolved, lblCardResolvedTitle, lblCardResolvedValue, 428, Color.FromArgb(30, 130, 30),   "Resolved",         "0")
-        MakeCard(pnlCardClosed,   lblCardClosedTitle,   lblCardClosedValue,   642, Color.FromArgb(100, 100, 100), "Closed",           "0")
+        ' Card — Active Cases
+        pnlCardActive.Size = New Size(206, 72)
+        pnlCardActive.Location = New Point(214, 28)
+        pnlCardActive.BackColor = Color.White
+        lblCardActiveTitle.Text = "Active Cases"
+        lblCardActiveTitle.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCardActiveTitle.ForeColor = Color.Gray
+        lblCardActiveTitle.AutoSize = False
+        lblCardActiveTitle.Size = New Size(180, 20)
+        lblCardActiveTitle.Location = New Point(14, 10)
+        lblCardActiveValue.Text = "0"
+        lblCardActiveValue.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCardActiveValue.ForeColor = Color.FromArgb(220, 120, 0)
+        lblCardActiveValue.AutoSize = False
+        lblCardActiveValue.Size = New Size(180, 38)
+        lblCardActiveValue.Location = New Point(12, 30)
+        pnlCardActive.Controls.Add(lblCardActiveTitle)
+        pnlCardActive.Controls.Add(lblCardActiveValue)
+
+        ' Card — Resolved
+        pnlCardResolved.Size = New Size(206, 72)
+        pnlCardResolved.Location = New Point(428, 28)
+        pnlCardResolved.BackColor = Color.White
+        lblCardResolvedTitle.Text = "Resolved"
+        lblCardResolvedTitle.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCardResolvedTitle.ForeColor = Color.Gray
+        lblCardResolvedTitle.AutoSize = False
+        lblCardResolvedTitle.Size = New Size(180, 20)
+        lblCardResolvedTitle.Location = New Point(14, 10)
+        lblCardResolvedValue.Text = "0"
+        lblCardResolvedValue.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCardResolvedValue.ForeColor = Color.FromArgb(30, 130, 30)
+        lblCardResolvedValue.AutoSize = False
+        lblCardResolvedValue.Size = New Size(180, 38)
+        lblCardResolvedValue.Location = New Point(12, 30)
+        pnlCardResolved.Controls.Add(lblCardResolvedTitle)
+        pnlCardResolved.Controls.Add(lblCardResolvedValue)
+
+        ' Card — Closed
+        pnlCardClosed.Size = New Size(206, 72)
+        pnlCardClosed.Location = New Point(642, 28)
+        pnlCardClosed.BackColor = Color.White
+        lblCardClosedTitle.Text = "Closed"
+        lblCardClosedTitle.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCardClosedTitle.ForeColor = Color.Gray
+        lblCardClosedTitle.AutoSize = False
+        lblCardClosedTitle.Size = New Size(180, 20)
+        lblCardClosedTitle.Location = New Point(14, 10)
+        lblCardClosedValue.Text = "0"
+        lblCardClosedValue.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCardClosedValue.ForeColor = Color.FromArgb(100, 100, 100)
+        lblCardClosedValue.AutoSize = False
+        lblCardClosedValue.Size = New Size(180, 38)
+        lblCardClosedValue.Location = New Point(12, 30)
+        pnlCardClosed.Controls.Add(lblCardClosedTitle)
+        pnlCardClosed.Controls.Add(lblCardClosedValue)
 
         ' ????????????????????????????????????????????????????????
         ' Breakdown table
@@ -173,13 +221,13 @@ Partial Class UcReports
         dgvBreakdown.ReadOnly = True
         dgvBreakdown.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvBreakdown.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvBreakdown.Font = New Font("Segoe UI", 9.5)
+        dgvBreakdown.Font = New Font("Segoe UI", 9.5F)
         dgvBreakdown.GridColor = Color.FromArgb(225, 225, 225)
         dgvBreakdown.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         dgvBreakdown.RowTemplate.Height = 36
         dgvBreakdown.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(180, 20, 20)
         dgvBreakdown.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
-        dgvBreakdown.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9.5, FontStyle.Bold)
+        dgvBreakdown.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         dgvBreakdown.ColumnHeadersDefaultCellStyle.Padding = New Padding(8, 0, 0, 0)
         dgvBreakdown.ColumnHeadersHeight = 38
         dgvBreakdown.EnableHeadersVisualStyles = False

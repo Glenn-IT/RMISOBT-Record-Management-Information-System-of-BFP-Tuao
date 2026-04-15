@@ -17,75 +17,81 @@ Partial Class UcDevelopers
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-
-        pnlHeader     = New Panel()
-        pnlDivider    = New Panel()
-        lblPageTitle  = New Label()
-        lblPageSub    = New Label()
-        pnlAbout      = New Panel()
+        pnlHeader = New Panel()
+        lblPageTitle = New Label()
+        lblPageSub = New Label()
+        pnlDivider = New Panel()
+        pnlAbout = New Panel()
         lblAboutTitle = New Label()
         lblAboutDivider = New Panel()
-        lblAppName    = New Label()
-        lblAppDesc    = New Label()
-        lblVersion    = New Label()
+        lblAppName = New Label()
+        lblAppDesc = New Label()
+        lblVersion = New Label()
         lblVersionVal = New Label()
-        lblBuiltWith  = New Label()
-        lblBuiltVal   = New Label()
-        pnlTeam       = New Panel()
-        lblTeamTitle  = New Label()
+        lblBuiltWith = New Label()
+        lblBuiltVal = New Label()
+        pnlTeam = New Panel()
+        lblTeamTitle = New Label()
         lblTeamDivider = New Panel()
-        pnlDev1       = New Panel()
-        lblDev1Name   = New Label()
-        lblDev1Role   = New Label()
-        pnlDev2       = New Panel()
-        lblDev2Name   = New Label()
-        lblDev2Role   = New Label()
-        pnlDev3       = New Panel()
-        lblDev3Name   = New Label()
-        lblDev3Role   = New Label()
-
+        pnlDev1 = New Panel()
+        lblDev1Name = New Label()
+        lblDev1Role = New Label()
+        pnlDev2 = New Panel()
+        lblDev2Name = New Label()
+        lblDev2Role = New Label()
+        pnlDev3 = New Panel()
+        lblDev3Name = New Label()
+        lblDev3Role = New Label()
         pnlHeader.SuspendLayout()
         pnlAbout.SuspendLayout()
         pnlTeam.SuspendLayout()
         pnlDev1.SuspendLayout()
         pnlDev2.SuspendLayout()
         pnlDev3.SuspendLayout()
-        Me.SuspendLayout()
-
-        ' ????????????????????????????????????????????????????????
+        SuspendLayout()
+        ' 
         ' pnlHeader
-        ' ????????????????????????????????????????????????????????
+        ' 
         pnlHeader.BackColor = Color.White
-        pnlHeader.Size = New Size(920, 88)
-        pnlHeader.Location = New Point(24, 18)
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Controls.Add(lblPageSub)
         pnlHeader.Controls.Add(pnlDivider)
-
-        lblPageTitle.Text = "About the Developers"
-        lblPageTitle.Font = New Font("Segoe UI", 15, FontStyle.Bold)
-        lblPageTitle.ForeColor = Color.FromArgb(30, 30, 30)
-        lblPageTitle.AutoSize = False
-        lblPageTitle.Size = New Size(700, 34)
+        pnlHeader.Location = New Point(24, 18)
+        pnlHeader.Name = "pnlHeader"
+        pnlHeader.Size = New Size(920, 88)
+        pnlHeader.TabIndex = 0
+        ' 
+        ' lblPageTitle
+        ' 
+        lblPageTitle.Font = New Font("Segoe UI", 15F, FontStyle.Bold)
+        lblPageTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         lblPageTitle.Location = New Point(20, 12)
-
-        lblPageSub.Text = "System information and development team behind RMIS — BFP Tuao."
-        lblPageSub.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        lblPageTitle.Name = "lblPageTitle"
+        lblPageTitle.Size = New Size(700, 34)
+        lblPageTitle.TabIndex = 0
+        lblPageTitle.Text = "About the Developers"
+        ' 
+        ' lblPageSub
+        ' 
+        lblPageSub.Font = New Font("Segoe UI", 9F)
         lblPageSub.ForeColor = Color.Gray
-        lblPageSub.AutoSize = False
-        lblPageSub.Size = New Size(700, 22)
         lblPageSub.Location = New Point(20, 46)
-
-        pnlDivider.BackColor = Color.FromArgb(180, 20, 20)
-        pnlDivider.Size = New Size(880, 3)
+        lblPageSub.Name = "lblPageSub"
+        lblPageSub.Size = New Size(700, 22)
+        lblPageSub.TabIndex = 1
+        lblPageSub.Text = "System information and development team behind RMIS — BFP Tuao."
+        ' 
+        ' pnlDivider
+        ' 
+        pnlDivider.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         pnlDivider.Location = New Point(20, 78)
-
-        ' ????????????????????????????????????????????????????????
-        ' pnlAbout — application info
-        ' ????????????????????????????????????????????????????????
+        pnlDivider.Name = "pnlDivider"
+        pnlDivider.Size = New Size(880, 3)
+        pnlDivider.TabIndex = 2
+        ' 
+        ' pnlAbout
+        ' 
         pnlAbout.BackColor = Color.White
-        pnlAbout.Size = New Size(430, 230)
-        pnlAbout.Location = New Point(24, 120)
         pnlAbout.Controls.Add(lblAboutTitle)
         pnlAbout.Controls.Add(lblAboutDivider)
         pnlAbout.Controls.Add(lblAppName)
@@ -94,122 +100,225 @@ Partial Class UcDevelopers
         pnlAbout.Controls.Add(lblVersionVal)
         pnlAbout.Controls.Add(lblBuiltWith)
         pnlAbout.Controls.Add(lblBuiltVal)
-
-        lblAboutTitle.Text = "Application Information"
-        lblAboutTitle.Font = New Font("Segoe UI", 11, FontStyle.Bold)
-        lblAboutTitle.ForeColor = Color.FromArgb(30, 30, 30)
-        lblAboutTitle.AutoSize = False
-        lblAboutTitle.Size = New Size(400, 30)
+        pnlAbout.Location = New Point(24, 120)
+        pnlAbout.Name = "pnlAbout"
+        pnlAbout.Size = New Size(430, 230)
+        pnlAbout.TabIndex = 1
+        ' 
+        ' lblAboutTitle
+        ' 
+        lblAboutTitle.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        lblAboutTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         lblAboutTitle.Location = New Point(16, 12)
-
-        lblAboutDivider.BackColor = Color.FromArgb(220, 220, 220)
-        lblAboutDivider.Size = New Size(398, 1)
+        lblAboutTitle.Name = "lblAboutTitle"
+        lblAboutTitle.Size = New Size(400, 30)
+        lblAboutTitle.TabIndex = 0
+        lblAboutTitle.Text = "Application Information"
+        ' 
+        ' lblAboutDivider
+        ' 
+        lblAboutDivider.BackColor = Color.FromArgb(CByte(220), CByte(220), CByte(220))
         lblAboutDivider.Location = New Point(16, 44)
-
-        lblAppName.Text = "RMIS — BFP Tuao"
-        lblAppName.Font = New Font("Segoe UI", 13, FontStyle.Bold)
-        lblAppName.ForeColor = Color.FromArgb(180, 20, 20)
-        lblAppName.AutoSize = False
-        lblAppName.Size = New Size(398, 30)
+        lblAboutDivider.Name = "lblAboutDivider"
+        lblAboutDivider.Size = New Size(398, 1)
+        lblAboutDivider.TabIndex = 1
+        ' 
+        ' lblAppName
+        ' 
+        lblAppName.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
+        lblAppName.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         lblAppName.Location = New Point(16, 54)
-
-        lblAppDesc.Text = "Record Management Information System" & Environment.NewLine &
-                          "Bureau of Fire Protection — Tuao Fire Station"
-        lblAppDesc.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        lblAppName.Name = "lblAppName"
+        lblAppName.Size = New Size(398, 30)
+        lblAppName.TabIndex = 2
+        lblAppName.Text = "RMIS — BFP Tuao"
+        ' 
+        ' lblAppDesc
+        ' 
+        lblAppDesc.Font = New Font("Segoe UI", 9F)
         lblAppDesc.ForeColor = Color.Gray
-        lblAppDesc.AutoSize = False
-        lblAppDesc.Size = New Size(398, 44)
         lblAppDesc.Location = New Point(16, 86)
-
-        lblVersion.Text = "Version:"
-        lblVersion.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblVersion.ForeColor = Color.FromArgb(70, 70, 70)
-        lblVersion.AutoSize = False
-        lblVersion.Size = New Size(100, 22)
+        lblAppDesc.Name = "lblAppDesc"
+        lblAppDesc.Size = New Size(398, 44)
+        lblAppDesc.TabIndex = 3
+        lblAppDesc.Text = "Record Management Information System" & vbCrLf & "Bureau of Fire Protection — Tuao Fire Station"
+        ' 
+        ' lblVersion
+        ' 
+        lblVersion.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblVersion.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblVersion.Location = New Point(16, 142)
-
-        lblVersionVal.Text = "1.0.0 (Prototype)"
-        lblVersionVal.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        lblVersion.Name = "lblVersion"
+        lblVersion.Size = New Size(100, 22)
+        lblVersion.TabIndex = 4
+        lblVersion.Text = "Version:"
+        ' 
+        ' lblVersionVal
+        ' 
+        lblVersionVal.Font = New Font("Segoe UI", 9F)
         lblVersionVal.ForeColor = Color.Gray
-        lblVersionVal.AutoSize = False
-        lblVersionVal.Size = New Size(280, 22)
         lblVersionVal.Location = New Point(120, 142)
-
-        lblBuiltWith.Text = "Built With:"
-        lblBuiltWith.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblBuiltWith.ForeColor = Color.FromArgb(70, 70, 70)
-        lblBuiltWith.AutoSize = False
-        lblBuiltWith.Size = New Size(100, 22)
+        lblVersionVal.Name = "lblVersionVal"
+        lblVersionVal.Size = New Size(280, 22)
+        lblVersionVal.TabIndex = 5
+        lblVersionVal.Text = "1.0.0 (Prototype)"
+        ' 
+        ' lblBuiltWith
+        ' 
+        lblBuiltWith.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblBuiltWith.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblBuiltWith.Location = New Point(16, 172)
-
-        lblBuiltVal.Text = "VB.NET / WinForms / .NET 8"
-        lblBuiltVal.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        lblBuiltWith.Name = "lblBuiltWith"
+        lblBuiltWith.Size = New Size(100, 22)
+        lblBuiltWith.TabIndex = 6
+        lblBuiltWith.Text = "Built With:"
+        ' 
+        ' lblBuiltVal
+        ' 
+        lblBuiltVal.Font = New Font("Segoe UI", 9F)
         lblBuiltVal.ForeColor = Color.Gray
-        lblBuiltVal.AutoSize = False
-        lblBuiltVal.Size = New Size(280, 22)
         lblBuiltVal.Location = New Point(120, 172)
-
-        ' ????????????????????????????????????????????????????????
-        ' pnlTeam — developer cards
-        ' ????????????????????????????????????????????????????????
+        lblBuiltVal.Name = "lblBuiltVal"
+        lblBuiltVal.Size = New Size(280, 22)
+        lblBuiltVal.TabIndex = 7
+        lblBuiltVal.Text = "VB.NET / WinForms / .NET 8"
+        ' 
+        ' pnlTeam
+        ' 
         pnlTeam.BackColor = Color.White
-        pnlTeam.Size = New Size(430, 230)
-        pnlTeam.Location = New Point(470, 120)
         pnlTeam.Controls.Add(lblTeamTitle)
         pnlTeam.Controls.Add(lblTeamDivider)
         pnlTeam.Controls.Add(pnlDev1)
         pnlTeam.Controls.Add(pnlDev2)
         pnlTeam.Controls.Add(pnlDev3)
-
-        lblTeamTitle.Text = "Development Team"
-        lblTeamTitle.Font = New Font("Segoe UI", 11, FontStyle.Bold)
-        lblTeamTitle.ForeColor = Color.FromArgb(30, 30, 30)
-        lblTeamTitle.AutoSize = False
-        lblTeamTitle.Size = New Size(400, 30)
+        pnlTeam.Location = New Point(470, 120)
+        pnlTeam.Name = "pnlTeam"
+        pnlTeam.Size = New Size(430, 230)
+        pnlTeam.TabIndex = 2
+        ' 
+        ' lblTeamTitle
+        ' 
+        lblTeamTitle.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        lblTeamTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         lblTeamTitle.Location = New Point(16, 12)
-
-        lblTeamDivider.BackColor = Color.FromArgb(220, 220, 220)
-        lblTeamDivider.Size = New Size(398, 1)
+        lblTeamTitle.Name = "lblTeamTitle"
+        lblTeamTitle.Size = New Size(400, 30)
+        lblTeamTitle.TabIndex = 0
+        lblTeamTitle.Text = "Development Team"
+        ' 
+        ' lblTeamDivider
+        ' 
+        lblTeamDivider.BackColor = Color.FromArgb(CByte(220), CByte(220), CByte(220))
         lblTeamDivider.Location = New Point(16, 44)
-
-        Dim MakeDev As Action(Of Panel, Label, Label, Integer, String, String) =
-            Sub(pnl As Panel, nm As Label, rl As Label,
-                y As Integer, nameText As String, roleText As String)
-                pnl.BackColor = Color.FromArgb(248, 248, 248)
-                pnl.Size = New Size(398, 44)
-                pnl.Location = New Point(16, y)
-                nm.Text = nameText
-                nm.Font = New Font("Segoe UI", 9.5, FontStyle.Bold)
-                nm.ForeColor = Color.FromArgb(30, 30, 30)
-                nm.AutoSize = False
-                nm.Size = New Size(280, 20)
-                nm.Location = New Point(12, 4)
-                rl.Text = roleText
-                rl.Font = New Font("Segoe UI", 8.5, FontStyle.Regular)
-                rl.ForeColor = Color.Gray
-                rl.AutoSize = False
-                rl.Size = New Size(280, 18)
-                rl.Location = New Point(12, 24)
-                pnl.Controls.Add(nm)
-                pnl.Controls.Add(rl)
-            End Sub
-
-        MakeDev(pnlDev1, lblDev1Name, lblDev1Role, 54,  "Glenn — Lead Developer",    "System Architecture & UI Design")
-        MakeDev(pnlDev2, lblDev2Name, lblDev2Role, 106, "Developer 2",               "Database & Records Module")
-        MakeDev(pnlDev3, lblDev3Name, lblDev3Role, 158, "Developer 3",               "Reports & Documentation")
-
-        Me.BackColor = Color.FromArgb(240, 242, 245)
-        Me.Controls.Add(pnlHeader)
-        Me.Controls.Add(pnlAbout)
-        Me.Controls.Add(pnlTeam)
-
-        pnlDev3.ResumeLayout(False)
-        pnlDev2.ResumeLayout(False)
-        pnlDev1.ResumeLayout(False)
-        pnlTeam.ResumeLayout(False)
-        pnlAbout.ResumeLayout(False)
+        lblTeamDivider.Name = "lblTeamDivider"
+        lblTeamDivider.Size = New Size(398, 1)
+        lblTeamDivider.TabIndex = 1
+        ' 
+        ' pnlDev1
+        ' 
+        pnlDev1.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        pnlDev1.Controls.Add(lblDev1Name)
+        pnlDev1.Controls.Add(lblDev1Role)
+        pnlDev1.Location = New Point(16, 54)
+        pnlDev1.Name = "pnlDev1"
+        pnlDev1.Size = New Size(398, 44)
+        pnlDev1.TabIndex = 2
+        ' 
+        ' lblDev1Name
+        ' 
+        lblDev1Name.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        lblDev1Name.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
+        lblDev1Name.Location = New Point(12, 4)
+        lblDev1Name.Name = "lblDev1Name"
+        lblDev1Name.Size = New Size(280, 20)
+        lblDev1Name.TabIndex = 0
+        lblDev1Name.Text = "Developer 1"
+        ' 
+        ' lblDev1Role
+        ' 
+        lblDev1Role.Font = New Font("Segoe UI", 8.5F)
+        lblDev1Role.ForeColor = Color.Gray
+        lblDev1Role.Location = New Point(12, 24)
+        lblDev1Role.Name = "lblDev1Role"
+        lblDev1Role.Size = New Size(280, 18)
+        lblDev1Role.TabIndex = 1
+        lblDev1Role.Text = "System Architecture & UI Design"
+        ' 
+        ' pnlDev2
+        ' 
+        pnlDev2.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        pnlDev2.Controls.Add(lblDev2Name)
+        pnlDev2.Controls.Add(lblDev2Role)
+        pnlDev2.Location = New Point(16, 106)
+        pnlDev2.Name = "pnlDev2"
+        pnlDev2.Size = New Size(398, 44)
+        pnlDev2.TabIndex = 3
+        ' 
+        ' lblDev2Name
+        ' 
+        lblDev2Name.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        lblDev2Name.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
+        lblDev2Name.Location = New Point(12, 4)
+        lblDev2Name.Name = "lblDev2Name"
+        lblDev2Name.Size = New Size(280, 20)
+        lblDev2Name.TabIndex = 0
+        lblDev2Name.Text = "Developer 2"
+        ' 
+        ' lblDev2Role
+        ' 
+        lblDev2Role.Font = New Font("Segoe UI", 8.5F)
+        lblDev2Role.ForeColor = Color.Gray
+        lblDev2Role.Location = New Point(12, 24)
+        lblDev2Role.Name = "lblDev2Role"
+        lblDev2Role.Size = New Size(280, 18)
+        lblDev2Role.TabIndex = 1
+        lblDev2Role.Text = "Database & Records Module"
+        ' 
+        ' pnlDev3
+        ' 
+        pnlDev3.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        pnlDev3.Controls.Add(lblDev3Name)
+        pnlDev3.Controls.Add(lblDev3Role)
+        pnlDev3.Location = New Point(16, 158)
+        pnlDev3.Name = "pnlDev3"
+        pnlDev3.Size = New Size(398, 44)
+        pnlDev3.TabIndex = 4
+        ' 
+        ' lblDev3Name
+        ' 
+        lblDev3Name.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        lblDev3Name.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
+        lblDev3Name.Location = New Point(12, 4)
+        lblDev3Name.Name = "lblDev3Name"
+        lblDev3Name.Size = New Size(280, 20)
+        lblDev3Name.TabIndex = 0
+        lblDev3Name.Text = "Developer 3"
+        ' 
+        ' lblDev3Role
+        ' 
+        lblDev3Role.Font = New Font("Segoe UI", 8.5F)
+        lblDev3Role.ForeColor = Color.Gray
+        lblDev3Role.Location = New Point(12, 24)
+        lblDev3Role.Name = "lblDev3Role"
+        lblDev3Role.Size = New Size(280, 18)
+        lblDev3Role.TabIndex = 1
+        lblDev3Role.Text = "Reports & Documentation"
+        ' 
+        ' UcDevelopers
+        ' 
+        BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        Controls.Add(pnlHeader)
+        Controls.Add(pnlAbout)
+        Controls.Add(pnlTeam)
+        Name = "UcDevelopers"
+        Size = New Size(970, 569)
         pnlHeader.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        pnlAbout.ResumeLayout(False)
+        pnlTeam.ResumeLayout(False)
+        pnlDev1.ResumeLayout(False)
+        pnlDev2.ResumeLayout(False)
+        pnlDev3.ResumeLayout(False)
+        ResumeLayout(False)
 
     End Sub
 

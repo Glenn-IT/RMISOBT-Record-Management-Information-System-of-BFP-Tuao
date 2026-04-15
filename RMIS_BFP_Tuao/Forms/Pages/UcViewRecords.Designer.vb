@@ -139,14 +139,14 @@ Partial Class UcViewRecords
         dgvRecords.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvRecords.MultiSelect = False
         dgvRecords.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvRecords.Font = New Font("Segoe UI", 9.5)
+        dgvRecords.Font = New Font("Segoe UI", 9.5F)
         dgvRecords.GridColor = Color.FromArgb(225, 225, 225)
         dgvRecords.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         dgvRecords.RowTemplate.Height = 36
         ' Column header style
         dgvRecords.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(180, 20, 20)
         dgvRecords.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
-        dgvRecords.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9.5, FontStyle.Bold)
+        dgvRecords.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         dgvRecords.ColumnHeadersDefaultCellStyle.Padding = New Padding(8, 0, 0, 0)
         dgvRecords.ColumnHeadersHeight = 38
         dgvRecords.EnableHeadersVisualStyles = False

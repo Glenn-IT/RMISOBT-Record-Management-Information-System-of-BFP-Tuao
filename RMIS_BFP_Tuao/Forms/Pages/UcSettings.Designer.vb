@@ -75,28 +75,6 @@ Partial Class UcSettings
         pnlDivider.Location = New Point(20, 78)
 
         ' ????????????????????????????????????????????????????????
-        ' Field label helper
-        ' ????????????????????????????????????????????????????????
-        Dim MkLbl As Action(Of Label, String, Integer, Integer) =
-            Sub(l As Label, t As String, x As Integer, y As Integer)
-                l.Text = t
-                l.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-                l.ForeColor = Color.FromArgb(70, 70, 70)
-                l.AutoSize = False
-                l.Size = New Size(380, 20)
-                l.Location = New Point(x, y)
-            End Sub
-
-        Dim MkTxt As Action(Of TextBox, Integer, Integer, Integer) =
-            Sub(tb As TextBox, x As Integer, y As Integer, w As Integer)
-                tb.Font = New Font("Segoe UI", 10)
-                tb.BorderStyle = BorderStyle.FixedSingle
-                tb.BackColor = Color.FromArgb(250, 250, 250)
-                tb.Size = New Size(w, 30)
-                tb.Location = New Point(x, y)
-            End Sub
-
-        ' ????????????????????????????????????????????????????????
         ' pnlAccount — change credentials
         ' ????????????????????????????????????????????????????????
         pnlAccount.BackColor = Color.White
@@ -123,19 +101,49 @@ Partial Class UcSettings
         lblAccDivider.Size = New Size(408, 1)
         lblAccDivider.Location = New Point(16, 44)
 
-        MkLbl(lblUsername, "Username", 16, 56)
-        MkTxt(txtUsername, 16, 78, 408)
+        lblUsername.Text = "Username"
+        lblUsername.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblUsername.ForeColor = Color.FromArgb(70, 70, 70)
+        lblUsername.AutoSize = False
+        lblUsername.Size = New Size(380, 20)
+        lblUsername.Location = New Point(16, 56)
 
-        MkLbl(lblPassword, "New Password", 16, 120)
-        MkTxt(txtPassword, 16, 142, 408)
+        txtUsername.Font = New Font("Segoe UI", 10)
+        txtUsername.BorderStyle = BorderStyle.FixedSingle
+        txtUsername.BackColor = Color.FromArgb(250, 250, 250)
+        txtUsername.Size = New Size(408, 30)
+        txtUsername.Location = New Point(16, 78)
+
+        lblPassword.Text = "New Password"
+        lblPassword.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblPassword.ForeColor = Color.FromArgb(70, 70, 70)
+        lblPassword.AutoSize = False
+        lblPassword.Size = New Size(380, 20)
+        lblPassword.Location = New Point(16, 120)
+
+        txtPassword.Font = New Font("Segoe UI", 10)
+        txtPassword.BorderStyle = BorderStyle.FixedSingle
+        txtPassword.BackColor = Color.FromArgb(250, 250, 250)
+        txtPassword.Size = New Size(408, 30)
+        txtPassword.Location = New Point(16, 142)
         txtPassword.PasswordChar = "?"c
 
-        MkLbl(lblConfirmPw, "Confirm Password", 16, 184)
-        MkTxt(txtConfirmPw, 16, 206, 408)
+        lblConfirmPw.Text = "Confirm Password"
+        lblConfirmPw.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblConfirmPw.ForeColor = Color.FromArgb(70, 70, 70)
+        lblConfirmPw.AutoSize = False
+        lblConfirmPw.Size = New Size(380, 20)
+        lblConfirmPw.Location = New Point(16, 184)
+
+        txtConfirmPw.Font = New Font("Segoe UI", 10)
+        txtConfirmPw.BorderStyle = BorderStyle.FixedSingle
+        txtConfirmPw.BackColor = Color.FromArgb(250, 250, 250)
+        txtConfirmPw.Size = New Size(408, 30)
+        txtConfirmPw.Location = New Point(16, 206)
         txtConfirmPw.PasswordChar = "?"c
 
         btnSaveAccount.Text = "Save Changes"
-        btnSaveAccount.Font = New Font("Segoe UI", 9.5, FontStyle.Bold)
+        btnSaveAccount.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         btnSaveAccount.Size = New Size(150, 36)
         btnSaveAccount.Location = New Point(16, 242)
         btnSaveAccount.BackColor = Color.FromArgb(180, 20, 20)
@@ -169,11 +177,26 @@ Partial Class UcSettings
         lblSysDivider.Size = New Size(408, 1)
         lblSysDivider.Location = New Point(16, 44)
 
-        MkLbl(lblStationName, "Station Name", 16, 56)
-        MkTxt(txtStationName, 16, 78, 408)
+        lblStationName.Text = "Station Name"
+        lblStationName.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblStationName.ForeColor = Color.FromArgb(70, 70, 70)
+        lblStationName.AutoSize = False
+        lblStationName.Size = New Size(380, 20)
+        lblStationName.Location = New Point(16, 56)
+
+        txtStationName.Font = New Font("Segoe UI", 10)
+        txtStationName.BorderStyle = BorderStyle.FixedSingle
+        txtStationName.BackColor = Color.FromArgb(250, 250, 250)
+        txtStationName.Size = New Size(408, 30)
+        txtStationName.Location = New Point(16, 78)
         txtStationName.Text = "BFP Tuao Fire Station"
 
-        MkLbl(lblStationAddr, "Station Address", 16, 120)
+        lblStationAddr.Text = "Station Address"
+        lblStationAddr.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblStationAddr.ForeColor = Color.FromArgb(70, 70, 70)
+        lblStationAddr.AutoSize = False
+        lblStationAddr.Size = New Size(380, 20)
+        lblStationAddr.Location = New Point(16, 120)
         txtStationAddr.Font = New Font("Segoe UI", 10)
         txtStationAddr.BorderStyle = BorderStyle.FixedSingle
         txtStationAddr.BackColor = Color.FromArgb(250, 250, 250)
@@ -183,7 +206,7 @@ Partial Class UcSettings
         txtStationAddr.Text = "Tuao, Cagayan"
 
         btnSaveSystem.Text = "Save Changes"
-        btnSaveSystem.Font = New Font("Segoe UI", 9.5, FontStyle.Bold)
+        btnSaveSystem.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         btnSaveSystem.Size = New Size(150, 36)
         btnSaveSystem.Location = New Point(16, 242)
         btnSaveSystem.BackColor = Color.FromArgb(180, 20, 20)

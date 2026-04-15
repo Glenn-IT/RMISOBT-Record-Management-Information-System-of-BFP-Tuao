@@ -56,57 +56,119 @@ Partial Class UcDashboard
         lblPageTitle.Location = New Point(24, 20)
 
         lblWelcomeSub.Text = "Welcome, Admin"
-        lblWelcomeSub.Font = New Font("Segoe UI", 9.5, FontStyle.Regular)
+        lblWelcomeSub.Font = New Font("Segoe UI", 9.5F, FontStyle.Regular)
         lblWelcomeSub.ForeColor = Color.Gray
         lblWelcomeSub.AutoSize = False
         lblWelcomeSub.Size = New Size(500, 24)
         lblWelcomeSub.Location = New Point(24, 56)
 
-        ' Summary card builder
-        Dim MakeCard As Action(Of Panel, Label, Label, Label, Integer, Color, String, String, String) =
-            Sub(pnl As Panel, ico As Label, ttl As Label, val As Label,
-                x As Integer, accent As Color,
-                iconTxt As String, titleTxt As String, valueTxt As String)
+        ' Card 1 — Total Records
+        pnlCard1.Size = New Size(188, 100)
+        pnlCard1.Location = New Point(24, 90)
+        pnlCard1.BackColor = Color.White
+        lblCard1Icon.Text = "REC"
+        lblCard1Icon.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        lblCard1Icon.ForeColor = Color.FromArgb(180, 20, 20)
+        lblCard1Icon.AutoSize = False
+        lblCard1Icon.Size = New Size(56, 70)
+        lblCard1Icon.Location = New Point(12, 15)
+        lblCard1Icon.TextAlign = ContentAlignment.MiddleCenter
+        lblCard1Title.Text = "Total Records"
+        lblCard1Title.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCard1Title.ForeColor = Color.Gray
+        lblCard1Title.AutoSize = False
+        lblCard1Title.Size = New Size(110, 22)
+        lblCard1Title.Location = New Point(72, 22)
+        lblCard1Value.Text = "0"
+        lblCard1Value.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCard1Value.ForeColor = Color.FromArgb(180, 20, 20)
+        lblCard1Value.AutoSize = False
+        lblCard1Value.Size = New Size(110, 40)
+        lblCard1Value.Location = New Point(70, 44)
+        pnlCard1.Controls.Add(lblCard1Icon)
+        pnlCard1.Controls.Add(lblCard1Title)
+        pnlCard1.Controls.Add(lblCard1Value)
 
-                pnl.Size = New Size(188, 100)
-                pnl.Location = New Point(x, 90)
-                pnl.BackColor = Color.White
+        ' Card 2 — Active Cases
+        pnlCard2.Size = New Size(188, 100)
+        pnlCard2.Location = New Point(224, 90)
+        pnlCard2.BackColor = Color.White
+        lblCard2Icon.Text = "ACT"
+        lblCard2Icon.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        lblCard2Icon.ForeColor = Color.FromArgb(220, 120, 0)
+        lblCard2Icon.AutoSize = False
+        lblCard2Icon.Size = New Size(56, 70)
+        lblCard2Icon.Location = New Point(12, 15)
+        lblCard2Icon.TextAlign = ContentAlignment.MiddleCenter
+        lblCard2Title.Text = "Active Cases"
+        lblCard2Title.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCard2Title.ForeColor = Color.Gray
+        lblCard2Title.AutoSize = False
+        lblCard2Title.Size = New Size(110, 22)
+        lblCard2Title.Location = New Point(72, 22)
+        lblCard2Value.Text = "0"
+        lblCard2Value.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCard2Value.ForeColor = Color.FromArgb(220, 120, 0)
+        lblCard2Value.AutoSize = False
+        lblCard2Value.Size = New Size(110, 40)
+        lblCard2Value.Location = New Point(70, 44)
+        pnlCard2.Controls.Add(lblCard2Icon)
+        pnlCard2.Controls.Add(lblCard2Title)
+        pnlCard2.Controls.Add(lblCard2Value)
 
-                ico.Text = iconTxt
-                ico.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-                ico.ForeColor = accent
-                ico.AutoSize = False
-                ico.Size = New Size(56, 70)
-                ico.Location = New Point(12, 15)
-                ico.TextAlign = ContentAlignment.MiddleCenter
+        ' Card 3 — Resolved
+        pnlCard3.Size = New Size(188, 100)
+        pnlCard3.Location = New Point(424, 90)
+        pnlCard3.BackColor = Color.White
+        lblCard3Icon.Text = "OK"
+        lblCard3Icon.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        lblCard3Icon.ForeColor = Color.FromArgb(30, 130, 30)
+        lblCard3Icon.AutoSize = False
+        lblCard3Icon.Size = New Size(56, 70)
+        lblCard3Icon.Location = New Point(12, 15)
+        lblCard3Icon.TextAlign = ContentAlignment.MiddleCenter
+        lblCard3Title.Text = "Resolved"
+        lblCard3Title.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCard3Title.ForeColor = Color.Gray
+        lblCard3Title.AutoSize = False
+        lblCard3Title.Size = New Size(110, 22)
+        lblCard3Title.Location = New Point(72, 22)
+        lblCard3Value.Text = "0"
+        lblCard3Value.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCard3Value.ForeColor = Color.FromArgb(30, 130, 30)
+        lblCard3Value.AutoSize = False
+        lblCard3Value.Size = New Size(110, 40)
+        lblCard3Value.Location = New Point(70, 44)
+        pnlCard3.Controls.Add(lblCard3Icon)
+        pnlCard3.Controls.Add(lblCard3Title)
+        pnlCard3.Controls.Add(lblCard3Value)
 
-                ttl.Text = titleTxt
-                ttl.Font = New Font("Segoe UI", 8.5, FontStyle.Regular)
-                ttl.ForeColor = Color.Gray
-                ttl.AutoSize = False
-                ttl.Size = New Size(110, 22)
-                ttl.Location = New Point(72, 22)
-
-                val.Text = valueTxt
-                val.Font = New Font("Segoe UI", 22, FontStyle.Bold)
-                val.ForeColor = accent
-                val.AutoSize = False
-                val.Size = New Size(110, 40)
-                val.Location = New Point(70, 44)
-
-                pnl.Controls.Add(ico)
-                pnl.Controls.Add(ttl)
-                pnl.Controls.Add(val)
-            End Sub
-
-        MakeCard(pnlCard1, lblCard1Icon, lblCard1Title, lblCard1Value,
-                 24, Color.FromArgb(180, 20, 20), "REC", "Total Records", "0")
-        MakeCard(pnlCard2, lblCard2Icon, lblCard2Title, lblCard2Value,
-                 224, Color.FromArgb(220, 120, 0), "ACT", "Active Cases", "0")
-        MakeCard(pnlCard3, lblCard3Icon, lblCard3Title, lblCard3Value,
-                 424, Color.FromArgb(30, 130, 30), "OK", "Resolved", "0")
-        MakeCard(pnlCard4, lblCard4Icon, lblCard4Title, lblCard4Value,
-                 624, Color.FromArgb(20, 80, 180), "PRS", "Personnel", "0")
+        ' Card 4 — Personnel
+        pnlCard4.Size = New Size(188, 100)
+        pnlCard4.Location = New Point(624, 90)
+        pnlCard4.BackColor = Color.White
+        lblCard4Icon.Text = "PRS"
+        lblCard4Icon.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        lblCard4Icon.ForeColor = Color.FromArgb(20, 80, 180)
+        lblCard4Icon.AutoSize = False
+        lblCard4Icon.Size = New Size(56, 70)
+        lblCard4Icon.Location = New Point(12, 15)
+        lblCard4Icon.TextAlign = ContentAlignment.MiddleCenter
+        lblCard4Title.Text = "Personnel"
+        lblCard4Title.Font = New Font("Segoe UI", 8.5F, FontStyle.Regular)
+        lblCard4Title.ForeColor = Color.Gray
+        lblCard4Title.AutoSize = False
+        lblCard4Title.Size = New Size(110, 22)
+        lblCard4Title.Location = New Point(72, 22)
+        lblCard4Value.Text = "0"
+        lblCard4Value.Font = New Font("Segoe UI", 22, FontStyle.Bold)
+        lblCard4Value.ForeColor = Color.FromArgb(20, 80, 180)
+        lblCard4Value.AutoSize = False
+        lblCard4Value.Size = New Size(110, 40)
+        lblCard4Value.Location = New Point(70, 44)
+        pnlCard4.Controls.Add(lblCard4Icon)
+        pnlCard4.Controls.Add(lblCard4Title)
+        pnlCard4.Controls.Add(lblCard4Value)
 
         ' Recent activity panel
         pnlActivity.Size = New Size(820, 310)

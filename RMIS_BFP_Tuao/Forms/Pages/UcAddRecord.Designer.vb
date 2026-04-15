@@ -93,74 +93,128 @@ Partial Class UcAddRecord
         pnlDivider.Size = New Size(832, 3)
         pnlDivider.Location = New Point(24, 80)
 
-        ' Field label helper
-        Dim MkLbl As Action(Of Label, String, Integer, Integer) =
-            Sub(l As Label, t As String, x As Integer, y As Integer)
-                l.Text = t
-                l.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-                l.ForeColor = Color.FromArgb(70, 70, 70)
-                l.AutoSize = False
-                l.Size = New Size(390, 20)
-                l.Location = New Point(x, y)
-            End Sub
-
-        Dim MkTxt As Action(Of TextBox, Integer, Integer, Integer) =
-            Sub(t As TextBox, x As Integer, y As Integer, w As Integer)
-                t.Font = New Font("Segoe UI", 10)
-                t.BorderStyle = BorderStyle.FixedSingle
-                t.BackColor = Color.FromArgb(250, 250, 250)
-                t.Size = New Size(w, 30)
-                t.Location = New Point(x, y)
-            End Sub
-
-        Dim MkCbo As Action(Of ComboBox, Integer, Integer, Integer) =
-            Sub(c As ComboBox, x As Integer, y As Integer, w As Integer)
-                c.Font = New Font("Segoe UI", 10)
-                c.FlatStyle = FlatStyle.Flat
-                c.BackColor = Color.FromArgb(250, 250, 250)
-                c.DropDownStyle = ComboBoxStyle.DropDownList
-                c.Size = New Size(w, 30)
-                c.Location = New Point(x, y)
-            End Sub
-
         ' Row 1
-        MkLbl(lblIncidentNo,   "Incident No. *",  24,  100)
-        MkTxt(txtIncidentNo,   24,  122, 390)
+        lblIncidentNo.Text = "Incident No. *"
+        lblIncidentNo.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblIncidentNo.ForeColor = Color.FromArgb(70, 70, 70)
+        lblIncidentNo.AutoSize = False
+        lblIncidentNo.Size = New Size(390, 20)
+        lblIncidentNo.Location = New Point(24, 100)
+
+        txtIncidentNo.Font = New Font("Segoe UI", 10)
+        txtIncidentNo.BorderStyle = BorderStyle.FixedSingle
+        txtIncidentNo.BackColor = Color.FromArgb(250, 250, 250)
+        txtIncidentNo.Size = New Size(390, 30)
+        txtIncidentNo.Location = New Point(24, 122)
         txtIncidentNo.PlaceholderText = "e.g. INC-2025-001"
 
-        MkLbl(lblIncidentType, "Incident Type *", 442, 100)
-        MkCbo(cboIncidentType, 442, 122, 390)
+        lblIncidentType.Text = "Incident Type *"
+        lblIncidentType.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblIncidentType.ForeColor = Color.FromArgb(70, 70, 70)
+        lblIncidentType.AutoSize = False
+        lblIncidentType.Size = New Size(390, 20)
+        lblIncidentType.Location = New Point(442, 100)
+
+        cboIncidentType.Font = New Font("Segoe UI", 10)
+        cboIncidentType.FlatStyle = FlatStyle.Flat
+        cboIncidentType.BackColor = Color.FromArgb(250, 250, 250)
+        cboIncidentType.DropDownStyle = ComboBoxStyle.DropDownList
+        cboIncidentType.Size = New Size(390, 30)
+        cboIncidentType.Location = New Point(442, 122)
 
         ' Row 2
-        MkLbl(lblDateReported, "Date Reported *", 24,  170)
+        lblDateReported.Text = "Date Reported *"
+        lblDateReported.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblDateReported.ForeColor = Color.FromArgb(70, 70, 70)
+        lblDateReported.AutoSize = False
+        lblDateReported.Size = New Size(390, 20)
+        lblDateReported.Location = New Point(24, 170)
+
         dtpDateReported.Font = New Font("Segoe UI", 10)
         dtpDateReported.Size = New Size(390, 30)
         dtpDateReported.Location = New Point(24, 192)
         dtpDateReported.Format = DateTimePickerFormat.Short
 
-        MkLbl(lblStatus,       "Status *",        442, 170)
-        MkCbo(cboStatus,       442, 192, 390)
+        lblStatus.Text = "Status *"
+        lblStatus.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblStatus.ForeColor = Color.FromArgb(70, 70, 70)
+        lblStatus.AutoSize = False
+        lblStatus.Size = New Size(390, 20)
+        lblStatus.Location = New Point(442, 170)
+
+        cboStatus.Font = New Font("Segoe UI", 10)
+        cboStatus.FlatStyle = FlatStyle.Flat
+        cboStatus.BackColor = Color.FromArgb(250, 250, 250)
+        cboStatus.DropDownStyle = ComboBoxStyle.DropDownList
+        cboStatus.Size = New Size(390, 30)
+        cboStatus.Location = New Point(442, 192)
 
         ' Row 3
-        MkLbl(lblLocation,     "Location / Address *", 24, 240)
-        MkTxt(txtLocation,     24,  262, 808)
+        lblLocation.Text = "Location / Address *"
+        lblLocation.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblLocation.ForeColor = Color.FromArgb(70, 70, 70)
+        lblLocation.AutoSize = False
+        lblLocation.Size = New Size(390, 20)
+        lblLocation.Location = New Point(24, 240)
+
+        txtLocation.Font = New Font("Segoe UI", 10)
+        txtLocation.BorderStyle = BorderStyle.FixedSingle
+        txtLocation.BackColor = Color.FromArgb(250, 250, 250)
+        txtLocation.Size = New Size(808, 30)
+        txtLocation.Location = New Point(24, 262)
         txtLocation.PlaceholderText = "e.g. Brgy. Centro, Tuao, Cagayan"
 
         ' Row 4
-        MkLbl(lblReportedBy,   "Reported By *",   24,  310)
-        MkTxt(txtReportedBy,   24,  332, 390)
+        lblReportedBy.Text = "Reported By *"
+        lblReportedBy.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblReportedBy.ForeColor = Color.FromArgb(70, 70, 70)
+        lblReportedBy.AutoSize = False
+        lblReportedBy.Size = New Size(390, 20)
+        lblReportedBy.Location = New Point(24, 310)
+
+        txtReportedBy.Font = New Font("Segoe UI", 10)
+        txtReportedBy.BorderStyle = BorderStyle.FixedSingle
+        txtReportedBy.BackColor = Color.FromArgb(250, 250, 250)
+        txtReportedBy.Size = New Size(390, 30)
+        txtReportedBy.Location = New Point(24, 332)
         txtReportedBy.PlaceholderText = "Full name of reporting officer"
 
-        MkLbl(lblCasualties,   "No. of Casualties", 442, 310)
-        MkTxt(txtCasualties,   442, 332, 390)
+        lblCasualties.Text = "No. of Casualties"
+        lblCasualties.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblCasualties.ForeColor = Color.FromArgb(70, 70, 70)
+        lblCasualties.AutoSize = False
+        lblCasualties.Size = New Size(390, 20)
+        lblCasualties.Location = New Point(442, 310)
+
+        txtCasualties.Font = New Font("Segoe UI", 10)
+        txtCasualties.BorderStyle = BorderStyle.FixedSingle
+        txtCasualties.BackColor = Color.FromArgb(250, 250, 250)
+        txtCasualties.Size = New Size(390, 30)
+        txtCasualties.Location = New Point(442, 332)
         txtCasualties.PlaceholderText = "0"
 
         ' Row 5
-        MkLbl(lblDamageEstimate, "Estimated Damage (PHP)", 24, 380)
-        MkTxt(txtDamageEstimate, 24,  402, 390)
+        lblDamageEstimate.Text = "Estimated Damage (PHP)"
+        lblDamageEstimate.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblDamageEstimate.ForeColor = Color.FromArgb(70, 70, 70)
+        lblDamageEstimate.AutoSize = False
+        lblDamageEstimate.Size = New Size(390, 20)
+        lblDamageEstimate.Location = New Point(24, 380)
+
+        txtDamageEstimate.Font = New Font("Segoe UI", 10)
+        txtDamageEstimate.BorderStyle = BorderStyle.FixedSingle
+        txtDamageEstimate.BackColor = Color.FromArgb(250, 250, 250)
+        txtDamageEstimate.Size = New Size(390, 30)
+        txtDamageEstimate.Location = New Point(24, 402)
         txtDamageEstimate.PlaceholderText = "e.g. 500000"
 
-        MkLbl(lblRemarks, "Remarks / Notes", 442, 380)
+        lblRemarks.Text = "Remarks / Notes"
+        lblRemarks.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblRemarks.ForeColor = Color.FromArgb(70, 70, 70)
+        lblRemarks.AutoSize = False
+        lblRemarks.Size = New Size(390, 20)
+        lblRemarks.Location = New Point(442, 380)
+
         txtRemarks.Font = New Font("Segoe UI", 10)
         txtRemarks.BorderStyle = BorderStyle.FixedSingle
         txtRemarks.BackColor = Color.FromArgb(250, 250, 250)
