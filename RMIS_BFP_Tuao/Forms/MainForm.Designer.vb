@@ -17,70 +17,74 @@ Partial Class MainForm
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-
-        ' ?? Declare controls ?????????????????????????????????????
-        pnlTopBar         = New Panel()
-        pnlSidebar        = New Panel()
-        pnlPageContainer  = New Panel()
-        pnlLogo           = New Panel()
-        lblSideTitle      = New Label()
-        lblSideSub        = New Label()
-        lblTopTitle       = New Label()
-        lblTopDate        = New Label()
-        lblTopUser        = New Label()
-        btnNavDashboard   = New Button()
-        btnNavAddRecord   = New Button()
+        pnlTopBar = New Panel()
+        lblTopTitle = New Label()
+        lblTopDate = New Label()
+        lblTopUser = New Label()
+        pnlSidebar = New Panel()
+        pnlLogo = New Panel()
+        lblSideTitle = New Label()
+        lblSideSub = New Label()
+        btnNavDashboard = New Button()
+        btnNavAddRecord = New Button()
         btnNavViewRecords = New Button()
-        btnNavReports     = New Button()
-        btnNavSettings    = New Button()
-        btnNavDevelopers  = New Button()
-        btnLogout         = New Button()
-
+        btnNavReports = New Button()
+        btnNavSettings = New Button()
+        btnNavDevelopers = New Button()
+        btnLogout = New Button()
+        pnlPageContainer = New Panel()
         pnlTopBar.SuspendLayout()
         pnlSidebar.SuspendLayout()
         pnlLogo.SuspendLayout()
-        Me.SuspendLayout()
-
-        ' ????????????????????????????????????????????????????????
-        ' pnlTopBar — fixed top header
-        ' ????????????????????????????????????????????????????????
-        pnlTopBar.Dock = DockStyle.Top
-        pnlTopBar.Height = 60
-        pnlTopBar.BackColor = Color.FromArgb(30, 30, 30)
+        SuspendLayout()
+        ' 
+        ' pnlTopBar
+        ' 
+        pnlTopBar.BackColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         pnlTopBar.Controls.Add(lblTopTitle)
         pnlTopBar.Controls.Add(lblTopDate)
         pnlTopBar.Controls.Add(lblTopUser)
-
-        lblTopTitle.Text = "  Record Management Information System  |  BFP Tuao"
-        lblTopTitle.Font = New Font("Segoe UI", 12, FontStyle.Bold)
+        pnlTopBar.Dock = DockStyle.Top
+        pnlTopBar.Location = New Point(0, 0)
+        pnlTopBar.Name = "pnlTopBar"
+        pnlTopBar.Size = New Size(1198, 60)
+        pnlTopBar.TabIndex = 2
+        ' 
+        ' lblTopTitle
+        ' 
+        lblTopTitle.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblTopTitle.ForeColor = Color.White
-        lblTopTitle.AutoSize = False
-        lblTopTitle.Size = New Size(680, 60)
         lblTopTitle.Location = New Point(20, 0)
+        lblTopTitle.Name = "lblTopTitle"
+        lblTopTitle.Size = New Size(680, 60)
+        lblTopTitle.TabIndex = 0
+        lblTopTitle.Text = "  Record Management Information System  |  BFP Tuao"
         lblTopTitle.TextAlign = ContentAlignment.MiddleLeft
-
-        lblTopDate.Text = ""
-        lblTopDate.Font = New Font("Segoe UI", 9, FontStyle.Regular)
-        lblTopDate.ForeColor = Color.FromArgb(160, 160, 160)
-        lblTopDate.AutoSize = False
-        lblTopDate.Size = New Size(260, 60)
+        ' 
+        ' lblTopDate
+        ' 
+        lblTopDate.Font = New Font("Segoe UI", 9F)
+        lblTopDate.ForeColor = Color.FromArgb(CByte(160), CByte(160), CByte(160))
         lblTopDate.Location = New Point(730, 0)
+        lblTopDate.Name = "lblTopDate"
+        lblTopDate.Size = New Size(260, 60)
+        lblTopDate.TabIndex = 1
         lblTopDate.TextAlign = ContentAlignment.MiddleRight
-
-        lblTopUser.Text = "[ Admin ]"
-        lblTopUser.Font = New Font("Segoe UI", 9.5F, FontStyle.Regular)
-        lblTopUser.ForeColor = Color.FromArgb(200, 200, 200)
-        lblTopUser.AutoSize = False
-        lblTopUser.Size = New Size(120, 60)
+        ' 
+        ' lblTopUser
+        ' 
+        lblTopUser.Font = New Font("Segoe UI", 9.5F)
+        lblTopUser.ForeColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
         lblTopUser.Location = New Point(1040, 0)
+        lblTopUser.Name = "lblTopUser"
+        lblTopUser.Size = New Size(120, 60)
+        lblTopUser.TabIndex = 2
+        lblTopUser.Text = "[ Admin ]"
         lblTopUser.TextAlign = ContentAlignment.MiddleRight
-
-        ' ????????????????????????????????????????????????????????
-        ' pnlSidebar — fixed left sidebar
-        ' ????????????????????????????????????????????????????????
-        pnlSidebar.Dock = DockStyle.Left
-        pnlSidebar.Width = 220
-        pnlSidebar.BackColor = Color.FromArgb(180, 20, 20)
+        ' 
+        ' pnlSidebar
+        ' 
+        pnlSidebar.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         pnlSidebar.Controls.Add(pnlLogo)
         pnlSidebar.Controls.Add(btnNavDashboard)
         pnlSidebar.Controls.Add(btnNavAddRecord)
@@ -89,146 +93,197 @@ Partial Class MainForm
         pnlSidebar.Controls.Add(btnNavSettings)
         pnlSidebar.Controls.Add(btnNavDevelopers)
         pnlSidebar.Controls.Add(btnLogout)
-
-        ' Logo panel at top of sidebar
-        pnlLogo.BackColor = Color.FromArgb(140, 10, 10)
-        pnlLogo.Size = New Size(220, 90)
-        pnlLogo.Location = New Point(0, 0)
+        pnlSidebar.Dock = DockStyle.Left
+        pnlSidebar.Location = New Point(0, 60)
+        pnlSidebar.Name = "pnlSidebar"
+        pnlSidebar.Size = New Size(220, 638)
+        pnlSidebar.TabIndex = 1
+        ' 
+        ' pnlLogo
+        ' 
+        pnlLogo.BackColor = Color.FromArgb(CByte(140), CByte(10), CByte(10))
         pnlLogo.Controls.Add(lblSideTitle)
         pnlLogo.Controls.Add(lblSideSub)
-
-        lblSideTitle.Text = "BFP TUAO"
-        lblSideTitle.Font = New Font("Segoe UI", 13, FontStyle.Bold)
+        pnlLogo.Location = New Point(0, 0)
+        pnlLogo.Name = "pnlLogo"
+        pnlLogo.Size = New Size(220, 90)
+        pnlLogo.TabIndex = 0
+        ' 
+        ' lblSideTitle
+        ' 
+        lblSideTitle.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
         lblSideTitle.ForeColor = Color.White
-        lblSideTitle.AutoSize = False
-        lblSideTitle.Size = New Size(200, 32)
         lblSideTitle.Location = New Point(10, 16)
+        lblSideTitle.Name = "lblSideTitle"
+        lblSideTitle.Size = New Size(200, 32)
+        lblSideTitle.TabIndex = 0
+        lblSideTitle.Text = "BFP TUAO"
         lblSideTitle.TextAlign = ContentAlignment.MiddleCenter
-
-        lblSideSub.Text = "Fire Protection"
-        lblSideSub.Font = New Font("Segoe UI", 8, FontStyle.Regular)
-        lblSideSub.ForeColor = Color.FromArgb(255, 200, 200)
-        lblSideSub.AutoSize = False
-        lblSideSub.Size = New Size(200, 20)
+        ' 
+        ' lblSideSub
+        ' 
+        lblSideSub.Font = New Font("Segoe UI", 8F)
+        lblSideSub.ForeColor = Color.FromArgb(CByte(255), CByte(200), CByte(200))
         lblSideSub.Location = New Point(10, 52)
+        lblSideSub.Name = "lblSideSub"
+        lblSideSub.Size = New Size(200, 20)
+        lblSideSub.TabIndex = 1
+        lblSideSub.Text = "Fire Protection"
         lblSideSub.TextAlign = ContentAlignment.MiddleCenter
-
-        btnNavDashboard.Text = "  Dashboard"
-        btnNavDashboard.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnNavDashboard.ForeColor = Color.FromArgb(255, 220, 220)
-        btnNavDashboard.BackColor = Color.FromArgb(160, 18, 18)
-        btnNavDashboard.FlatStyle = FlatStyle.Flat
-        btnNavDashboard.FlatAppearance.BorderSize = 0
-        btnNavDashboard.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 50, 50)
-        btnNavDashboard.Size = New Size(220, 46)
-        btnNavDashboard.Location = New Point(0, 100)
-        btnNavDashboard.TextAlign = ContentAlignment.MiddleLeft
-        btnNavDashboard.Padding = New Padding(20, 0, 0, 0)
+        ' 
+        ' btnNavDashboard
+        ' 
+        btnNavDashboard.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavDashboard.Cursor = Cursors.Hand
-
-        btnNavAddRecord.Text = "  Add Record"
-        btnNavAddRecord.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnNavAddRecord.ForeColor = Color.FromArgb(255, 220, 220)
-        btnNavAddRecord.BackColor = Color.FromArgb(160, 18, 18)
-        btnNavAddRecord.FlatStyle = FlatStyle.Flat
-        btnNavAddRecord.FlatAppearance.BorderSize = 0
-        btnNavAddRecord.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 50, 50)
-        btnNavAddRecord.Size = New Size(220, 46)
-        btnNavAddRecord.Location = New Point(0, 150)
-        btnNavAddRecord.TextAlign = ContentAlignment.MiddleLeft
-        btnNavAddRecord.Padding = New Padding(20, 0, 0, 0)
+        btnNavDashboard.FlatAppearance.BorderSize = 0
+        btnNavDashboard.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavDashboard.FlatStyle = FlatStyle.Flat
+        btnNavDashboard.Font = New Font("Segoe UI", 10F)
+        btnNavDashboard.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavDashboard.Location = New Point(0, 100)
+        btnNavDashboard.Name = "btnNavDashboard"
+        btnNavDashboard.Padding = New Padding(20, 0, 0, 0)
+        btnNavDashboard.Size = New Size(220, 46)
+        btnNavDashboard.TabIndex = 1
+        btnNavDashboard.Text = "  Dashboard"
+        btnNavDashboard.TextAlign = ContentAlignment.MiddleLeft
+        btnNavDashboard.UseVisualStyleBackColor = False
+        ' 
+        ' btnNavAddRecord
+        ' 
+        btnNavAddRecord.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavAddRecord.Cursor = Cursors.Hand
-
-        btnNavViewRecords.Text = "  View Records"
-        btnNavViewRecords.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnNavViewRecords.ForeColor = Color.FromArgb(255, 220, 220)
-        btnNavViewRecords.BackColor = Color.FromArgb(160, 18, 18)
-        btnNavViewRecords.FlatStyle = FlatStyle.Flat
-        btnNavViewRecords.FlatAppearance.BorderSize = 0
-        btnNavViewRecords.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 50, 50)
-        btnNavViewRecords.Size = New Size(220, 46)
-        btnNavViewRecords.Location = New Point(0, 200)
-        btnNavViewRecords.TextAlign = ContentAlignment.MiddleLeft
-        btnNavViewRecords.Padding = New Padding(20, 0, 0, 0)
+        btnNavAddRecord.FlatAppearance.BorderSize = 0
+        btnNavAddRecord.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavAddRecord.FlatStyle = FlatStyle.Flat
+        btnNavAddRecord.Font = New Font("Segoe UI", 10F)
+        btnNavAddRecord.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavAddRecord.Location = New Point(0, 150)
+        btnNavAddRecord.Name = "btnNavAddRecord"
+        btnNavAddRecord.Padding = New Padding(20, 0, 0, 0)
+        btnNavAddRecord.Size = New Size(220, 46)
+        btnNavAddRecord.TabIndex = 2
+        btnNavAddRecord.Text = "  Add Record"
+        btnNavAddRecord.TextAlign = ContentAlignment.MiddleLeft
+        btnNavAddRecord.UseVisualStyleBackColor = False
+        ' 
+        ' btnNavViewRecords
+        ' 
+        btnNavViewRecords.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavViewRecords.Cursor = Cursors.Hand
-
-        btnNavReports.Text = "  Reports"
-        btnNavReports.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnNavReports.ForeColor = Color.FromArgb(255, 220, 220)
-        btnNavReports.BackColor = Color.FromArgb(160, 18, 18)
-        btnNavReports.FlatStyle = FlatStyle.Flat
-        btnNavReports.FlatAppearance.BorderSize = 0
-        btnNavReports.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 50, 50)
-        btnNavReports.Size = New Size(220, 46)
-        btnNavReports.Location = New Point(0, 250)
-        btnNavReports.TextAlign = ContentAlignment.MiddleLeft
-        btnNavReports.Padding = New Padding(20, 0, 0, 0)
+        btnNavViewRecords.FlatAppearance.BorderSize = 0
+        btnNavViewRecords.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavViewRecords.FlatStyle = FlatStyle.Flat
+        btnNavViewRecords.Font = New Font("Segoe UI", 10F)
+        btnNavViewRecords.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavViewRecords.Location = New Point(0, 200)
+        btnNavViewRecords.Name = "btnNavViewRecords"
+        btnNavViewRecords.Padding = New Padding(20, 0, 0, 0)
+        btnNavViewRecords.Size = New Size(220, 46)
+        btnNavViewRecords.TabIndex = 3
+        btnNavViewRecords.Text = "  View Records"
+        btnNavViewRecords.TextAlign = ContentAlignment.MiddleLeft
+        btnNavViewRecords.UseVisualStyleBackColor = False
+        ' 
+        ' btnNavReports
+        ' 
+        btnNavReports.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavReports.Cursor = Cursors.Hand
-
-        btnNavSettings.Text = "  Settings"
-        btnNavSettings.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnNavSettings.ForeColor = Color.FromArgb(255, 220, 220)
-        btnNavSettings.BackColor = Color.FromArgb(160, 18, 18)
-        btnNavSettings.FlatStyle = FlatStyle.Flat
-        btnNavSettings.FlatAppearance.BorderSize = 0
-        btnNavSettings.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 50, 50)
-        btnNavSettings.Size = New Size(220, 46)
-        btnNavSettings.Location = New Point(0, 300)
-        btnNavSettings.TextAlign = ContentAlignment.MiddleLeft
-        btnNavSettings.Padding = New Padding(20, 0, 0, 0)
+        btnNavReports.FlatAppearance.BorderSize = 0
+        btnNavReports.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavReports.FlatStyle = FlatStyle.Flat
+        btnNavReports.Font = New Font("Segoe UI", 10F)
+        btnNavReports.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavReports.Location = New Point(0, 250)
+        btnNavReports.Name = "btnNavReports"
+        btnNavReports.Padding = New Padding(20, 0, 0, 0)
+        btnNavReports.Size = New Size(220, 46)
+        btnNavReports.TabIndex = 4
+        btnNavReports.Text = "  Reports"
+        btnNavReports.TextAlign = ContentAlignment.MiddleLeft
+        btnNavReports.UseVisualStyleBackColor = False
+        ' 
+        ' btnNavSettings
+        ' 
+        btnNavSettings.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavSettings.Cursor = Cursors.Hand
-
-        btnNavDevelopers.Text = "  Developers"
-        btnNavDevelopers.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnNavDevelopers.ForeColor = Color.FromArgb(255, 220, 220)
-        btnNavDevelopers.BackColor = Color.FromArgb(160, 18, 18)
-        btnNavDevelopers.FlatStyle = FlatStyle.Flat
-        btnNavDevelopers.FlatAppearance.BorderSize = 0
-        btnNavDevelopers.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 50, 50)
-        btnNavDevelopers.Size = New Size(220, 46)
-        btnNavDevelopers.Location = New Point(0, 350)
-        btnNavDevelopers.TextAlign = ContentAlignment.MiddleLeft
-        btnNavDevelopers.Padding = New Padding(20, 0, 0, 0)
+        btnNavSettings.FlatAppearance.BorderSize = 0
+        btnNavSettings.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavSettings.FlatStyle = FlatStyle.Flat
+        btnNavSettings.Font = New Font("Segoe UI", 10F)
+        btnNavSettings.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavSettings.Location = New Point(0, 300)
+        btnNavSettings.Name = "btnNavSettings"
+        btnNavSettings.Padding = New Padding(20, 0, 0, 0)
+        btnNavSettings.Size = New Size(220, 46)
+        btnNavSettings.TabIndex = 5
+        btnNavSettings.Text = "  Settings"
+        btnNavSettings.TextAlign = ContentAlignment.MiddleLeft
+        btnNavSettings.UseVisualStyleBackColor = False
+        ' 
+        ' btnNavDevelopers
+        ' 
+        btnNavDevelopers.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavDevelopers.Cursor = Cursors.Hand
-
-        btnLogout.Text = "  Logout"
-        btnLogout.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnLogout.ForeColor = Color.FromArgb(255, 180, 180)
-        btnLogout.BackColor = Color.FromArgb(120, 10, 10)
-        btnLogout.FlatStyle = FlatStyle.Flat
-        btnLogout.FlatAppearance.BorderSize = 0
-        btnLogout.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 30, 30)
-        btnLogout.Size = New Size(220, 46)
-        btnLogout.Location = New Point(0, 560)
-        btnLogout.TextAlign = ContentAlignment.MiddleLeft
-        btnLogout.Padding = New Padding(20, 0, 0, 0)
+        btnNavDevelopers.FlatAppearance.BorderSize = 0
+        btnNavDevelopers.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavDevelopers.FlatStyle = FlatStyle.Flat
+        btnNavDevelopers.Font = New Font("Segoe UI", 10F)
+        btnNavDevelopers.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavDevelopers.Location = New Point(0, 350)
+        btnNavDevelopers.Name = "btnNavDevelopers"
+        btnNavDevelopers.Padding = New Padding(20, 0, 0, 0)
+        btnNavDevelopers.Size = New Size(220, 46)
+        btnNavDevelopers.TabIndex = 6
+        btnNavDevelopers.Text = "  Developers"
+        btnNavDevelopers.TextAlign = ContentAlignment.MiddleLeft
+        btnNavDevelopers.UseVisualStyleBackColor = False
+        ' 
+        ' btnLogout
+        ' 
+        btnLogout.BackColor = Color.FromArgb(CByte(120), CByte(10), CByte(10))
         btnLogout.Cursor = Cursors.Hand
-
-        ' ????????????????????????????????????????????????????????
-        ' pnlPageContainer — fills remaining space, hosts UserControls
-        ' ????????????????????????????????????????????????????????
+        btnLogout.FlatAppearance.BorderSize = 0
+        btnLogout.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(200), CByte(30), CByte(30))
+        btnLogout.FlatStyle = FlatStyle.Flat
+        btnLogout.Font = New Font("Segoe UI", 10F)
+        btnLogout.ForeColor = Color.FromArgb(CByte(255), CByte(180), CByte(180))
+        btnLogout.Location = New Point(0, 592)
+        btnLogout.Name = "btnLogout"
+        btnLogout.Padding = New Padding(20, 0, 0, 0)
+        btnLogout.Size = New Size(220, 46)
+        btnLogout.TabIndex = 7
+        btnLogout.Text = "  Logout"
+        btnLogout.TextAlign = ContentAlignment.MiddleLeft
+        btnLogout.UseVisualStyleBackColor = False
+        ' 
+        ' pnlPageContainer
+        ' 
+        pnlPageContainer.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         pnlPageContainer.Dock = DockStyle.Fill
-        pnlPageContainer.BackColor = Color.FromArgb(240, 242, 245)
-
-        ' ????????????????????????????????????????????????????????
-        ' MainForm properties
-        ' ????????????????????????????????????????????????????????
-        Me.Text = "BFP Tuao — Record Management Information System"
-        Me.Size = New Size(1200, 700)
-        Me.MinimumSize = New Size(1200, 700)
-        Me.StartPosition = FormStartPosition.CenterScreen
-        Me.BackColor = Color.FromArgb(240, 242, 245)
-        Me.Font = New Font("Segoe UI", 9)
-
-        ' Add in correct z-order: Fill first, then Left, then Top
-        Me.Controls.Add(pnlPageContainer)
-        Me.Controls.Add(pnlSidebar)
-        Me.Controls.Add(pnlTopBar)
-
-        pnlLogo.ResumeLayout(False)
-        pnlSidebar.ResumeLayout(False)
+        pnlPageContainer.Location = New Point(220, 60)
+        pnlPageContainer.Name = "pnlPageContainer"
+        pnlPageContainer.Size = New Size(978, 638)
+        pnlPageContainer.TabIndex = 0
+        ' 
+        ' MainForm
+        ' 
+        BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        ClientSize = New Size(1198, 698)
+        ControlBox = False
+        Controls.Add(pnlPageContainer)
+        Controls.Add(pnlSidebar)
+        Controls.Add(pnlTopBar)
+        Font = New Font("Segoe UI", 9F)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        MinimumSize = New Size(1200, 700)
+        Name = "MainForm"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "BFP Tuao — Record Management Information System"
         pnlTopBar.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        pnlSidebar.ResumeLayout(False)
+        pnlLogo.ResumeLayout(False)
+        ResumeLayout(False)
 
     End Sub
 
