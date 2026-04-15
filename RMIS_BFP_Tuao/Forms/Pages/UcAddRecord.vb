@@ -18,8 +18,24 @@ Public Class UcAddRecord
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
-        MessageBox.Show("Record saved successfully! (Prototype - not persisted)",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Dim record As New RecordModel() With {
+            .RecordID = If(txtIncidentNo.Text.Trim() = "",
+                           RecordService.Instance.GetNextID(),
+                           txtIncidentNo.Text.Trim()),
+            .IncidentType = cboIncidentType.SelectedItem?.ToString(),
+            .DateReported = dtpDateReported.Value,
+            .Location = txtLocation.Text.Trim(),
+            .ReportedBy = txtReportedBy.Text.Trim(),
+            .Casualties = txtCasualties.Text.Trim(),
+            .DamageEstimate = txtDamageEstimate.Text.Trim(),
+            .Remarks = txtRemarks.Text.Trim(),
+            .Status = cboStatus.SelectedItem?.ToString()
+        }
+
+        RecordService.Instance.AddRecord(record)
+        MessageBox.Show("Record saved successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information)
         btnClear_Click(Nothing, Nothing)
     End Sub
 

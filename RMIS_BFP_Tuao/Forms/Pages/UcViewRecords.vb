@@ -1,32 +1,17 @@
 Public Class UcViewRecords
     Inherits UserControl
 
-    ' Sample in-memory data for prototype
-    Private _sampleData As New List(Of String())()
-
     Private Sub UcViewRecords_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        LoadSampleData()
-        PopulateGrid(_sampleData)
+        PopulateGrid(RecordService.Instance.GetRecords())
     End Sub
 
-    ' Load sample records into the list
-    Private Sub LoadSampleData()
-        _sampleData.Clear()
-        _sampleData.Add({"INC-2025-001", "Structure Fire",  "01/05/2025", "Brgy. Centro, Tuao",      "Resolved"})
-        _sampleData.Add({"INC-2025-002", "Vehicular Fire",  "01/18/2025", "Maharlika Highway, Tuao",  "Resolved"})
-        _sampleData.Add({"INC-2025-003", "Grass Fire",      "02/03/2025", "Brgy. Malalatan, Tuao",    "Active"})
-        _sampleData.Add({"INC-2025-004", "Electrical Fire", "02/14/2025", "Brgy. Carilucud, Tuao",    "Under Investigation"})
-        _sampleData.Add({"INC-2025-005", "Structure Fire",  "03/01/2025", "Brgy. Batu, Tuao",         "Active"})
-        _sampleData.Add({"INC-2025-006", "Industrial Fire", "03/22/2025", "National Road, Tuao",      "Closed"})
-        _sampleData.Add({"INC-2025-007", "Grass Fire",      "04/07/2025", "Brgy. Fugu, Tuao",         "Resolved"})
-        _sampleData.Add({"INC-2025-008", "Structure Fire",  "04/19/2025", "Brgy. Lallayug, Tuao",     "Active"})
-    End Sub
-
-    ' Fill the DataGridView
-    Private Sub PopulateGrid(data As List(Of String()))
+    ' Fill the DataGridView from RecordModel list
+    Private Sub PopulateGrid(data As List(Of RecordModel))
         dgvRecords.Rows.Clear()
-        For Each row In data
-            dgvRecords.Rows.Add(row(0), row(1), row(2), row(3), row(4))
+        For Each r In data
+            dgvRecords.Rows.Add(r.RecordID, r.IncidentType,
+                            r.DateReported.ToString("MM/dd/yyyy"),
+                            r.Location, r.Status)
         Next
         lblRecordCount.Text = "Total Records: " & data.Count
     End Sub
@@ -34,13 +19,17 @@ Public Class UcViewRecords
     ' Live search filter
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
         Dim keyword = txtSearch.Text.Trim().ToLower()
+        Dim all = RecordService.Instance.GetRecords()
         If keyword = "" Then
-            PopulateGrid(_sampleData)
+            PopulateGrid(all)
             Exit Sub
         End If
-        Dim filtered = _sampleData.Where(
-            Function(r) r.Any(Function(col) col.ToLower().Contains(keyword))
-        ).ToList()
+        Dim filtered = all.Where(Function(r)
+                                     Return r.RecordID.ToLower().Contains(keyword) OrElse
+                                        r.IncidentType.ToLower().Contains(keyword) OrElse
+                                        r.Location.ToLower().Contains(keyword) OrElse
+                                        r.Status.ToLower().Contains(keyword)
+                                 End Function).ToList()
         PopulateGrid(filtered)
     End Sub
 
@@ -48,24 +37,23 @@ Public Class UcViewRecords
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         If dgvRecords.SelectedRows.Count = 0 Then
             MessageBox.Show("Please select a record to delete.", "No Selection",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
         Dim result = MessageBox.Show("Are you sure you want to delete this record?",
-                                     "Confirm Delete",
-                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                 "Confirm Delete",
+                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If result = DialogResult.Yes Then
             Dim selectedID = dgvRecords.SelectedRows(0).Cells("colID").Value?.ToString()
-            _sampleData.RemoveAll(Function(r) r(0) = selectedID)
-            PopulateGrid(_sampleData)
+            RecordService.Instance.DeleteRecord(selectedID)
+            PopulateGrid(RecordService.Instance.GetRecords())
         End If
     End Sub
 
     ' Refresh grid
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         txtSearch.Clear()
-        LoadSampleData()
-        PopulateGrid(_sampleData)
+        PopulateGrid(RecordService.Instance.GetRecords())
     End Sub
 
     ' Row color based on Status column

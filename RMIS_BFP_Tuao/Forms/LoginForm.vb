@@ -10,7 +10,7 @@ Public Class LoginForm
         If txtUsername.Text.Trim() = "admin" AndAlso txtPassword.Text.Trim() = "admin123" Then
             Dim main As New MainForm()
             main.Show()
-            Me.Hide()
+            Me.Close()
         Else
             lblError.Visible = True
         End If
