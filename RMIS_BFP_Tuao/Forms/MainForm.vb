@@ -4,6 +4,7 @@ Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToScreen()
         lblTopDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy")
+        lblTopUser.Text = "[ " & SessionManager.Username & " ]"
         LoadPage(New UcDashboard())
         SetActiveButton(btnNavDashboard)
     End Sub
@@ -51,6 +52,8 @@ Public Class MainForm
         Dim result = MessageBox.Show("Are you sure you want to logout?", "Logout",
                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If result = DialogResult.Yes Then
+            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "User logged out.")
+            SessionManager.Clear()
             Dim login As New LoginForm()
             login.Show()
             Me.Close()
