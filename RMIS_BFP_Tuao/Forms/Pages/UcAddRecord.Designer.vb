@@ -17,39 +17,37 @@ Partial Class UcAddRecord
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-
-        pnlFormCard       = New Panel()
-        pnlDivider        = New Panel()
-        lblPageTitle      = New Label()
-        lblPageSub        = New Label()
-        lblIncidentNo     = New Label()
-        txtIncidentNo     = New TextBox()
-        lblIncidentType   = New Label()
-        cboIncidentType   = New ComboBox()
-        lblDateReported   = New Label()
-        dtpDateReported   = New DateTimePicker()
-        lblStatus         = New Label()
-        cboStatus         = New ComboBox()
-        lblLocation       = New Label()
-        txtLocation       = New TextBox()
-        lblReportedBy     = New Label()
-        txtReportedBy     = New TextBox()
-        lblCasualties     = New Label()
-        txtCasualties     = New TextBox()
+        pnlFormCard = New Panel()
+        lblPageTitle = New Label()
+        lblPageSub = New Label()
+        pnlDivider = New Panel()
+        lblIncidentNo = New Label()
+        txtIncidentNo = New TextBox()
+        lblIncidentType = New Label()
+        cboIncidentType = New ComboBox()
+        lblDateReported = New Label()
+        dtpDateReported = New DateTimePicker()
+        lblStatus = New Label()
+        cboStatus = New ComboBox()
+        lblLocation = New Label()
+        txtLocation = New TextBox()
+        lblReportedBy = New Label()
+        txtReportedBy = New TextBox()
+        lblCasualties = New Label()
+        txtCasualties = New TextBox()
         lblDamageEstimate = New Label()
         txtDamageEstimate = New TextBox()
-        lblRemarks        = New Label()
-        txtRemarks        = New TextBox()
-        btnSave           = New Button()
-        btnClear          = New Button()
-
+        lblRemarks = New Label()
+        txtRemarks = New TextBox()
+        btnSave = New Button()
+        btnClear = New Button()
         pnlFormCard.SuspendLayout()
-        Me.SuspendLayout()
-
-        ' ?? Form card (white container) ???????????????????????????
+        SuspendLayout()
+        ' 
+        ' pnlFormCard
+        ' 
+        pnlFormCard.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         pnlFormCard.BackColor = Color.White
-        pnlFormCard.Size = New Size(880, 555)
-        pnlFormCard.Location = New Point(24, 18)
         pnlFormCard.Controls.Add(lblPageTitle)
         pnlFormCard.Controls.Add(lblPageSub)
         pnlFormCard.Controls.Add(pnlDivider)
@@ -73,182 +71,278 @@ Partial Class UcAddRecord
         pnlFormCard.Controls.Add(txtRemarks)
         pnlFormCard.Controls.Add(btnSave)
         pnlFormCard.Controls.Add(btnClear)
-
-        ' Header
-        lblPageTitle.Text = "Add New Incident Record"
-        lblPageTitle.Font = New Font("Segoe UI", 15, FontStyle.Bold)
-        lblPageTitle.ForeColor = Color.FromArgb(30, 30, 30)
-        lblPageTitle.AutoSize = False
-        lblPageTitle.Size = New Size(600, 34)
+        pnlFormCard.Location = New Point(24, 18)
+        pnlFormCard.Name = "pnlFormCard"
+        pnlFormCard.Size = New Size(1072, 692)
+        pnlFormCard.TabIndex = 0
+        ' 
+        ' lblPageTitle
+        ' 
+        lblPageTitle.Font = New Font("Segoe UI", 15F, FontStyle.Bold)
+        lblPageTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         lblPageTitle.Location = New Point(24, 18)
-
-        lblPageSub.Text = "Fill in all required fields (*) to add a new record."
-        lblPageSub.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        lblPageTitle.Name = "lblPageTitle"
+        lblPageTitle.Size = New Size(600, 34)
+        lblPageTitle.TabIndex = 0
+        lblPageTitle.Text = "Add New Incident Record"
+        ' 
+        ' lblPageSub
+        ' 
+        lblPageSub.Font = New Font("Segoe UI", 9F)
         lblPageSub.ForeColor = Color.Gray
-        lblPageSub.AutoSize = False
-        lblPageSub.Size = New Size(600, 22)
         lblPageSub.Location = New Point(24, 52)
-
-        pnlDivider.BackColor = Color.FromArgb(180, 20, 20)
-        pnlDivider.Size = New Size(832, 3)
+        lblPageSub.Name = "lblPageSub"
+        lblPageSub.Size = New Size(600, 22)
+        lblPageSub.TabIndex = 1
+        lblPageSub.Text = "Fill in all required fields (*) to add a new record."
+        ' 
+        ' pnlDivider
+        ' 
+        pnlDivider.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlDivider.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         pnlDivider.Location = New Point(24, 80)
-
-        ' Row 1
-        lblIncidentNo.Text = "Incident No. *"
-        lblIncidentNo.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblIncidentNo.ForeColor = Color.FromArgb(70, 70, 70)
-        lblIncidentNo.AutoSize = False
-        lblIncidentNo.Size = New Size(390, 20)
+        pnlDivider.Name = "pnlDivider"
+        pnlDivider.Size = New Size(1024, 3)
+        pnlDivider.TabIndex = 2
+        ' 
+        ' lblIncidentNo
+        ' 
+        lblIncidentNo.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblIncidentNo.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblIncidentNo.Location = New Point(24, 100)
-
-        txtIncidentNo.Font = New Font("Segoe UI", 10)
+        lblIncidentNo.Name = "lblIncidentNo"
+        lblIncidentNo.Size = New Size(390, 20)
+        lblIncidentNo.TabIndex = 3
+        lblIncidentNo.Text = "Incident No. *"
+        ' 
+        ' txtIncidentNo
+        ' 
+        txtIncidentNo.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtIncidentNo.BorderStyle = BorderStyle.FixedSingle
-        txtIncidentNo.BackColor = Color.FromArgb(250, 250, 250)
-        txtIncidentNo.Size = New Size(390, 30)
+        txtIncidentNo.Font = New Font("Segoe UI", 10F)
         txtIncidentNo.Location = New Point(24, 122)
+        txtIncidentNo.Name = "txtIncidentNo"
         txtIncidentNo.PlaceholderText = "e.g. INC-2025-001"
-
-        lblIncidentType.Text = "Incident Type *"
-        lblIncidentType.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblIncidentType.ForeColor = Color.FromArgb(70, 70, 70)
-        lblIncidentType.AutoSize = False
+        txtIncidentNo.Size = New Size(390, 27)
+        txtIncidentNo.TabIndex = 4
+        ' 
+        ' lblIncidentType
+        ' 
+        lblIncidentType.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblIncidentType.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblIncidentType.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblIncidentType.Location = New Point(634, 100)
+        lblIncidentType.Name = "lblIncidentType"
         lblIncidentType.Size = New Size(390, 20)
-        lblIncidentType.Location = New Point(442, 100)
-
-        cboIncidentType.Font = New Font("Segoe UI", 10)
-        cboIncidentType.FlatStyle = FlatStyle.Flat
-        cboIncidentType.BackColor = Color.FromArgb(250, 250, 250)
+        lblIncidentType.TabIndex = 5
+        lblIncidentType.Text = "Incident Type *"
+        ' 
+        ' cboIncidentType
+        ' 
+        cboIncidentType.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        cboIncidentType.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         cboIncidentType.DropDownStyle = ComboBoxStyle.DropDownList
-        cboIncidentType.Size = New Size(390, 30)
-        cboIncidentType.Location = New Point(442, 122)
-
-        ' Row 2
-        lblDateReported.Text = "Date Reported *"
-        lblDateReported.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblDateReported.ForeColor = Color.FromArgb(70, 70, 70)
-        lblDateReported.AutoSize = False
-        lblDateReported.Size = New Size(390, 20)
+        cboIncidentType.FlatStyle = FlatStyle.Flat
+        cboIncidentType.Font = New Font("Segoe UI", 10F)
+        cboIncidentType.Location = New Point(634, 122)
+        cboIncidentType.Name = "cboIncidentType"
+        cboIncidentType.Size = New Size(390, 28)
+        cboIncidentType.TabIndex = 6
+        ' 
+        ' lblDateReported
+        ' 
+        lblDateReported.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblDateReported.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblDateReported.Location = New Point(24, 170)
-
-        dtpDateReported.Font = New Font("Segoe UI", 10)
-        dtpDateReported.Size = New Size(390, 30)
-        dtpDateReported.Location = New Point(24, 192)
+        lblDateReported.Name = "lblDateReported"
+        lblDateReported.Size = New Size(390, 20)
+        lblDateReported.TabIndex = 7
+        lblDateReported.Text = "Date Reported *"
+        ' 
+        ' dtpDateReported
+        ' 
+        dtpDateReported.Font = New Font("Segoe UI", 10F)
         dtpDateReported.Format = DateTimePickerFormat.Short
-
-        lblStatus.Text = "Status *"
-        lblStatus.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblStatus.ForeColor = Color.FromArgb(70, 70, 70)
-        lblStatus.AutoSize = False
+        dtpDateReported.Location = New Point(24, 192)
+        dtpDateReported.Name = "dtpDateReported"
+        dtpDateReported.Size = New Size(390, 27)
+        dtpDateReported.TabIndex = 8
+        ' 
+        ' lblStatus
+        ' 
+        lblStatus.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblStatus.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblStatus.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblStatus.Location = New Point(634, 170)
+        lblStatus.Name = "lblStatus"
         lblStatus.Size = New Size(390, 20)
-        lblStatus.Location = New Point(442, 170)
-
-        cboStatus.Font = New Font("Segoe UI", 10)
-        cboStatus.FlatStyle = FlatStyle.Flat
-        cboStatus.BackColor = Color.FromArgb(250, 250, 250)
+        lblStatus.TabIndex = 9
+        lblStatus.Text = "Status *"
+        ' 
+        ' cboStatus
+        ' 
+        cboStatus.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        cboStatus.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         cboStatus.DropDownStyle = ComboBoxStyle.DropDownList
-        cboStatus.Size = New Size(390, 30)
-        cboStatus.Location = New Point(442, 192)
-
-        ' Row 3
-        lblLocation.Text = "Location / Address *"
-        lblLocation.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblLocation.ForeColor = Color.FromArgb(70, 70, 70)
-        lblLocation.AutoSize = False
-        lblLocation.Size = New Size(390, 20)
+        cboStatus.FlatStyle = FlatStyle.Flat
+        cboStatus.Font = New Font("Segoe UI", 10F)
+        cboStatus.Location = New Point(634, 192)
+        cboStatus.Name = "cboStatus"
+        cboStatus.Size = New Size(390, 28)
+        cboStatus.TabIndex = 10
+        ' 
+        ' lblLocation
+        ' 
+        lblLocation.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblLocation.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblLocation.Location = New Point(24, 240)
-
-        txtLocation.Font = New Font("Segoe UI", 10)
+        lblLocation.Name = "lblLocation"
+        lblLocation.Size = New Size(390, 20)
+        lblLocation.TabIndex = 11
+        lblLocation.Text = "Location / Address *"
+        ' 
+        ' txtLocation
+        ' 
+        txtLocation.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txtLocation.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtLocation.BorderStyle = BorderStyle.FixedSingle
-        txtLocation.BackColor = Color.FromArgb(250, 250, 250)
-        txtLocation.Size = New Size(808, 30)
+        txtLocation.Font = New Font("Segoe UI", 10F)
         txtLocation.Location = New Point(24, 262)
+        txtLocation.Name = "txtLocation"
         txtLocation.PlaceholderText = "e.g. Brgy. Centro, Tuao, Cagayan"
-
-        ' Row 4
-        lblReportedBy.Text = "Reported By *"
-        lblReportedBy.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblReportedBy.ForeColor = Color.FromArgb(70, 70, 70)
-        lblReportedBy.AutoSize = False
-        lblReportedBy.Size = New Size(390, 20)
+        txtLocation.Size = New Size(1000, 27)
+        txtLocation.TabIndex = 12
+        ' 
+        ' lblReportedBy
+        ' 
+        lblReportedBy.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblReportedBy.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblReportedBy.Location = New Point(24, 310)
-
-        txtReportedBy.Font = New Font("Segoe UI", 10)
+        lblReportedBy.Name = "lblReportedBy"
+        lblReportedBy.Size = New Size(390, 20)
+        lblReportedBy.TabIndex = 13
+        lblReportedBy.Text = "Reported By *"
+        ' 
+        ' txtReportedBy
+        ' 
+        txtReportedBy.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtReportedBy.BorderStyle = BorderStyle.FixedSingle
-        txtReportedBy.BackColor = Color.FromArgb(250, 250, 250)
-        txtReportedBy.Size = New Size(390, 30)
+        txtReportedBy.Font = New Font("Segoe UI", 10F)
         txtReportedBy.Location = New Point(24, 332)
+        txtReportedBy.Name = "txtReportedBy"
         txtReportedBy.PlaceholderText = "Full name of reporting officer"
-
-        lblCasualties.Text = "No. of Casualties"
-        lblCasualties.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblCasualties.ForeColor = Color.FromArgb(70, 70, 70)
-        lblCasualties.AutoSize = False
+        txtReportedBy.Size = New Size(390, 27)
+        txtReportedBy.TabIndex = 14
+        ' 
+        ' lblCasualties
+        ' 
+        lblCasualties.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblCasualties.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblCasualties.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblCasualties.Location = New Point(634, 310)
+        lblCasualties.Name = "lblCasualties"
         lblCasualties.Size = New Size(390, 20)
-        lblCasualties.Location = New Point(442, 310)
-
-        txtCasualties.Font = New Font("Segoe UI", 10)
+        lblCasualties.TabIndex = 15
+        lblCasualties.Text = "No. of Casualties"
+        ' 
+        ' txtCasualties
+        ' 
+        txtCasualties.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        txtCasualties.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtCasualties.BorderStyle = BorderStyle.FixedSingle
-        txtCasualties.BackColor = Color.FromArgb(250, 250, 250)
-        txtCasualties.Size = New Size(390, 30)
-        txtCasualties.Location = New Point(442, 332)
+        txtCasualties.Font = New Font("Segoe UI", 10F)
+        txtCasualties.Location = New Point(634, 332)
+        txtCasualties.Name = "txtCasualties"
         txtCasualties.PlaceholderText = "0"
-
-        ' Row 5
-        lblDamageEstimate.Text = "Estimated Damage (PHP)"
-        lblDamageEstimate.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblDamageEstimate.ForeColor = Color.FromArgb(70, 70, 70)
-        lblDamageEstimate.AutoSize = False
-        lblDamageEstimate.Size = New Size(390, 20)
+        txtCasualties.Size = New Size(390, 27)
+        txtCasualties.TabIndex = 16
+        ' 
+        ' lblDamageEstimate
+        ' 
+        lblDamageEstimate.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblDamageEstimate.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblDamageEstimate.Location = New Point(24, 380)
-
-        txtDamageEstimate.Font = New Font("Segoe UI", 10)
+        lblDamageEstimate.Name = "lblDamageEstimate"
+        lblDamageEstimate.Size = New Size(390, 20)
+        lblDamageEstimate.TabIndex = 17
+        lblDamageEstimate.Text = "Estimated Damage (PHP)"
+        ' 
+        ' txtDamageEstimate
+        ' 
+        txtDamageEstimate.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtDamageEstimate.BorderStyle = BorderStyle.FixedSingle
-        txtDamageEstimate.BackColor = Color.FromArgb(250, 250, 250)
-        txtDamageEstimate.Size = New Size(390, 30)
+        txtDamageEstimate.Font = New Font("Segoe UI", 10F)
         txtDamageEstimate.Location = New Point(24, 402)
+        txtDamageEstimate.Name = "txtDamageEstimate"
         txtDamageEstimate.PlaceholderText = "e.g. 500000"
-
-        lblRemarks.Text = "Remarks / Notes"
-        lblRemarks.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblRemarks.ForeColor = Color.FromArgb(70, 70, 70)
-        lblRemarks.AutoSize = False
+        txtDamageEstimate.Size = New Size(390, 27)
+        txtDamageEstimate.TabIndex = 18
+        ' 
+        ' lblRemarks
+        ' 
+        lblRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblRemarks.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblRemarks.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblRemarks.Location = New Point(634, 380)
+        lblRemarks.Name = "lblRemarks"
         lblRemarks.Size = New Size(390, 20)
-        lblRemarks.Location = New Point(442, 380)
-
-        txtRemarks.Font = New Font("Segoe UI", 10)
+        lblRemarks.TabIndex = 19
+        lblRemarks.Text = "Remarks / Notes"
+        ' 
+        ' txtRemarks
+        ' 
+        txtRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        txtRemarks.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtRemarks.BorderStyle = BorderStyle.FixedSingle
-        txtRemarks.BackColor = Color.FromArgb(250, 250, 250)
+        txtRemarks.Font = New Font("Segoe UI", 10F)
+        txtRemarks.Location = New Point(634, 402)
         txtRemarks.Multiline = True
+        txtRemarks.Name = "txtRemarks"
         txtRemarks.ScrollBars = ScrollBars.Vertical
         txtRemarks.Size = New Size(390, 62)
-        txtRemarks.Location = New Point(442, 402)
-
-        ' Buttons
-        btnSave.Text = "SAVE RECORD"
-        btnSave.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        btnSave.Size = New Size(180, 40)
-        btnSave.Location = New Point(24, 486)
-        btnSave.BackColor = Color.FromArgb(180, 20, 20)
-        btnSave.ForeColor = Color.White
-        btnSave.FlatStyle = FlatStyle.Flat
-        btnSave.FlatAppearance.BorderSize = 0
+        txtRemarks.TabIndex = 20
+        ' 
+        ' btnSave
+        ' 
+        btnSave.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnSave.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnSave.Cursor = Cursors.Hand
-
-        btnClear.Text = "CLEAR FORM"
-        btnClear.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        btnClear.Size = New Size(160, 40)
-        btnClear.Location = New Point(216, 486)
+        btnSave.FlatAppearance.BorderSize = 0
+        btnSave.FlatStyle = FlatStyle.Flat
+        btnSave.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        btnSave.ForeColor = Color.White
+        btnSave.Location = New Point(24, 623)
+        btnSave.Name = "btnSave"
+        btnSave.Size = New Size(180, 40)
+        btnSave.TabIndex = 21
+        btnSave.Text = "SAVE RECORD"
+        btnSave.UseVisualStyleBackColor = False
+        ' 
+        ' btnClear
+        ' 
+        btnClear.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         btnClear.BackColor = Color.White
-        btnClear.ForeColor = Color.FromArgb(100, 100, 100)
-        btnClear.FlatStyle = FlatStyle.Flat
-        btnClear.FlatAppearance.BorderColor = Color.FromArgb(200, 200, 200)
         btnClear.Cursor = Cursors.Hand
-
-        Me.BackColor = Color.FromArgb(240, 242, 245)
-        Me.Controls.Add(pnlFormCard)
-
+        btnClear.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnClear.FlatStyle = FlatStyle.Flat
+        btnClear.Font = New Font("Segoe UI", 10F)
+        btnClear.ForeColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
+        btnClear.Location = New Point(216, 623)
+        btnClear.Name = "btnClear"
+        btnClear.Size = New Size(160, 40)
+        btnClear.TabIndex = 22
+        btnClear.Text = "CLEAR FORM"
+        btnClear.UseVisualStyleBackColor = False
+        ' 
+        ' UcAddRecord
+        ' 
+        BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        Controls.Add(pnlFormCard)
+        Name = "UcAddRecord"
+        Size = New Size(1119, 731)
         pnlFormCard.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        pnlFormCard.PerformLayout()
+        ResumeLayout(False)
 
     End Sub
 
