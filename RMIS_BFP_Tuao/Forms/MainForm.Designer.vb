@@ -49,9 +49,10 @@ Partial Class MainForm
         pnlTopBar.Name = "pnlTopBar"
         pnlTopBar.Size = New Size(1198, 60)
         pnlTopBar.TabIndex = 2
-        ' 
+        '
         ' lblTopTitle
-        ' 
+        '
+        lblTopTitle.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblTopTitle.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblTopTitle.ForeColor = Color.White
         lblTopTitle.Location = New Point(20, 0)
@@ -60,9 +61,10 @@ Partial Class MainForm
         lblTopTitle.TabIndex = 0
         lblTopTitle.Text = "  Record Management Information System  |  BFP Tuao"
         lblTopTitle.TextAlign = ContentAlignment.MiddleLeft
-        ' 
+        '
         ' lblTopDate
-        ' 
+        '
+        lblTopDate.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblTopDate.Font = New Font("Segoe UI", 9F)
         lblTopDate.ForeColor = Color.FromArgb(CByte(160), CByte(160), CByte(160))
         lblTopDate.Location = New Point(730, 0)
@@ -70,14 +72,15 @@ Partial Class MainForm
         lblTopDate.Size = New Size(260, 60)
         lblTopDate.TabIndex = 1
         lblTopDate.TextAlign = ContentAlignment.MiddleRight
-        ' 
+        '
         ' lblTopUser
-        ' 
+        '
+        lblTopUser.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblTopUser.Font = New Font("Segoe UI", 9.5F)
         lblTopUser.ForeColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
         lblTopUser.Location = New Point(1040, 0)
         lblTopUser.Name = "lblTopUser"
-        lblTopUser.Size = New Size(120, 60)
+        lblTopUser.Size = New Size(140, 60)
         lblTopUser.TabIndex = 2
         lblTopUser.Text = "[ Admin ]"
         lblTopUser.TextAlign = ContentAlignment.MiddleRight
@@ -98,13 +101,13 @@ Partial Class MainForm
         pnlSidebar.Name = "pnlSidebar"
         pnlSidebar.Size = New Size(220, 638)
         pnlSidebar.TabIndex = 1
-        ' 
+        '
         ' pnlLogo
-        ' 
+        '
         pnlLogo.BackColor = Color.FromArgb(CByte(140), CByte(10), CByte(10))
         pnlLogo.Controls.Add(lblSideTitle)
         pnlLogo.Controls.Add(lblSideSub)
-        pnlLogo.Location = New Point(0, 0)
+        pnlLogo.Dock = DockStyle.Top
         pnlLogo.Name = "pnlLogo"
         pnlLogo.Size = New Size(220, 90)
         pnlLogo.TabIndex = 0
@@ -238,9 +241,10 @@ Partial Class MainForm
         btnNavDevelopers.Text = "  Developers"
         btnNavDevelopers.TextAlign = ContentAlignment.MiddleLeft
         btnNavDevelopers.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnLogout
-        ' 
+        '
+        btnLogout.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         btnLogout.BackColor = Color.FromArgb(CByte(120), CByte(10), CByte(10))
         btnLogout.Cursor = Cursors.Hand
         btnLogout.FlatAppearance.BorderSize = 0
@@ -275,11 +279,12 @@ Partial Class MainForm
         Controls.Add(pnlSidebar)
         Controls.Add(pnlTopBar)
         Font = New Font("Segoe UI", 9F)
-        FormBorderStyle = FormBorderStyle.FixedSingle
+        FormBorderStyle = FormBorderStyle.Sizable
         MinimumSize = New Size(1200, 700)
         Name = "MainForm"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "BFP Tuao — Record Management Information System"
+        Text = "BFP Tuao ï¿½ Record Management Information System"
+        WindowState = FormWindowState.Maximized
         pnlTopBar.ResumeLayout(False)
         pnlSidebar.ResumeLayout(False)
         pnlLogo.ResumeLayout(False)
