@@ -52,6 +52,7 @@ Partial Class UcDevelopers
         ' 
         ' pnlHeader
         ' 
+        pnlHeader.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         pnlHeader.BackColor = Color.White
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Controls.Add(lblPageSub)
@@ -79,10 +80,11 @@ Partial Class UcDevelopers
         lblPageSub.Name = "lblPageSub"
         lblPageSub.Size = New Size(700, 22)
         lblPageSub.TabIndex = 1
-        lblPageSub.Text = "System information and development team behind RMIS — BFP Tuao."
+        lblPageSub.Text = "System information and development team behind RMIS ï¿½ BFP Tuao."
         ' 
         ' pnlDivider
         ' 
+        pnlDivider.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         pnlDivider.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         pnlDivider.Location = New Point(20, 78)
         pnlDivider.Name = "pnlDivider"
@@ -131,7 +133,7 @@ Partial Class UcDevelopers
         lblAppName.Name = "lblAppName"
         lblAppName.Size = New Size(398, 30)
         lblAppName.TabIndex = 2
-        lblAppName.Text = "RMIS — BFP Tuao"
+        lblAppName.Text = "RMIS ï¿½ BFP Tuao"
         ' 
         ' lblAppDesc
         ' 
@@ -141,7 +143,7 @@ Partial Class UcDevelopers
         lblAppDesc.Name = "lblAppDesc"
         lblAppDesc.Size = New Size(398, 44)
         lblAppDesc.TabIndex = 3
-        lblAppDesc.Text = "Record Management Information System" & vbCrLf & "Bureau of Fire Protection — Tuao Fire Station"
+        lblAppDesc.Text = "Record Management Information System" & vbCrLf & "Bureau of Fire Protection ï¿½ Tuao Fire Station"
         ' 
         ' lblVersion
         ' 
@@ -185,13 +187,14 @@ Partial Class UcDevelopers
         ' 
         ' pnlTeam
         ' 
+        pnlTeam.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         pnlTeam.BackColor = Color.White
         pnlTeam.Controls.Add(lblTeamTitle)
         pnlTeam.Controls.Add(lblTeamDivider)
         pnlTeam.Controls.Add(pnlDev1)
         pnlTeam.Controls.Add(pnlDev2)
         pnlTeam.Controls.Add(pnlDev3)
-        pnlTeam.Location = New Point(470, 120)
+        pnlTeam.Location = New Point(514, 120)
         pnlTeam.Name = "pnlTeam"
         pnlTeam.Size = New Size(430, 230)
         pnlTeam.TabIndex = 2
