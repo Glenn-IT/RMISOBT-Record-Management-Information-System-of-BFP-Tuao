@@ -1,12 +1,12 @@
-# System Blueprint — VB.NET WinForms Record Management System
+# System Blueprint — VB.NET WinForms Desktop Application Foundation
 
-Use this document as the master prompt when rebuilding this system architecture on another device or for a different domain. Hand it to Claude Code and it will reproduce the same structure, patterns, and design philosophy.
+A domain-agnostic foundation prompt. Hand this to Claude Code on any device to scaffold the same architecture, security, and UI design from scratch for any system.
 
 ---
 
 ## Master Prompt
 
-> Build a **VB.NET WinForms desktop application** on **.NET 8** with **SQL Server** as the backend database. The system is a **Record Management Information System** for [your organization]. Follow every architectural, security, UI, and code pattern defined below — do not deviate unless explicitly told to.
+> Build a **VB.NET WinForms desktop application** on **.NET 8** with **SQL Server** as the backend database. The system is a **[your system name]** for **[your organization]**. Follow every architectural, security, UI, and code pattern defined in this blueprint — do not deviate unless explicitly told to. Replace every `[placeholder]` with the actual domain name before building.
 
 ---
 
@@ -15,7 +15,7 @@ Use this document as the master prompt when rebuilding this system architecture 
 | Item | Version |
 |------|---------|
 | Language | VB.NET |
-| Framework | .NET 8 (target: `net8.0-windows`) |
+| Framework | .NET 8 (`net8.0-windows`) |
 | UI | WinForms |
 | Database | SQL Server (any edition — Express is fine) |
 | NuGet: BCrypt | `BCrypt.Net-Next` 4.x |
@@ -28,44 +28,44 @@ Use this document as the master prompt when rebuilding this system architecture 
 ## 2. Solution Structure
 
 ```
-SolutionName.sln
-├── ProjectName/                        ← Main WinForms project
-│   ├── Assets/                         ← Images, logos (.gitkeep)
-│   ├── DataAccess/                     ← Repository layer (one file per table)
-│   │   ├── DatabaseInitializer.vb
-│   │   ├── IncidentRepository.vb       ← (rename per domain)
-│   │   ├── UserRepository.vb
-│   │   ├── ActivityLogRepository.vb
-│   │   └── SettingsRepository.vb
-│   ├── Docs/                           ← Markdown documentation
+YourSolution.sln
+├── YourProject/                          ← Main WinForms project
+│   ├── Assets/                           ← Images, logos (.gitkeep placeholder)
+│   ├── DataAccess/                       ← One repository file per DB table
+│   │   ├── DatabaseInitializer.vb        ← Auto-creates tables + seeds data on startup
+│   │   ├── [Domain]Repository.vb         ← CRUD for your main domain table
+│   │   ├── UserRepository.vb             ← Auth: get by username, update username/password
+│   │   ├── ActivityLogRepository.vb      ← Append-only audit log inserts
+│   │   └── SettingsRepository.vb         ← Key/value get + upsert
+│   ├── Docs/                             ← Markdown documentation
 │   ├── Forms/
 │   │   ├── LoginForm.vb + .Designer.vb + .resx
 │   │   ├── MainForm.vb + .Designer.vb + .resx
-│   │   ├── EditRecordForm.vb + .Designer.vb + .resx
-│   │   └── Pages/                      ← UserControls, one per nav page
+│   │   ├── Edit[Domain]Form.vb + .Designer.vb + .resx
+│   │   └── Pages/                        ← UserControls, one per sidebar nav item
 │   │       ├── UcDashboard.vb + .Designer.vb + .resx
-│   │       ├── UcAddRecord.vb + .Designer.vb + .resx
-│   │       ├── UcViewRecords.vb + .Designer.vb + .resx
+│   │       ├── UcAdd[Domain].vb + .Designer.vb + .resx
+│   │       ├── UcView[Domain]s.vb + .Designer.vb + .resx
 │   │       ├── UcReports.vb + .Designer.vb + .resx
 │   │       ├── UcSettings.vb + .Designer.vb + .resx
 │   │       └── UcDevelopers.vb + .Designer.vb + .resx
 │   ├── Helpers/
-│   │   ├── Constants.vb                ← All enum-like string arrays and const strings
-│   │   └── PasswordHelper.vb           ← BCrypt wrappers
+│   │   ├── Constants.vb                  ← All shared string arrays and const strings
+│   │   └── PasswordHelper.vb             ← BCrypt hash + verify wrappers
 │   ├── Models/
-│   │   └── RecordModel.vb              ← Plain data class, no logic
+│   │   └── [Domain]Model.vb              ← Plain data class, properties only, no logic
 │   ├── Services/
-│   │   ├── RecordService.vb            ← Singleton; delegates to repository
-│   │   └── ReportPrinter.vb            ← Print preview logic
-│   ├── ActivityLogger.vb               ← Module; fire-and-forget DB write
-│   ├── ApplicationEvents.vb            ← Startup hook: DB init, cancel on error
-│   ├── SessionManager.vb               ← Module; holds logged-in user state
-│   ├── dbconstring.vb                  ← Module; reads config.txt at runtime
-│   └── config.txt.example              ← Committed template (real file gitignored)
-└── ProjectName.Tests/                  ← MSTest project
+│   │   ├── [Domain]Service.vb            ← Singleton; thin wrapper over repository
+│   │   └── ReportPrinter.vb              ← Print preview + PDF logic
+│   ├── ActivityLogger.vb                 ← Module; fire-and-forget audit DB write
+│   ├── ApplicationEvents.vb              ← Startup hook: init DB, cancel app on error
+│   ├── SessionManager.vb                 ← Module; holds logged-in user state globally
+│   ├── dbconstring.vb                    ← Module; reads connection string from config.txt
+│   └── config.txt.example               ← Committed template; real config.txt is gitignored
+└── YourProject.Tests/                    ← Separate MSTest project
     ├── PasswordHelperTests.vb
     ├── SessionManagerTests.vb
-    ├── RecordModelTests.vb
+    ├── [Domain]ModelTests.vb
     └── ConstantsTests.vb
 ```
 
@@ -73,56 +73,59 @@ SolutionName.sln
 
 ## 3. Database Design
 
-### 3.1 Tables (auto-created by `DatabaseInitializer` on first run)
+### 3.1 Fixed tables (always present in every system)
+
+These four tables are infrastructure — they do not change between domains.
 
 ```sql
--- Core domain records
-CREATE TABLE tbl_IncidentRecords (
-    RecordID        VARCHAR(20)     NOT NULL PRIMARY KEY,
-    IncidentType    NVARCHAR(100)   NOT NULL,
-    DateReported    DATE            NOT NULL,
-    Location        NVARCHAR(255)   NOT NULL,
-    ReportedBy      NVARCHAR(100)   NOT NULL,
-    Casualties      NVARCHAR(50)    NOT NULL DEFAULT '0',
-    DamageEstimate  NVARCHAR(100)   NOT NULL DEFAULT '0',
-    Remarks         NVARCHAR(500)   NOT NULL DEFAULT '',
-    Status          NVARCHAR(50)    NOT NULL DEFAULT 'Active',
-    CreatedAt       DATETIME        NOT NULL DEFAULT GETDATE()
-);
-
 -- Authentication
 CREATE TABLE tbl_Users (
-    UserID          INT             NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    Username        NVARCHAR(100)   NOT NULL UNIQUE,
-    PasswordHash    NVARCHAR(255)   NOT NULL,
-    UserType        NVARCHAR(50)    NOT NULL DEFAULT 'Staff',
-    CreatedAt       DATETIME        NOT NULL DEFAULT GETDATE()
+    UserID       INT           NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    Username     NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    UserType     NVARCHAR(50)  NOT NULL DEFAULT 'Staff',
+    CreatedAt    DATETIME      NOT NULL DEFAULT GETDATE()
 );
 
 -- Audit trail
 CREATE TABLE tbl_ActivityLogs (
-    LogID           INT             NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    Username        NVARCHAR(100)   NOT NULL,
-    LogDate         DATETIME        NOT NULL DEFAULT GETDATE(),
-    Result          NVARCHAR(50)    NOT NULL,
-    Description     NVARCHAR(500)   NOT NULL
+    LogID       INT           NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    Username    NVARCHAR(100) NOT NULL,
+    LogDate     DATETIME      NOT NULL DEFAULT GETDATE(),
+    Result      NVARCHAR(50)  NOT NULL,
+    Description NVARCHAR(500) NOT NULL
 );
 
 -- Key/value app settings
 CREATE TABLE tbl_Settings (
-    SettingKey      NVARCHAR(100)   NOT NULL PRIMARY KEY,
-    SettingValue    NVARCHAR(500)   NOT NULL DEFAULT ''
+    SettingKey   NVARCHAR(100) NOT NULL PRIMARY KEY,
+    SettingValue NVARCHAR(500) NOT NULL DEFAULT ''
 );
 ```
 
-### 3.2 Naming convention
-- Tables: `tbl_PascalCase`
-- Stored procedure / ID pattern: `RecordID` = `"INC-{year}-{seq:D3}"` built from `MAX()` in the repository
-- Passwords: BCrypt hash with work factor 11, never stored plaintext
+### 3.2 Domain table (you define this per project)
 
-### 3.3 Seed data (inserted by `DatabaseInitializer` if not exists)
-- Admin user: username `admin`, password `admin123` (BCrypt hashed)
-- Settings: `StationName`, `StationAddress`
+```sql
+-- Replace every [placeholder] with your actual column names and types
+CREATE TABLE tbl_[YourDomain] (
+    [Domain]ID   VARCHAR(20)   NOT NULL PRIMARY KEY,   -- e.g. "REC-2025-001"
+    [Field1]     NVARCHAR(100) NOT NULL,
+    [Field2]     NVARCHAR(255) NOT NULL,
+    [Field3]     DATE          NOT NULL,
+    -- ... add your columns
+    Status       NVARCHAR(50)  NOT NULL DEFAULT '[YourDefaultStatus]',
+    CreatedAt    DATETIME      NOT NULL DEFAULT GETDATE()
+);
+```
+
+### 3.3 Naming conventions
+- All tables: `tbl_PascalCase`
+- Auto-ID format: `"[PREFIX]-{year}-{seq:D3}"` — sequence derived from `MAX()` in the repository, collision-safe after deletes
+- Passwords: BCrypt hashed at work factor 11, never stored plaintext
+
+### 3.4 Seed data (auto-inserted by `DatabaseInitializer` if not exists)
+- Admin user: username `admin`, password `admin123` (BCrypt hashed — must be changed after first login)
+- Settings: `OrganizationName`, `OrganizationAddress` (or whatever your settings are)
 
 ---
 
@@ -130,17 +133,18 @@ CREATE TABLE tbl_Settings (
 
 **Rule: the connection string is NEVER committed to git.**
 
-- `config.txt` — lives next to the `.exe`; gitignored
-- `config.txt.example` — committed template with placeholder values
-- `dbconstring.vb` — module that reads the file at runtime
+| File | Purpose |
+|------|---------|
+| `config.txt` | Lives next to the `.exe`; listed in `.gitignore` |
+| `config.txt.example` | Safe template committed to git |
+| `dbconstring.vb` | Module that reads the file at runtime |
 
 ```vb
 ' dbconstring.vb
 Public Module dbconstring
     Public ReadOnly Property Connection As String
         Get
-            Dim exeDir = AppDomain.CurrentDomain.BaseDirectory
-            Dim path = IO.Path.Combine(exeDir, "config.txt")
+            Dim path = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.txt")
             If Not IO.File.Exists(path) Then
                 Throw New IO.FileNotFoundException(
                     "config.txt not found. Copy config.txt.example, rename it, and fill in your connection string.")
@@ -151,16 +155,21 @@ Public Module dbconstring
 End Module
 ```
 
-`config.txt.example` content:
+`config.txt.example`:
 ```
 Server=.\SQLEXPRESS;Database=YourDatabaseName;Trusted_Connection=True;TrustServerCertificate=True;
+```
+
+`.gitignore` entry:
+```
+config.txt
 ```
 
 ---
 
 ## 5. Startup Initialization
 
-`ApplicationEvents.vb` runs before any form opens:
+`ApplicationEvents.vb` — runs before any form opens. If the DB fails, the app cancels cleanly.
 
 ```vb
 Namespace My
@@ -181,32 +190,36 @@ Namespace My
 End Namespace
 ```
 
+`DatabaseInitializer.Initialize()` must call:
+1. `CreateTables()` — `IF NOT EXISTS` DDL for all tables
+2. `SeedSettings()` — insert default settings rows if missing
+3. `SeedAdminUser()` — insert `admin` user if no users exist
+
 ---
 
 ## 6. Session Management
 
 ```vb
-' SessionManager.vb — module-level, accessible everywhere
+' SessionManager.vb
 Public Module SessionManager
     Public Property Username As String = ""
     Public Property UserType As String = ""
-    Public Property UserCode As String = ""
 
     Public Sub Clear()
         Username = ""
         UserType = ""
-        UserCode = ""
     End Sub
 End Module
 ```
 
-Read with `SessionManager.Username` from any form. Call `SessionManager.Clear()` on logout.
+- Read anywhere with `SessionManager.Username`
+- Set on successful login; call `SessionManager.Clear()` on logout
 
 ---
 
 ## 7. Security Patterns
 
-### BCrypt passwords
+### Password hashing
 ```vb
 ' Helpers/PasswordHelper.vb
 Public Module PasswordHelper
@@ -219,45 +232,41 @@ Public Module PasswordHelper
 End Module
 ```
 
-### Parameterized queries (always — no string concatenation)
+### Parameterized queries — always, no exceptions
 ```vb
-' Every SQL command uses parameters:
-Using cmd As New SqlCommand(
-    "SELECT * FROM tbl_Users WHERE Username = @u", con)
+Using cmd As New SqlCommand("SELECT * FROM tbl_Users WHERE Username = @u", con)
     cmd.Parameters.AddWithValue("@u", username)
-    ' ...
 End Using
 ```
+
+Never build SQL strings with `& username &` or string interpolation.
 
 ---
 
 ## 8. Repository Pattern
 
-One module per table. All DB access goes through repositories — no form ever opens a `SqlConnection` directly.
+One `Module` per table. No form or service ever creates a `SqlConnection` directly.
 
 ```vb
-' DataAccess/IncidentRepository.vb (template)
+' DataAccess/[Domain]Repository.vb  — generic template
 Imports Microsoft.Data.SqlClient
 
-Public Module IncidentRepository
+Public Module [Domain]Repository
 
-    Public Function GetAll() As List(Of RecordModel)
-        Dim list As New List(Of RecordModel)
+    Public Function GetAll() As List(Of [Domain]Model)
+        Dim list As New List(Of [Domain]Model)
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
-            Using cmd As New SqlCommand("SELECT * FROM tbl_IncidentRecords ORDER BY DateReported DESC", con)
+            Using cmd As New SqlCommand(
+                "SELECT * FROM tbl_[YourDomain] ORDER BY CreatedAt DESC", con)
                 Using dr = cmd.ExecuteReader()
                     While dr.Read()
-                        list.Add(New RecordModel() With {
-                            .RecordID      = dr("RecordID").ToString(),
-                            .IncidentType  = dr("IncidentType").ToString(),
-                            .DateReported  = CDate(dr("DateReported")),
-                            .Location      = dr("Location").ToString(),
-                            .ReportedBy    = dr("ReportedBy").ToString(),
-                            .Casualties    = dr("Casualties").ToString(),
-                            .DamageEstimate = dr("DamageEstimate").ToString(),
-                            .Remarks       = dr("Remarks").ToString(),
-                            .Status        = dr("Status").ToString()
+                        list.Add(New [Domain]Model() With {
+                            .[Domain]ID = dr("[Domain]ID").ToString(),
+                            .[Field1]   = dr("[Field1]").ToString(),
+                            .[Field2]   = dr("[Field2]").ToString(),
+                            .Status     = dr("Status").ToString()
+                            ' ... map remaining columns
                         })
                     End While
                 End Using
@@ -266,56 +275,42 @@ Public Module IncidentRepository
         Return list
     End Function
 
-    Public Sub Insert(record As RecordModel)
+    Public Sub Insert(item As [Domain]Model)
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
             Using cmd As New SqlCommand(
-                "INSERT INTO tbl_IncidentRecords
-                 (RecordID,IncidentType,DateReported,Location,ReportedBy,Casualties,DamageEstimate,Remarks,Status)
-                 VALUES (@id,@type,@date,@loc,@by,@cas,@dmg,@rem,@status)", con)
-                cmd.Parameters.AddWithValue("@id",     record.RecordID)
-                cmd.Parameters.AddWithValue("@type",   record.IncidentType)
-                cmd.Parameters.AddWithValue("@date",   record.DateReported.Date)
-                cmd.Parameters.AddWithValue("@loc",    record.Location)
-                cmd.Parameters.AddWithValue("@by",     record.ReportedBy)
-                cmd.Parameters.AddWithValue("@cas",    record.Casualties)
-                cmd.Parameters.AddWithValue("@dmg",    record.DamageEstimate)
-                cmd.Parameters.AddWithValue("@rem",    record.Remarks)
-                cmd.Parameters.AddWithValue("@status", record.Status)
+                "INSERT INTO tbl_[YourDomain] ([Domain]ID, [Field1], [Field2], Status)
+                 VALUES (@id, @f1, @f2, @status)", con)
+                cmd.Parameters.AddWithValue("@id",     item.[Domain]ID)
+                cmd.Parameters.AddWithValue("@f1",     item.[Field1])
+                cmd.Parameters.AddWithValue("@f2",     item.[Field2])
+                cmd.Parameters.AddWithValue("@status", item.Status)
                 cmd.ExecuteNonQuery()
             End Using
         End Using
     End Sub
 
-    Public Sub Update(record As RecordModel)
+    Public Sub Update(item As [Domain]Model)
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
             Using cmd As New SqlCommand(
-                "UPDATE tbl_IncidentRecords SET
-                 IncidentType=@type, DateReported=@date, Location=@loc,
-                 ReportedBy=@by, Casualties=@cas, DamageEstimate=@dmg,
-                 Remarks=@rem, Status=@status
-                 WHERE RecordID=@id", con)
-                cmd.Parameters.AddWithValue("@id",     record.RecordID)
-                cmd.Parameters.AddWithValue("@type",   record.IncidentType)
-                cmd.Parameters.AddWithValue("@date",   record.DateReported.Date)
-                cmd.Parameters.AddWithValue("@loc",    record.Location)
-                cmd.Parameters.AddWithValue("@by",     record.ReportedBy)
-                cmd.Parameters.AddWithValue("@cas",    record.Casualties)
-                cmd.Parameters.AddWithValue("@dmg",    record.DamageEstimate)
-                cmd.Parameters.AddWithValue("@rem",    record.Remarks)
-                cmd.Parameters.AddWithValue("@status", record.Status)
+                "UPDATE tbl_[YourDomain] SET [Field1]=@f1, [Field2]=@f2, Status=@status
+                 WHERE [Domain]ID=@id", con)
+                cmd.Parameters.AddWithValue("@id",     item.[Domain]ID)
+                cmd.Parameters.AddWithValue("@f1",     item.[Field1])
+                cmd.Parameters.AddWithValue("@f2",     item.[Field2])
+                cmd.Parameters.AddWithValue("@status", item.Status)
                 cmd.ExecuteNonQuery()
             End Using
         End Using
     End Sub
 
-    Public Sub Delete(recordID As String)
+    Public Sub Delete(id As String)
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
             Using cmd As New SqlCommand(
-                "DELETE FROM tbl_IncidentRecords WHERE RecordID = @id", con)
-                cmd.Parameters.AddWithValue("@id", recordID)
+                "DELETE FROM tbl_[YourDomain] WHERE [Domain]ID = @id", con)
+                cmd.Parameters.AddWithValue("@id", id)
                 cmd.ExecuteNonQuery()
             End Using
         End Using
@@ -323,16 +318,16 @@ Public Module IncidentRepository
 
     Public Function GetNextID() As String
         Dim year = DateTime.Now.Year
-        Dim prefix = $"INC-{year}-"
+        Dim prefix = $"[PREFIX]-{year}-"
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
             Using cmd As New SqlCommand(
-                "SELECT ISNULL(MAX(CAST(SUBSTRING(RecordID, LEN(@prefix)+1, 10) AS INT)), 0)
-                 FROM tbl_IncidentRecords WHERE RecordID LIKE @like", con)
-                cmd.Parameters.AddWithValue("@prefix", prefix)
-                cmd.Parameters.AddWithValue("@like",   prefix & "%")
-                Dim maxSeq = CInt(cmd.ExecuteScalar())
-                Return prefix & (maxSeq + 1).ToString("D3")
+                "SELECT ISNULL(MAX(CAST(SUBSTRING([Domain]ID, LEN(@p)+1, 10) AS INT)), 0)
+                 FROM tbl_[YourDomain] WHERE [Domain]ID LIKE @like", con)
+                cmd.Parameters.AddWithValue("@p",    prefix)
+                cmd.Parameters.AddWithValue("@like", prefix & "%")
+                Dim seq = CInt(cmd.ExecuteScalar())
+                Return prefix & (seq + 1).ToString("D3")
             End Using
         End Using
     End Function
@@ -345,22 +340,24 @@ End Module
 ## 9. Service Layer (Singleton)
 
 ```vb
-' Services/RecordService.vb
-Public Class RecordService
-    Private Shared _instance As RecordService
-    Public Shared ReadOnly Property Instance As RecordService
+' Services/[Domain]Service.vb
+Public Class [Domain]Service
+
+    Private Shared _instance As [Domain]Service
+    Public Shared ReadOnly Property Instance As [Domain]Service
         Get
-            If _instance Is Nothing Then _instance = New RecordService()
+            If _instance Is Nothing Then _instance = New [Domain]Service()
             Return _instance
         End Get
     End Property
     Private Sub New() : End Sub
 
-    Public Function GetRecords() As List(Of RecordModel) : Return IncidentRepository.GetAll() : End Function
-    Public Sub AddRecord(r As RecordModel)         : IncidentRepository.Insert(r)  : End Sub
-    Public Sub UpdateRecord(r As RecordModel)      : IncidentRepository.Update(r)  : End Sub
-    Public Sub DeleteRecord(id As String)          : IncidentRepository.Delete(id) : End Sub
-    Public Function GetNextID() As String          : Return IncidentRepository.GetNextID() : End Function
+    Public Function GetAll() As List(Of [Domain]Model)  : Return [Domain]Repository.GetAll()    : End Function
+    Public Sub Add(item As [Domain]Model)               : [Domain]Repository.Insert(item)        : End Sub
+    Public Sub Update(item As [Domain]Model)            : [Domain]Repository.Update(item)        : End Sub
+    Public Sub Delete(id As String)                     : [Domain]Repository.Delete(id)          : End Sub
+    Public Function GetNextID() As String               : Return [Domain]Repository.GetNextID()  : End Function
+
 End Class
 ```
 
@@ -375,13 +372,13 @@ Public Module ActivityLogger
         Try
             ActivityLogRepository.Insert(username, result, description)
         Catch
-            ' Logging failure must never crash the app
+            ' Logging must never crash the app
         End Try
     End Sub
 End Module
 ```
 
-Usage: `ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "Added record: " & id)`
+Usage: `ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "Added: " & id)`
 
 ---
 
@@ -390,127 +387,159 @@ Usage: `ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "Added
 ```vb
 ' Helpers/Constants.vb
 Public Module Constants
-    ' Adapt these arrays to your domain
-    Public ReadOnly IncidentTypes As String() = {
-        "Structure Fire", "Vehicular Fire", "Grass Fire",
-        "Industrial Fire", "Electrical Fire", "Other"}
 
+    ' Replace with your domain's categories
+    Public ReadOnly Categories As String() = {
+        "Category A", "Category B", "Category C", "Other"}
+
+    ' Replace with your domain's statuses
     Public ReadOnly Statuses As String() = {
-        "Active", "Resolved", "Under Investigation", "Closed"}
+        "Active", "Resolved", "Closed", "Pending"}
 
     Public Const UserTypeAdmin As String = "Admin"
     Public Const UserTypeStaff As String = "Staff"
     Public Const LogSuccess    As String = "Success"
     Public Const LogFailed     As String = "Failed"
+
 End Module
 ```
 
-**Rule:** No form ever has a hardcoded `"Active"` or `"Structure Fire"` string literal. Always reference `Constants.*`.
+**Rule:** No form ever has a hardcoded status or category string literal. Always use `Constants.*`.
 
 ---
 
 ## 12. UI Design System
 
 ### Color palette
-| Role | Color | RGB |
-|------|-------|-----|
-| Primary / sidebar / buttons | Dark red | `(180, 20, 20)` |
-| Sidebar logo bar | Darker red | `(140, 10, 10)` |
-| Page background | Light gray | `(240, 242, 245)` |
-| Cards / panels | White | `(255, 255, 255)` |
-| Body text | Near-black | `(30, 30, 30)` |
-| Muted text / labels | Gray | `Color.Gray` |
-| Field labels | Dark gray | `(70, 70, 70)` |
-| Input background | Near-white | `(250, 250, 250)` |
-| Active row selection | Medium red | `(220, 50, 50)` |
-| Edit button | Blue | `(30, 100, 180)` |
-| Alternating rows | Very light red | `(252, 245, 245)` |
+
+| Role | RGB |
+|------|-----|
+| Primary accent (sidebar, buttons, dividers, header rows) | `(180, 20, 20)` — adapt to your brand |
+| Sidebar logo bar | `(140, 10, 10)` |
+| Sidebar background | `(30, 30, 30)` |
+| Top bar background | `(44, 44, 44)` |
+| Page background | `(240, 242, 245)` |
+| Card / panel background | `(255, 255, 255)` |
+| Page title text | `(30, 30, 30)` |
+| Field label text | `(70, 70, 70)` |
+| Muted / sub text | `Color.Gray` |
+| Input field background | `(250, 250, 250)` |
+| Grid selection highlight | `(220, 50, 50)` |
+| Grid alternating rows | `(252, 245, 245)` |
+| Edit/secondary button | `(30, 100, 180)` |
+
+To change the theme color, find-replace `(180, 20, 20)` with your brand RGB.
 
 ### Typography
-- All controls: `Segoe UI`
-- Page titles: 15–16pt Bold
-- Section titles: 11pt Bold
-- Field labels: 9pt Bold
-- Body / inputs: 9–10pt Regular
-- Button text: 9.5–10pt Bold
+
+| Element | Font | Size | Style |
+|---------|------|------|-------|
+| Page title | Segoe UI | 15–16pt | Bold |
+| Section title | Segoe UI | 11pt | Bold |
+| Field labels | Segoe UI | 9pt | Bold |
+| Input text | Segoe UI | 10pt | Regular |
+| Button text | Segoe UI | 9.5–10pt | Bold |
+| Body / table | Segoe UI | 9–9.5pt | Regular |
 
 ### Layout rules
-- Page background: `Color.FromArgb(240, 242, 245)` on every UserControl
-- Content lives in white `Panel` cards with padding ~24px
-- A `(180,20,20)` divider panel (height=3) separates page header from body
-- All panels and grids use `Anchor` for responsiveness (no fixed pixel sizes on resizable forms)
-- `FormBorderStyle = Sizable`, `WindowState = Maximized` on MainForm
+- Every UserControl: `BackColor = (240, 242, 245)`
+- All content in white `Panel` cards, inner padding ~24px
+- Red divider panel (`height = 3`) between page header and body
+- Use `Anchor` on all panels and grids — never rely on fixed pixel sizes for resizable forms
+- `MainForm`: `FormBorderStyle = Sizable`, `WindowState = Maximized`
 
 ---
 
-## 13. MainForm Layout
+## 13. MainForm Shell Layout
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│ pnlTopBar (height 60, dark gray #2c2c2c)                │
-│   lblTopTitle (left)    lblTopDate (right)  lblTopUser  │
-├──────────┬──────────────────────────────────────────────┤
-│ pnlSide  │                                              │
-│ bar      │  pnlContent  ← UserControl pages load here  │
-│ (220px)  │              ← Dock = Fill                  │
-│          │                                              │
-│ [nav     │                                              │
-│  buttons]│                                              │
-│          │                                              │
-│ [Logout] │                                              │
-└──────────┴──────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│  pnlTopBar  (height 60, dark)                                │
+│    lblTopTitle [left]         lblTopDate [right] lblTopUser  │
+├────────────┬─────────────────────────────────────────────────┤
+│ pnlSidebar │                                                 │
+│  (220 px)  │  pnlContent                                     │
+│            │    ↑ UserControl pages load here (Dock=Fill)    │
+│  [Logo /   │                                                 │
+│   Title]   │                                                 │
+│            │                                                 │
+│  btnNav1   │                                                 │
+│  btnNav2   │                                                 │
+│  btnNav3   │                                                 │
+│  ...       │                                                 │
+│            │                                                 │
+│  btnLogout │                                                 │
+│  (bottom)  │                                                 │
+└────────────┴─────────────────────────────────────────────────┘
 ```
 
-- Sidebar: `BackColor = (30, 30, 30)`, width 220
-- Nav buttons: flat, full-width, `TextAlign = MiddleLeft`, left-padded text
-- Active nav button: `BackColor = (180, 20, 20)` (set in `SetActiveButton()`)
-- Top bar user label: shows `"[ " & SessionManager.Username & " ]"`
-- Page loading pattern: clear `pnlContent.Controls`, add new UserControl, `Dock = Fill`
+**Sidebar nav buttons:**
+- `FlatStyle = Flat`, `FlatAppearance.BorderSize = 0`
+- `BackColor = (30, 30, 30)` by default
+- `BackColor = (180, 20, 20)` when active — set by `SetActiveButton(btn)`
+- `TextAlign = MiddleLeft`, text padded with leading spaces
+
+**Page switching pattern:**
+```vb
+Private Sub LoadPage(page As UserControl)
+    pnlContent.Controls.Clear()
+    page.Dock = DockStyle.Fill
+    pnlContent.Controls.Add(page)
+End Sub
+```
+
+**Top bar user label:** `"[ " & SessionManager.Username & " ]"`
 
 ---
 
-## 14. Page (UserControl) Patterns
+## 14. Page (UserControl) Structure
 
-Every page follows the same structure:
+Every page uses this exact skeleton:
 
 ```
-UcPageName
-  └── pnlFormCard (white, Anchor = all four sides)
-        ├── lblPageTitle   (15pt Bold, dark)
-        ├── lblPageSub     (9pt, gray)
-        ├── pnlDivider     (height 3, red, Anchor Top+Left+Right)
-        └── [page-specific controls]
+UcPageName (UserControl)
+  BackColor = (240, 242, 245)
+  └── pnlCard (Panel, white, Anchor = Top+Bottom+Left+Right)
+        ├── lblPageTitle    — 15pt Bold, (30,30,30)
+        ├── lblPageSub      — 9pt, Gray
+        ├── pnlDivider      — height 3, (180,20,20), Anchor Top+Left+Right
+        └── [your controls]
 ```
 
-### Dashboard page
-- 4 summary stat cards in a row (each 188×100, white panel)
-- Each card: icon label (left) + title label + large value label (right)
-- Recent records panel below: DataGridView with red header, 5 rows, auto-fill columns
+### Dashboard
+- 4 summary stat cards in a row (188×100 white panels)
+- Card layout: icon label (left, 56px wide) | title + large value label (right)
+- Recent items DataGridView below — red column headers, 5 rows, `AutoSizeColumnsMode = Fill`
 
-### Add Record / Edit Record pages
-- Two-column form layout (left column: fields 1–4, right column: fields 5–8)
-- Full-width field for Location (spans both columns)
-- SAVE and CLEAR buttons anchored Bottom+Left
-- Always wrap save logic in `Try/Catch`
+### Add / Edit Form
+- Two-column field layout (left 4 fields, right 4 fields)
+- Full-width text fields span both columns
+- Save + Clear buttons anchored `Bottom+Left`
+- All save logic inside `Try/Catch`
 
-### View Records page
-- Toolbar panel (white): search box + Refresh + Edit + Delete buttons + record count label
-- Grid card panel below: DataGridView fills remaining space
-- Row color-coding based on Status (Active = light yellow, Resolved = light green, etc.)
-- Live search on `TextChanged` — filters all columns client-side
-- Edit opens a modal `EditRecordForm`; refresh grid on `DialogResult.OK`
+### View Records
+- Toolbar: search box + Refresh + Edit + Delete + record count label
+- DataGridView anchored to fill remaining space
+- Row color-coding by Status column (define colors in `dgvRecords_RowPrePaint`)
+- Live search filters client-side on `TextChanged`
+- Edit → open modal `Edit[Domain]Form`; on `DialogResult.OK` refresh grid
 
-### Reports page
-- 4 summary stat cards (same style as Dashboard)
-- Breakdown DataGridView: one row per incident type, with count
-- Print button → `ReportPrinter.ShowPreview(records)`
-- Export button → write CSV with `SaveFileDialog`
+### Reports
+- 4 summary stat cards (same as Dashboard)
+- Breakdown DataGridView: one row per category, count column
+- Print button → `ReportPrinter.ShowPreview(data)`
+- Export button → `SaveFileDialog` → write CSV from grid
 
-### Settings page
-- Two side-by-side white panel cards: Account Settings | System Information
-- Account card: username field + new password + confirm password + Save
-- System card: station name + address (multiline) + Save
-- On save: call repository, update `SessionManager`, update top bar label
+### Settings
+- Two white panel cards side by side: **Account Settings** | **System Settings**
+- Account: username + new password + confirm password + Save
+- System: organization name + address + Save
+- On save: call repository, update `SessionManager`, refresh top bar label
+
+### Developers / About
+- Left panel: app name, version, stack info
+- Right panel: team member cards (name + role)
+- Populate all labels in `UcDevelopers_Load` — nothing hardcoded in Designer
 
 ---
 
@@ -518,48 +547,53 @@ UcPageName
 
 ```
 LoginForm
-  ├── Empty check → show lblError
+  ├── Empty check → lblError.Visible = True, exit
   ├── UserRepository.GetByUsername(username) → DataTable
-  ├── If 0 rows OR BCrypt.Verify fails → show error, log failure
+  ├── If 0 rows OR PasswordHelper.VerifyPassword fails:
+  │     lblError.Text = "Invalid username or password."
+  │     ActivityLogger.Log(username, Constants.LogFailed, "Login failed.")
+  │     exit
   └── Else:
         SessionManager.Username = dt.Rows(0)("Username")
         SessionManager.UserType = dt.Rows(0)("UserType")
-        ActivityLogger.Log(...)
-        Show MainForm → Close LoginForm
+        ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "Login.")
+        New MainForm().Show()
+        Me.Close()
 ```
 
 ---
 
-## 16. Edit Record Modal Pattern
+## 16. Edit Modal Pattern
 
 ```vb
-' EditRecordForm accepts a RecordModel in constructor
-Public Sub New(record As RecordModel)
+' Edit[Domain]Form.vb
+Private _item As [Domain]Model
+
+Public Sub New(item As [Domain]Model)
     InitializeComponent()
-    _record = record
+    _item = item
 End Sub
 
 Private Sub Form_Load(...)
-    ' Pre-fill all fields from _record
-    txtIncidentNo.Text = _record.RecordID
-    txtIncidentNo.ReadOnly = True   ' ID is immutable
-    cboIncidentType.SelectedItem = _record.IncidentType
-    ' ... etc
+    txt[Field1].Text     = _item.[Field1]
+    cbo[Category].SelectedItem = _item.[Category]
+    txtID.ReadOnly       = True   ' ID is always immutable
+    ' ... pre-fill all fields
 End Sub
 
 Private Sub btnSave_Click(...)
-    ' Validate → build updated RecordModel → call RecordService.Instance.UpdateRecord()
+    ' Validate → build updated model → call [Domain]Service.Instance.Update(model)
     ' ActivityLogger.Log(...)
     DialogResult = DialogResult.OK
     Me.Close()
 End Sub
 ```
 
-Caller pattern in UcViewRecords:
+Caller in `UcView[Domain]s.vb`:
 ```vb
-Using dlg As New EditRecordForm(record)
+Using dlg As New Edit[Domain]Form(item)
     If dlg.ShowDialog() = DialogResult.OK Then
-        PopulateGrid(RecordService.Instance.GetRecords())
+        PopulateGrid([Domain]Service.Instance.GetAll())
     End If
 End Using
 ```
@@ -568,21 +602,21 @@ End Using
 
 ## 17. Error Handling Rules
 
-- Every form method that touches the DB is wrapped in `Try/Catch`
-- Catch block: `MessageBox.Show("Failed to [action]: " & ex.Message, "Error", OK, Error)`
-- `ActivityLogger.Log` has its own internal `Try/Catch` — logging never crashes the app
-- `DatabaseInitializer` failure cancels app startup via `e.Cancel = True`
+- Every method that calls a repository is wrapped in `Try/Catch`
+- Catch: `MessageBox.Show("Failed to [action]: " & ex.Message, "Error", OK, Error icon)`
+- `ActivityLogger` swallows its own exceptions — logging never propagates
+- `DatabaseInitializer` failure → `e.Cancel = True` in `ApplicationEvents.vb` → app does not open
 
 ---
 
 ## 18. Unit Test Project
 
-- Separate VB.NET project targeting `.NET 8`
-- References: `MSTest.TestFramework`, `MSTest.TestAdapter`, `Microsoft.NET.Test.Sdk`
-- Project reference: main project
-- Test classes: one per module being tested
-- What to test: `PasswordHelper` hash/verify, `SessionManager` set/clear, `RecordModel` property defaults, `Constants` array contents
-- **Do not** mock the database — integration tests hit a real test DB or are skipped
+- Separate VB.NET class library targeting `.NET 8`
+- NuGet: `MSTest.TestFramework`, `MSTest.TestAdapter`, `Microsoft.NET.Test.Sdk`
+- Add project reference to main project
+- One test class per module under test
+- Test targets: `PasswordHelper` (hash/verify), `SessionManager` (set/clear), model property defaults, `Constants` array values
+- Do not mock the database — DB-touching tests either use a real test DB or are not included in the unit test project
 
 ---
 
@@ -590,29 +624,30 @@ End Using
 
 - One file per commit
 - Conventional Commits: `feat:`, `fix:`, `style:`, `refactor:`, `docs:`, `chore:`, `test:`
-- `config.txt` is gitignored; `config.txt.example` is committed
-- `bin/` and `obj/` are gitignored
+- `config.txt` — gitignored
+- `config.txt.example` — committed
+- `bin/` and `obj/` — gitignored
 
 ---
 
-## 20. Adapting to a New Domain
+## 20. Checklist — Minimum Viable Foundation
 
-When using this blueprint for a different system, change:
+Before writing any domain logic, these pieces must exist and work:
 
-| This | To |
-|------|----|
-| `tbl_IncidentRecords` | Your domain table (e.g., `tbl_StudentRecords`) |
-| `RecordModel` properties | Your domain fields |
-| `Constants.IncidentTypes` | Your domain categories |
-| `Constants.Statuses` | Your domain statuses |
-| `IncidentRepository` | Your domain repository |
-| `RecordService` | Your domain service |
-| Station name / address | Your organization info |
-| `INC-{year}-{seq}` ID format | Your ID format |
-| Nav pages | Pages relevant to your system |
-
-**Keep unchanged:** the connection string pattern, BCrypt auth, repository pattern, SessionManager, ActivityLogger, `DatabaseInitializer` auto-create approach, and all UI design rules.
+- [ ] `config.txt.example` committed, `config.txt` gitignored
+- [ ] `dbconstring.vb` reads file at runtime
+- [ ] `DatabaseInitializer` creates all tables on first run
+- [ ] `SessionManager` module in place
+- [ ] `ActivityLogger` module in place
+- [ ] `PasswordHelper` with BCrypt
+- [ ] `Constants` module with status/category arrays
+- [ ] `ApplicationEvents.vb` calls `DatabaseInitializer.Initialize()`, cancels on error
+- [ ] `LoginForm` authenticates via `UserRepository` + BCrypt
+- [ ] `MainForm` shell: top bar, sidebar with nav buttons, `pnlContent`
+- [ ] Page switching via `LoadPage()` method
+- [ ] At least one `UserControl` page loading correctly
+- [ ] `.Tests` project with at least one passing test
 
 ---
 
-*Blueprint generated from RMIS BFP Tuao — VB.NET WinForms · .NET 8 · SQL Server.*
+*Generic foundation blueprint — VB.NET WinForms · .NET 8 · SQL Server.*
