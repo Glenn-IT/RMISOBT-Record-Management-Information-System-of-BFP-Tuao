@@ -2,10 +2,14 @@ Public Class UcViewRecords
     Inherits UserControl
 
     Private Sub UcViewRecords_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        PopulateGrid(RecordService.Instance.GetRecords())
+        Try
+            PopulateGrid(RecordService.Instance.GetRecords())
+        Catch ex As Exception
+            MessageBox.Show("Failed to load records: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
-    ' Fill the DataGridView from RecordModel list
     Private Sub PopulateGrid(data As List(Of RecordModel))
         dgvRecords.Rows.Clear()
         For Each r In data
@@ -16,47 +20,88 @@ Public Class UcViewRecords
         lblRecordCount.Text = "Total Records: " & data.Count
     End Sub
 
-    ' Live search filter
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-        Dim keyword = txtSearch.Text.Trim().ToLower()
-        Dim all = RecordService.Instance.GetRecords()
-        If keyword = "" Then
-            PopulateGrid(all)
-            Exit Sub
-        End If
-        Dim filtered = all.Where(Function(r)
-                                     Return r.RecordID.ToLower().Contains(keyword) OrElse
-                                        r.IncidentType.ToLower().Contains(keyword) OrElse
-                                        r.Location.ToLower().Contains(keyword) OrElse
-                                        r.Status.ToLower().Contains(keyword)
-                                 End Function).ToList()
-        PopulateGrid(filtered)
+        Try
+            Dim keyword = txtSearch.Text.Trim().ToLower()
+            Dim all = RecordService.Instance.GetRecords()
+            If keyword = "" Then
+                PopulateGrid(all)
+                Exit Sub
+            End If
+            Dim filtered = all.Where(Function(r)
+                                         Return r.RecordID.ToLower().Contains(keyword) OrElse
+                                            r.IncidentType.ToLower().Contains(keyword) OrElse
+                                            r.Location.ToLower().Contains(keyword) OrElse
+                                            r.Status.ToLower().Contains(keyword)
+                                     End Function).ToList()
+            PopulateGrid(filtered)
+        Catch ex As Exception
+            MessageBox.Show("Search error: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
-    ' Delete selected row
+    Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
+        If dgvRecords.SelectedRows.Count = 0 Then
+            MessageBox.Show("Please select a record to edit.", "No Selection",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Dim selectedID = dgvRecords.SelectedRows(0).Cells("colID").Value?.ToString()
+        Try
+            Dim all = RecordService.Instance.GetRecords()
+            Dim record = all.FirstOrDefault(Function(r) r.RecordID = selectedID)
+            If record Is Nothing Then
+                MessageBox.Show("Record not found.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            Using dlg As New EditRecordForm(record)
+                If dlg.ShowDialog() = DialogResult.OK Then
+                    PopulateGrid(RecordService.Instance.GetRecords())
+                End If
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Failed to open edit form: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         If dgvRecords.SelectedRows.Count = 0 Then
             MessageBox.Show("Please select a record to delete.", "No Selection",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
-        Dim result = MessageBox.Show("Are you sure you want to delete this record?",
+        Dim confirm = MessageBox.Show("Are you sure you want to delete this record?",
                                  "Confirm Delete",
                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If result = DialogResult.Yes Then
+        If confirm = DialogResult.Yes Then
             Dim selectedID = dgvRecords.SelectedRows(0).Cells("colID").Value?.ToString()
-            RecordService.Instance.DeleteRecord(selectedID)
-            PopulateGrid(RecordService.Instance.GetRecords())
+            Try
+                RecordService.Instance.DeleteRecord(selectedID)
+                ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                                   "Deleted incident record: " & selectedID)
+                PopulateGrid(RecordService.Instance.GetRecords())
+            Catch ex As Exception
+                MessageBox.Show("Failed to delete record: " & ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 
-    ' Refresh grid
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
-        txtSearch.Clear()
-        PopulateGrid(RecordService.Instance.GetRecords())
+        Try
+            txtSearch.Clear()
+            PopulateGrid(RecordService.Instance.GetRecords())
+        Catch ex As Exception
+            MessageBox.Show("Failed to refresh records: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
-    ' Row color based on Status column
     Private Sub dgvRecords_RowPrePaint(sender As Object, e As DataGridViewRowPrePaintEventArgs) Handles dgvRecords.RowPrePaint
         If e.RowIndex < 0 OrElse e.RowIndex >= dgvRecords.Rows.Count Then Exit Sub
         Dim statusCell = dgvRecords.Rows(e.RowIndex).Cells("colStatus")
