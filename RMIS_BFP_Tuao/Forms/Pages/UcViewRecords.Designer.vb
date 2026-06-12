@@ -17,182 +17,273 @@ Partial Class UcViewRecords
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-
-        ' ── Declare controls ─────────────────────────────────────
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         pnlHeader = New Panel()
-        pnlToolbar = New Panel()
-        pnlGridCard = New Panel()
         lblPageTitle = New Label()
         lblPageSub = New Label()
         pnlDivider = New Panel()
+        pnlToolbar = New Panel()
         lblSearchLabel = New Label()
         txtSearch = New TextBox()
         btnRefresh = New Button()
+        btnEdit = New Button()
         btnDelete = New Button()
         lblRecordCount = New Label()
+        pnlGridCard = New Panel()
         dgvRecords = New DataGridView()
-
+        colID = New DataGridViewTextBoxColumn()
+        colType = New DataGridViewTextBoxColumn()
+        colDate = New DataGridViewTextBoxColumn()
+        colLocation = New DataGridViewTextBoxColumn()
+        colStatus = New DataGridViewTextBoxColumn()
         pnlHeader.SuspendLayout()
         pnlToolbar.SuspendLayout()
         pnlGridCard.SuspendLayout()
-        Me.SuspendLayout()
-
-        ' ════════════════════════════════════════════════════════
-        ' pnlHeader — page title block
-        ' ════════════════════════════════════════════════════════
+        CType(dgvRecords, ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
+        ' pnlHeader
+        ' 
+        pnlHeader.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         pnlHeader.BackColor = Color.White
-        pnlHeader.Size = New Size(920, 88)
-        pnlHeader.Location = New Point(24, 18)
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Controls.Add(lblPageSub)
         pnlHeader.Controls.Add(pnlDivider)
-
-        lblPageTitle.Text = "View Incident Records"
-        lblPageTitle.Font = New Font("Segoe UI", 15, FontStyle.Bold)
-        lblPageTitle.ForeColor = Color.FromArgb(30, 30, 30)
-        lblPageTitle.AutoSize = False
-        lblPageTitle.Size = New Size(600, 34)
+        pnlHeader.Location = New Point(24, 18)
+        pnlHeader.Name = "pnlHeader"
+        pnlHeader.Size = New Size(930, 88)
+        pnlHeader.TabIndex = 0
+        ' 
+        ' lblPageTitle
+        ' 
+        lblPageTitle.Font = New Font("Segoe UI", 15F, FontStyle.Bold)
+        lblPageTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         lblPageTitle.Location = New Point(20, 12)
-
-        lblPageSub.Text = "Browse, search, and manage all recorded fire incidents."
-        lblPageSub.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        lblPageTitle.Name = "lblPageTitle"
+        lblPageTitle.Size = New Size(600, 34)
+        lblPageTitle.TabIndex = 0
+        lblPageTitle.Text = "View Incident Records"
+        ' 
+        ' lblPageSub
+        ' 
+        lblPageSub.Font = New Font("Segoe UI", 9F)
         lblPageSub.ForeColor = Color.Gray
-        lblPageSub.AutoSize = False
-        lblPageSub.Size = New Size(600, 22)
         lblPageSub.Location = New Point(20, 46)
-
-        pnlDivider.BackColor = Color.FromArgb(180, 20, 20)
-        pnlDivider.Size = New Size(880, 3)
+        lblPageSub.Name = "lblPageSub"
+        lblPageSub.Size = New Size(600, 22)
+        lblPageSub.TabIndex = 1
+        lblPageSub.Text = "Browse, search, and manage all recorded fire incidents."
+        ' 
+        ' pnlDivider
+        ' 
+        pnlDivider.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlDivider.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         pnlDivider.Location = New Point(20, 78)
-
-        ' ════════════════════════════════════════════════════════
-        ' pnlToolbar — search bar + action buttons
-        ' ════════════════════════════════════════════════════════
+        pnlDivider.Name = "pnlDivider"
+        pnlDivider.Size = New Size(890, 3)
+        pnlDivider.TabIndex = 2
+        ' 
+        ' pnlToolbar
+        ' 
+        pnlToolbar.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         pnlToolbar.BackColor = Color.White
-        pnlToolbar.Size = New Size(920, 56)
-        pnlToolbar.Location = New Point(24, 118)
         pnlToolbar.Controls.Add(lblSearchLabel)
         pnlToolbar.Controls.Add(txtSearch)
         pnlToolbar.Controls.Add(btnRefresh)
+        pnlToolbar.Controls.Add(btnEdit)
         pnlToolbar.Controls.Add(btnDelete)
         pnlToolbar.Controls.Add(lblRecordCount)
-
-        lblSearchLabel.Text = "Search:"
-        lblSearchLabel.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblSearchLabel.ForeColor = Color.FromArgb(70, 70, 70)
-        lblSearchLabel.AutoSize = False
-        lblSearchLabel.Size = New Size(54, 30)
+        pnlToolbar.Location = New Point(24, 118)
+        pnlToolbar.Name = "pnlToolbar"
+        pnlToolbar.Size = New Size(930, 56)
+        pnlToolbar.TabIndex = 1
+        ' 
+        ' lblSearchLabel
+        ' 
+        lblSearchLabel.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblSearchLabel.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblSearchLabel.Location = New Point(16, 13)
+        lblSearchLabel.Name = "lblSearchLabel"
+        lblSearchLabel.Size = New Size(54, 30)
+        lblSearchLabel.TabIndex = 0
+        lblSearchLabel.Text = "Search:"
         lblSearchLabel.TextAlign = ContentAlignment.MiddleLeft
-
-        txtSearch.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtSearch.BorderStyle = BorderStyle.FixedSingle
-        txtSearch.BackColor = Color.FromArgb(250, 250, 250)
-        txtSearch.Size = New Size(300, 30)
+        txtSearch.Font = New Font("Segoe UI", 10F)
         txtSearch.Location = New Point(72, 13)
+        txtSearch.Name = "txtSearch"
         txtSearch.PlaceholderText = "Type to search records..."
-
-        btnRefresh.Text = "Refresh"
-        btnRefresh.Font = New Font("Segoe UI", 9, FontStyle.Regular)
-        btnRefresh.Size = New Size(90, 30)
-        btnRefresh.Location = New Point(386, 13)
-        btnRefresh.BackColor = Color.FromArgb(240, 242, 245)
-        btnRefresh.ForeColor = Color.FromArgb(60, 60, 60)
-        btnRefresh.FlatStyle = FlatStyle.Flat
-        btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(200, 200, 200)
+        txtSearch.Size = New Size(300, 27)
+        txtSearch.TabIndex = 1
+        ' 
+        ' btnRefresh
+        ' 
+        btnRefresh.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         btnRefresh.Cursor = Cursors.Hand
-
-        btnDelete.Text = "Delete Selected"
-        btnDelete.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        btnDelete.Size = New Size(130, 30)
-        btnDelete.Location = New Point(490, 13)
-        btnDelete.BackColor = Color.FromArgb(180, 20, 20)
-        btnDelete.ForeColor = Color.White
-        btnDelete.FlatStyle = FlatStyle.Flat
-        btnDelete.FlatAppearance.BorderSize = 0
+        btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnRefresh.FlatStyle = FlatStyle.Flat
+        btnRefresh.Font = New Font("Segoe UI", 9F)
+        btnRefresh.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnRefresh.Location = New Point(386, 13)
+        btnRefresh.Name = "btnRefresh"
+        btnRefresh.Size = New Size(90, 30)
+        btnRefresh.TabIndex = 2
+        btnRefresh.Text = "Refresh"
+        btnRefresh.UseVisualStyleBackColor = False
+        ' 
+        ' btnEdit
+        ' 
+        btnEdit.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
+        btnEdit.Cursor = Cursors.Hand
+        btnEdit.FlatAppearance.BorderSize = 0
+        btnEdit.FlatStyle = FlatStyle.Flat
+        btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        btnEdit.ForeColor = Color.White
+        btnEdit.Location = New Point(490, 13)
+        btnEdit.Name = "btnEdit"
+        btnEdit.Size = New Size(120, 30)
+        btnEdit.TabIndex = 3
+        btnEdit.Text = "Edit Selected"
+        btnEdit.UseVisualStyleBackColor = False
+        ' 
+        ' btnDelete
+        ' 
+        btnDelete.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnDelete.Cursor = Cursors.Hand
-
-        lblRecordCount.Text = "Total Records: 0"
-        lblRecordCount.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        btnDelete.FlatAppearance.BorderSize = 0
+        btnDelete.FlatStyle = FlatStyle.Flat
+        btnDelete.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        btnDelete.ForeColor = Color.White
+        btnDelete.Location = New Point(624, 13)
+        btnDelete.Name = "btnDelete"
+        btnDelete.Size = New Size(130, 30)
+        btnDelete.TabIndex = 4
+        btnDelete.Text = "Delete Selected"
+        btnDelete.UseVisualStyleBackColor = False
+        ' 
+        ' lblRecordCount
+        ' 
+        lblRecordCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblRecordCount.Font = New Font("Segoe UI", 9F)
         lblRecordCount.ForeColor = Color.Gray
-        lblRecordCount.AutoSize = False
+        lblRecordCount.Location = New Point(766, 13)
+        lblRecordCount.Name = "lblRecordCount"
         lblRecordCount.Size = New Size(160, 30)
-        lblRecordCount.Location = New Point(740, 13)
+        lblRecordCount.TabIndex = 5
+        lblRecordCount.Text = "Total Records: 0"
         lblRecordCount.TextAlign = ContentAlignment.MiddleRight
-
-        ' ════════════════════════════════════════════════════════
-        ' pnlGridCard — white card containing the DataGridView
-        ' ════════════════════════════════════════════════════════
+        ' 
+        ' pnlGridCard
+        ' 
+        pnlGridCard.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         pnlGridCard.BackColor = Color.White
-        pnlGridCard.Size = New Size(920, 390)
-        pnlGridCard.Location = New Point(24, 186)
         pnlGridCard.Controls.Add(dgvRecords)
-
-        ' DataGridView
-        dgvRecords.Size = New Size(900, 370)
-        dgvRecords.Location = New Point(10, 10)
+        pnlGridCard.Location = New Point(24, 186)
+        pnlGridCard.Name = "pnlGridCard"
+        pnlGridCard.Size = New Size(930, 467)
+        pnlGridCard.TabIndex = 2
+        ' 
+        ' dgvRecords
+        ' 
+        dgvRecords.AllowUserToAddRows = False
+        dgvRecords.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        dgvRecords.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvRecords.BackgroundColor = Color.White
         dgvRecords.BorderStyle = BorderStyle.None
-        dgvRecords.RowHeadersVisible = False
-        dgvRecords.AllowUserToAddRows = False
-        dgvRecords.ReadOnly = True
-        dgvRecords.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvRecords.MultiSelect = False
-        dgvRecords.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvRecords.Font = New Font("Segoe UI", 9.5F)
-        dgvRecords.GridColor = Color.FromArgb(225, 225, 225)
         dgvRecords.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-        dgvRecords.RowTemplate.Height = 36
-        ' Column header style
-        dgvRecords.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(180, 20, 20)
-        dgvRecords.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
-        dgvRecords.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
-        dgvRecords.ColumnHeadersDefaultCellStyle.Padding = New Padding(8, 0, 0, 0)
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        DataGridViewCellStyle1.ForeColor = Color.White
+        DataGridViewCellStyle1.Padding = New Padding(8, 0, 0, 0)
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvRecords.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvRecords.ColumnHeadersHeight = 38
+        dgvRecords.Columns.AddRange(New DataGridViewColumn() {colID, colType, colDate, colLocation, colStatus})
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Window
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.5F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.Padding = New Padding(6, 0, 0, 0)
+        DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        DataGridViewCellStyle2.SelectionForeColor = Color.White
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvRecords.DefaultCellStyle = DataGridViewCellStyle2
         dgvRecords.EnableHeadersVisualStyles = False
-        ' Default row style
-        dgvRecords.DefaultCellStyle.Padding = New Padding(6, 0, 0, 0)
-        dgvRecords.DefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 50, 50)
-        dgvRecords.DefaultCellStyle.SelectionForeColor = Color.White
-        ' Columns
-        Dim colID As New DataGridViewTextBoxColumn()
-        Dim colType As New DataGridViewTextBoxColumn()
-        Dim colDate As New DataGridViewTextBoxColumn()
-        Dim colLocation As New DataGridViewTextBoxColumn()
-        Dim colStatus As New DataGridViewTextBoxColumn()
-
-        colID.Name = "colID"
+        dgvRecords.Font = New Font("Segoe UI", 9.5F)
+        dgvRecords.GridColor = Color.FromArgb(CByte(225), CByte(225), CByte(225))
+        dgvRecords.Location = New Point(10, 10)
+        dgvRecords.MultiSelect = False
+        dgvRecords.Name = "dgvRecords"
+        dgvRecords.ReadOnly = True
+        dgvRecords.RowHeadersVisible = False
+        dgvRecords.RowHeadersWidth = 45
+        dgvRecords.RowTemplate.Height = 36
+        dgvRecords.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvRecords.Size = New Size(910, 447)
+        dgvRecords.TabIndex = 0
+        ' 
+        ' colID
+        ' 
+        colID.FillWeight = 12F
         colID.HeaderText = "Record ID"
-        colID.FillWeight = 12
-
-        colType.Name = "colType"
+        colID.MinimumWidth = 6
+        colID.Name = "colID"
+        colID.ReadOnly = True
+        ' 
+        ' colType
+        ' 
+        colType.FillWeight = 20F
         colType.HeaderText = "Incident Type"
-        colType.FillWeight = 20
-
-        colDate.Name = "colDate"
+        colType.MinimumWidth = 6
+        colType.Name = "colType"
+        colType.ReadOnly = True
+        ' 
+        ' colDate
+        ' 
+        colDate.FillWeight = 15F
         colDate.HeaderText = "Date Reported"
-        colDate.FillWeight = 15
-
-        colLocation.Name = "colLocation"
+        colDate.MinimumWidth = 6
+        colDate.Name = "colDate"
+        colDate.ReadOnly = True
+        ' 
+        ' colLocation
+        ' 
+        colLocation.FillWeight = 35F
         colLocation.HeaderText = "Location"
-        colLocation.FillWeight = 35
-
-        colStatus.Name = "colStatus"
+        colLocation.MinimumWidth = 6
+        colLocation.Name = "colLocation"
+        colLocation.ReadOnly = True
+        ' 
+        ' colStatus
+        ' 
+        colStatus.FillWeight = 18F
         colStatus.HeaderText = "Status"
-        colStatus.FillWeight = 18
-
-        dgvRecords.Columns.AddRange(colID, colType, colDate, colLocation, colStatus)
-
-        ' ── UserControl ──────────────────────────────────────────
-        Me.BackColor = Color.FromArgb(240, 242, 245)
-        Me.Controls.Add(pnlHeader)
-        Me.Controls.Add(pnlToolbar)
-        Me.Controls.Add(pnlGridCard)
-
-        pnlGridCard.ResumeLayout(False)
-        pnlToolbar.ResumeLayout(False)
+        colStatus.MinimumWidth = 6
+        colStatus.Name = "colStatus"
+        colStatus.ReadOnly = True
+        ' 
+        ' UcViewRecords
+        ' 
+        BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        Controls.Add(pnlHeader)
+        Controls.Add(pnlToolbar)
+        Controls.Add(pnlGridCard)
+        Name = "UcViewRecords"
+        Size = New Size(969, 676)
         pnlHeader.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        pnlToolbar.ResumeLayout(False)
+        pnlToolbar.PerformLayout()
+        pnlGridCard.ResumeLayout(False)
+        CType(dgvRecords, ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
 
     End Sub
 
@@ -206,8 +297,14 @@ Partial Class UcViewRecords
     Friend WithEvents lblSearchLabel As Label
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents btnRefresh As Button
+    Friend WithEvents btnEdit As Button
     Friend WithEvents btnDelete As Button
     Friend WithEvents lblRecordCount As Label
     Friend WithEvents dgvRecords As DataGridView
+    Friend WithEvents colID As DataGridViewTextBoxColumn
+    Friend WithEvents colType As DataGridViewTextBoxColumn
+    Friend WithEvents colDate As DataGridViewTextBoxColumn
+    Friend WithEvents colLocation As DataGridViewTextBoxColumn
+    Friend WithEvents colStatus As DataGridViewTextBoxColumn
 
 End Class
