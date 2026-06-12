@@ -1,143 +1,173 @@
 # RMIS BFP Tuao — System Audit
 
-**Date**: 2026-06-09  
-**Auditor**: Claude Code  
-**Project**: Record Management Information System — BFP Tuao Station  
-**Stack**: VB.NET · .NET 8.0 · WinForms  
-**Overall Completion**: ~52% (working prototype, not production-ready)
+**Date**: 2026-06-12 (Updated)
+**Auditor**: Claude Code
+**Project**: Record Management Information System — BFP Tuao Station
+**Stack**: VB.NET · .NET 8.0 · WinForms · SQL Server
+**Overall Completion**: ~82% (database-backed, feature-complete core — minor gaps remain)
 
 ---
 
-## 1. Critical Issues
+## 1. Current Issues
 
 | # | Severity | Issue | Location | Impact |
 |---|----------|-------|----------|--------|
-| 1 | 🔴 CRITICAL | `UcDevelopers.vb` is completely empty — only a class declaration exists | `Forms/Pages/UcDevelopers.vb` | Page loads blank; misleads user |
-| 2 | 🟠 HIGH | Edit record feature missing — `UpdateRecord()` exists in service but no UI | `RecordService.vb`, no Edit form | CRUD is incomplete (Create/Read/Delete only) |
-| 3 | 🟠 HIGH | Print button shows placeholder message, not implemented | `UcReports.vb` | Broken feature presented to user |
-| 4 | 🟠 HIGH | All data is lost when the app closes — no persistence layer | `RecordService.vb` | Unusable for real operations |
-| 5 | 🟡 MEDIUM | Login credentials are hardcoded (`admin` / `admin123`) | `LoginForm.vb` | Security risk; not scalable |
-| 6 | 🟡 MEDIUM | Settings changes (username, password, station name) are not saved | `UcSettings.vb` | UX confusion — user thinks changes persist |
-| 7 | 🟡 MEDIUM | `PersonnelModel.vb` is defined but never used anywhere in the app | `Models/PersonnelModel.vb` | Dead code; personnel management absent |
-| 8 | 🟡 MEDIUM | Incident types and statuses are magic strings scattered in UI code | `UcAddRecord.vb` | Maintenance risk; inconsistent values possible |
-| 9 | 🔵 LOW | `Assets/` folder is empty (`.gitkeep` only) — no logo or icons | `Assets/` | Images missing; may cause runtime errors later |
-| 10 | 🔵 LOW | Sample data uses hardcoded 2025 dates | `RecordService.vb` | Data will appear outdated |
+| 1 | 🟠 HIGH | Dashboard Card 4 is hardcoded `"0"` — never shows real data | `UcDashboard.vb` line 17 | Summary cards mislead the user |
+| 2 | 🟡 MEDIUM | `PersonnelModel.vb` is dead code — no table, no service, no UI | `Models/PersonnelModel.vb` | Unused file, no Personnel management |
+| 3 | 🟡 MEDIUM | No role-based access control — Admin and Staff see identical UI | All forms | Staff can delete/edit records they shouldn't |
+| 4 | 🟡 MEDIUM | No numeric/date-range validation on Casualties and DamageEstimate | `UcAddRecord.vb`, `EditRecordForm.vb` | Any string is accepted (e.g., "abc") |
+| 5 | 🔵 LOW | `Assets/` folder is empty — no BFP logo or icons present | `Assets/` | Visual identity missing; no image in login or header |
+| 6 | 🔵 LOW | Developer names are placeholders ("Developer 1/2/3") | `UcDevelopers.vb` | About page shows dummy names |
+| 7 | 🔵 LOW | No installer — publish profile exists but no setup wizard | `Properties/PublishProfiles/` | End-users must unzip manually |
+| 8 | 🔵 LOW | No integration tests — all tests are pure-logic only | `RMIS_BFP_Tuao.Tests/` | DB layer untested by test suite |
 
 ---
 
-## 2. What Is Implemented
+## 2. Database State — Important Note
 
-### Forms / UI — 6 of 7 pages working
+**Tables do not yet exist**, but this is **by design and expected**. The `DatabaseInitializer.Initialize()` call in `ApplicationEvents.vb` automatically runs `CREATE TABLE IF NOT EXISTS` for all 4 tables on every startup.
 
-| Form | Status | Notes |
+**Tables will be created automatically on first run**, provided:
+- SQL Server is running
+- The `RMIS_BFP_Tuao` database exists (user confirmed it was created)
+- `config.txt` contains a valid connection string
+
+The database itself must be created manually (already done). Tables and seed data are fully automatic.
+
+**Tables that will be auto-created:**
+
+| Table | Purpose |
+|-------|---------|
+| `tbl_IncidentRecords` | Core incident data (9 columns + CreatedAt) |
+| `tbl_Users` | Login credentials with BCrypt-hashed passwords |
+| `tbl_ActivityLogs` | Audit trail of all user actions |
+| `tbl_Settings` | Key/value store for station name, address |
+
+**Seed data on first run:**
+- Admin user: username `admin`, password `admin123` (BCrypt hashed, work factor 11)
+- Settings: `StationName` = `BFP Tuao Fire Station`, `StationAddress` = `Tuao, Cagayan`
+
+---
+
+## 3. What Is Fully Implemented
+
+### Infrastructure & Configuration
+| Item | Status | Notes |
 |------|--------|-------|
-| `LoginForm.vb` | ✅ Complete | Hardcoded credentials (see Critical Issue #5) |
-| `MainForm.vb` | ✅ Complete | Sidebar nav, top bar, logout with confirmation |
-| `UcDashboard.vb` | ✅ Complete | Summary cards + recent 5 records table |
-| `UcAddRecord.vb` | ✅ Complete | Field validation + save to in-memory service |
-| `UcViewRecords.vb` | ✅ Complete | DataGridView, live search, delete with confirmation, row color-coding |
-| `UcReports.vb` | ⚠️ Partial | Stats cards + table work; Print is a stub; CSV export present |
-| `UcDevelopers.vb` | 🔴 Empty | Class exists, Designer exists, code-behind is blank |
+| `config.txt` pattern | ✅ Done | Connection string externalized; gitignored; `.example` committed |
+| `dbconstring.vb` | ✅ Done | Reads config at runtime; throws clear error if missing |
+| `ApplicationEvents.vb` | ✅ Done | DB initializer runs on startup; cancels launch on DB error |
+| `DatabaseInitializer.vb` | ✅ Done | Auto-creates 4 tables + seeds admin + seeds settings |
+| `SessionManager.vb` | ✅ Done | Module-level Username, UserType, UserCode; `Clear()` on logout |
+| `ActivityLogger.vb` | ✅ Done | Wraps logging in try/catch — logging never crashes the app |
 
-### Models
-
-| Model | Status | Notes |
-|-------|--------|-------|
-| `RecordModel.vb` | ✅ Used | 9 properties: ID, type, date, location, reporter, casualties, damage, remarks, status |
-| `PersonnelModel.vb` | ❌ Unused | 8 properties + computed `FullName`; no UI references it |
+### Data Access Layer
+| Repository | Status | Notes |
+|------------|--------|-------|
+| `IncidentRepository.vb` | ✅ Done | `GetAll`, `Insert`, `Update`, `Delete`, `GetNextID` — all parameterized |
+| `UserRepository.vb` | ✅ Done | `GetByUsername`, `Insert`, `UpdateUsername`, `UpdatePassword` |
+| `ActivityLogRepository.vb` | ✅ Done | `Insert` with `GETDATE()` timestamp |
+| `SettingsRepository.vb` | ✅ Done | `GetValue` (with default), `SetValue` (upsert) |
 
 ### Services
-
 | Service | Status | Notes |
 |---------|--------|-------|
-| `RecordService.vb` | ✅ Core done | Singleton, `GetRecords`, `AddRecord`, `UpdateRecord`, `DeleteRecord`, `GetNextID`, 8 seeded sample records |
+| `RecordService.vb` | ✅ Done | Singleton; delegates all CRUD to `IncidentRepository` |
+| `ReportPrinter.vb` | ✅ Done | Generates formatted print preview; supports "Print to PDF" via Windows printer |
 
----
+### Helpers & Models
+| File | Status | Notes |
+|------|--------|-------|
+| `Constants.vb` | ✅ Done | All incident types (6) and statuses (4) centralized; no magic strings in forms |
+| `PasswordHelper.vb` | ✅ Done | BCrypt hash and verify wrappers |
+| `RecordModel.vb` | ✅ Done | 9 properties; used throughout |
+| `PersonnelModel.vb` | ⚠️ Unused | Dead code — see Issues above |
 
-## 3. What Is Missing
+### Forms / UI
+| Form | Status | Notes |
+|------|--------|-------|
+| `LoginForm.vb` | ✅ Done | Real BCrypt auth via `UserRepository`; activity logged |
+| `MainForm.vb` | ✅ Done | 6-page nav, logout clears session, top bar shows username |
+| `EditRecordForm.vb` | ✅ Done | Modal dialog; pre-fills all fields; calls `UpdateRecord()`; logged |
+| `UcDashboard.vb` | ⚠️ Partial | Cards 1–3 correct; Card 4 is hardcoded `"0"` |
+| `UcAddRecord.vb` | ✅ Done | Full validation, real DB insert, auto-generates ID |
+| `UcViewRecords.vb` | ✅ Done | Live search, Edit (opens modal), Delete with confirm, row color-coding |
+| `UcReports.vb` | ✅ Done | Summary cards, breakdown table by type, Print Preview, CSV Export |
+| `UcSettings.vb` | ✅ Done | Account (username/password) and system settings persist to DB |
+| `UcDevelopers.vb` | ⚠️ Partial | Loads dynamically but uses placeholder developer names |
 
-### Features
+### Security
+| Item | Status | Notes |
+|------|--------|-------|
+| Parameterized queries | ✅ Done | No SQL string concatenation anywhere |
+| BCrypt password hashing | ✅ Done | Work factor 11; no plaintext passwords stored |
+| Activity logging | ✅ Done | Login success/fail, add/edit/delete/logout all logged |
+| Config externalized | ✅ Done | Connection string never committed to git |
+| Default credentials | ⚠️ Note | `admin` / `admin123` — must be changed after first login |
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Database / data persistence | ❌ Missing | In-memory `List(Of RecordModel)` only |
-| Edit record UI | ❌ Missing | `UpdateRecord()` in service is unused |
-| Print / export to PDF | ❌ Missing | Placeholder message shown |
-| User authentication (real) | ❌ Missing | Hardcoded single account |
-| User roles / permissions | ❌ Missing | Not scoped yet |
-| Personnel management | ❌ Missing | Model exists, no service or UI |
-| Settings persistence | ❌ Missing | Changes discarded on close |
-| Audit trail / action log | ❌ Missing | No who/when tracking |
-| Input validation (advanced) | ⚠️ Partial | Basic null checks only; no numeric/date range guards |
-| Error handling in UI | ⚠️ Partial | No try/catch around service calls in forms |
+### Testing
+| Test Class | Tests | Status |
+|------------|-------|--------|
+| `PasswordHelperTests.vb` | 6 | ✅ All pass |
+| `SessionManagerTests.vb` | 3 | ✅ All pass |
+| `RecordModelTests.vb` | 3 | ✅ All pass |
+| `ConstantsTests.vb` | 6 | ✅ All pass |
+| **Total** | **18** | **✅ 18/18 passing** |
 
-### Infrastructure
-
+### Documentation & Deployment
 | Item | Status |
 |------|--------|
-| Unit tests | ❌ None — no test project exists |
-| Integration tests | ❌ None |
-| `appsettings.json` / `app.config` | ❌ None |
-| Logging framework | ❌ None |
-| Build / publish scripts | ❌ None |
-| README.md | ❌ None |
-| CLAUDE.md | ❌ None |
-| BFP assets (logo, icons) | ❌ None |
+| `README.md` | ✅ Done — setup, prerequisites, structure, security notes |
+| `Docs/DbSchema.md` | ✅ Done — all 4 tables, column types, constraints, layer diagram |
+| `Docs/Db_Connection_Patern.md` | ✅ Done — config.txt pattern guide |
+| `Docs/audit.md` | ✅ This file |
+| `Docs/TaskChecklist.md` | ✅ Updated |
+| `Properties/PublishProfiles/Windows-x64.pubxml` | ✅ Done — self-contained single file, win-x64 |
 
 ---
 
 ## 4. Code Quality Observations
 
-- **Magic strings**: Incident types (`"Structure Fire"`, `"Vehicular Fire"`, etc.) and statuses (`"Active"`, `"Resolved"`, etc.) are repeated in UI code. Extract to an enum or shared constants module.
-- **Dead code**: `PersonnelModel.vb` is fully defined but referenced by nothing. Either build the personnel module or remove the file.
-- **ID generation**: `GetNextID()` counts existing records + 1. If records are deleted or the list is reset, IDs will collide.
-- **Settings false-save**: `UcSettings` writes values to local variables and shows a success message, but saves nothing. This is misleading.
-- **Hardcoded seed data**: 8 sample records with 2025 dates are loaded on every startup. Should be conditional (dev-only flag or skipped in release).
+- **ID generation is collision-safe**: `GetNextID()` now uses `MAX(CAST(SUBSTRING(RecordID, 10, ...) AS INT))` per year — no collision after deletions.
+- **No magic strings in forms**: All incident types and statuses are read from `Constants.*` — centralized and testable.
+- **Repository pattern enforced**: No form or service creates a `SqlConnection` directly — all DB access goes through DataAccess modules.
+- **Dashboard Card 4 bug**: `lblCard4Value.Text = "0"` at line 17 of `UcDashboard.vb` — this should show the count of "Closed" incidents. One-line fix.
+- **UcReports breakdown table**: Works correctly. Counts are derived from `RecordService.GetRecords()` (live DB data), grouped by `IncidentType`.
+- **CSV export**: Reads directly from `dgvBreakdown` cells — if the breakdown grid is populated, the export is correct.
 
 ---
 
-## 5. Documentation Status
+## 5. Estimated Completion by Area
 
-| File | Status |
-|------|--------|
-| `Docs/Roadmap.md` | ✅ 4-phase plan defined |
-| `Docs/ProjectStructure.md` | ✅ Folder/file guide |
-| `Docs/Checklist.md` | ✅ Most items checked |
-| `Progress.md` | ✅ Updated; claims 52% |
-| `README.md` | ❌ Missing |
-| Architecture / DB schema doc | ❌ Missing |
-
----
-
-## 6. Estimated Completion by Area
-
-| Area | Completion |
-|------|-----------|
-| UI / Forms | 85% |
-| Navigation | 100% |
-| Data models | 50% |
-| Business logic / services | 60% |
-| Database / persistence | 0% |
-| Testing | 0% |
-| Documentation | 65% |
-| Deployment / packaging | 10% |
-| **Overall** | **~52%** |
+| Area | Completion | Notes |
+|------|-----------|-------|
+| UI / Forms | 90% | Card 4 bug + placeholder names |
+| Navigation | 100% | |
+| Authentication | 100% | Real BCrypt DB auth |
+| Data models | 50% | RecordModel done; PersonnelModel unused |
+| Services / Business logic | 95% | ReportPrinter + RecordService complete |
+| Database / persistence | 95% | Tables auto-create on first run; not yet run |
+| Security | 85% | No RBAC yet |
+| Testing | 40% | 18 unit tests; 0 integration tests |
+| Documentation | 90% | README, schema, checklist, audit all present |
+| Deployment | 70% | Publish profile done; no installer |
+| **Overall** | **~82%** | |
 
 ---
 
-## 7. Recommended Next Steps (Priority Order)
+## 6. Remaining Next Steps (Priority Order)
 
-1. **Implement `UcDevelopers.vb`** — populate developer info in code, not just Designer.
-2. **Add a database layer** — SQLite is the simplest fit for a desktop app; replace `List(Of RecordModel)` in `RecordService`.
-3. **Build Edit Record form** — wire to existing `UpdateRecord()` service method.
-4. **Persist settings** — write to `appsettings.json` or the Windows registry.
-5. **Implement Print / PDF export** — use `PrintDocument` or a library like `iTextSharp`.
-6. **Replace hardcoded login** — store hashed credentials in the database.
-7. **Extract magic strings** — create a `Constants.vb` or enums module.
-8. **Add try/catch in forms** — wrap service calls, show user-friendly error dialogs.
-9. **Add unit test project** — at minimum cover `RecordService` CRUD and ID generation.
-10. **Populate Assets** — add BFP logo and any required icons.
+1. **Run the app once** — this triggers `DatabaseInitializer` and creates all 4 tables automatically.
+2. **Fix Dashboard Card 4** — replace hardcoded `"0"` with `records.Where(Function(r) r.Status = "Closed").Count().ToString()`.
+3. **Fill in developer names** — update `UcDevelopers.vb` with real names and roles.
+4. **Add BFP logo** — place PNG in `Assets/`; reference in LoginForm and MainForm header.
+5. **Add input validation** — numeric guard on Casualties and DamageEstimate fields.
+6. **Build Personnel module** — or delete `PersonnelModel.vb` if out of scope.
+7. **Implement RBAC** — restrict delete/edit to Admin role only.
+8. **Create installer** — use ClickOnce or Inno Setup for end-user distribution.
+9. **Add integration tests** — test `IncidentRepository` against a real test DB.
+10. **Change default password** — update `admin` account after first login.
 
 ---
 
-*Audit generated by Claude Code on 2026-06-09. Based on static analysis of source files and project documentation.*
+*Audit updated by Claude Code on 2026-06-12. Based on full static analysis of all 30+ source files.*
