@@ -53,12 +53,12 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 
 | Version | Tag Name | Commit Hash |
 |---------|----------|-------------|
-| v1.00 | v1.00 | *(fill after push)* |
-| v1.01 | v1.01 | *(fill after push)* |
-| v1.02 | v1.02 | *(fill after push)* |
-| v1.03 | v1.03 | *(fill after push)* |
-| v1.04 | v1.04 | *(fill after push)* |
-| v1.05 | v1.05 | *(fill after push)* |
+| v1.00 | v1.00 | 977c9630c55bd4b9392c5825a444e44371212052 |
+| v1.01 | v1.01 | c0fe73cfd7350c8da6e561268a99f65aa1066371 |
+| v1.02 | v1.02 | f5c2d674a1b3873ebcdaebdd2a0e7bfc788f486a |
+| v1.03 | v1.03 | 1623d0ebc95060c97330c11f020e3c1e48dbd200 |
+| v1.04 | v1.04 | a695c22d7eb4b26fe526b39c10445c18eaaa3fd0 |
+| v1.05 | v1.05 | c04b538bb8451c5257861fbe31a3f0e827948b72 |
 
 Run this after all versions are pushed to fill in hashes:
 ```bash
