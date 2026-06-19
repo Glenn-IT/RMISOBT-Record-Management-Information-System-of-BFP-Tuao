@@ -1,7 +1,7 @@
 Public Class UcUnderConstruction
     Inherits UserControl
 
-    Public Const CURRENT_VERSION As String = "v1.02"
+    Public Const CURRENT_VERSION As String = "v1.03"
 
     Private _pnlCenter As Panel
     Private _lblEmoji   As Label
