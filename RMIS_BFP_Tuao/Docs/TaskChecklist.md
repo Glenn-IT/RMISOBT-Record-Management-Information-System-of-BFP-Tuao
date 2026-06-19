@@ -1,7 +1,7 @@
 # RMIS BFP Tuao — Task Checklist
 
-**Updated**: 2026-06-12
-**Based on**: audit.md (v2)
+**Updated**: 2026-06-19
+**Based on**: audit.md (v3)
 **Purpose**: Track all tasks to production-ready state
 
 ---
@@ -62,7 +62,6 @@
 
 ### Print / PDF Export
 - [x] **Implement Print Preview in `UcReports.vb`**
-  - [x] Removed placeholder `MessageBox.Show`
   - [x] Uses built-in `PrintDocument` + `PrintPreviewDialog`
   - [x] Report includes: station header, summary cards, breakdown table by type, footer
   - [x] Works with Windows "Print to PDF" for PDF output
@@ -113,17 +112,23 @@
   - **File**: `DataAccess/IncidentRepository.vb` ✅
 
 ### Dashboard Card 4 Bug
-- [ ] **Fix hardcoded `"0"` in Dashboard Card 4**
-  - [ ] Replace `lblCard4Value.Text = "0"` with actual Closed count
-  - [ ] `records.Where(Function(r) r.Status = "Closed").Count().ToString()`
-  - **File**: `Forms/Pages/UcDashboard.vb` line 17 ⬅ ONE-LINE FIX
+- [x] **Fix hardcoded `"0"` in Dashboard Card 4**
+  - [x] Replaced `lblCard4Value.Text = "0"` with `records.Where(Function(r) r.Status = "Closed").Count().ToString()`
+  - **File**: `Forms/Pages/UcDashboard.vb` ✅
+
+### Incident No Auto-Fill Bug
+- [x] **Fix dead auto-ID code in `UcAddRecord.vb`**
+  - [x] Pre-fills `txtIncidentNo` in `UcAddRecord_Load` by calling `RecordService.Instance.GetNextID()`
+  - [x] Re-generates ID in `btnClear_Click` after form is cleared
+  - [x] Validation now checks IncidentNo separately (falls back gracefully if DB unavailable)
+  - **File**: `Forms/Pages/UcAddRecord.vb` ✅
 
 ### Input Validation
-- [ ] **Add numeric guard on Casualties and DamageEstimate**
-  - [ ] Validate that Casualties is numeric (or empty) before saving
-  - [ ] Validate that DamageEstimate is numeric (or empty) before saving
-  - [ ] Show user-friendly error if non-numeric value entered
-  - **Files**: `Forms/Pages/UcAddRecord.vb`, `Forms/EditRecordForm.vb`
+- [x] **Add numeric guard on Casualties and DamageEstimate**
+  - [x] Casualties must be a whole number ≥ 0 (or empty)
+  - [x] DamageEstimate must be a decimal number ≥ 0 (or empty)
+  - [x] User-friendly error shown for non-numeric values
+  - **Files**: `Forms/Pages/UcAddRecord.vb`, `Forms/EditRecordForm.vb` ✅
 
 ### Personnel Management
 - [ ] **Decide: build or remove**
@@ -137,12 +142,14 @@
   - **File**: `Models/PersonnelModel.vb`
 
 ### Role-Based Access Control
-- [ ] **Restrict features by UserType (Admin vs Staff)**
-  - [ ] Admin only: Delete records, access Settings
-  - [ ] Staff: View, Add, Print only
-  - [ ] Check `SessionManager.UserType` in `UcViewRecords` delete handler
-  - [ ] Hide/disable Settings nav button for Staff in `MainForm`
-  - [ ] Add user management UI for Admin (create/delete staff accounts)
+- [x] **Restrict features by UserType (Admin vs Staff)**
+  - [x] Admin only: Delete records, access Settings
+  - [x] Staff: View, Add, Print only
+  - [x] `UcViewRecords_Load` hides `btnEdit` and `btnDelete` for Staff
+  - [x] `btnDelete_Click` has a guard check (defence-in-depth)
+  - [x] `MainForm` hides `btnNavSettings` for Staff; `btnNavSettings_Click` has a guard check
+  - [ ] Add user management UI for Admin (create/delete staff accounts) ⬅ future feature
+  - **Files**: `Forms/MainForm.vb`, `Forms/Pages/UcViewRecords.vb` ✅
 
 ---
 
@@ -177,11 +184,13 @@
 - [x] **`SessionManagerTests.vb`** — 3 tests (clear, set/read, default state)
 - [x] **`RecordModelTests.vb`** — 3 tests (properties, defaults, update)
 - [x] **`ConstantsTests.vb`** — 6 tests (types, statuses, constant values)
-- [ ] **Add integration tests** *(optional but recommended)*
-  - [ ] `IncidentRepository` tests against a real test database
-  - [ ] `UserRepository` tests (insert, verify, update)
-  - [ ] `SettingsRepository` tests (get/set/default)
-- [ ] **Add `RecordService` end-to-end tests**
+- [x] **Add integration tests**
+  - [x] `IncidentRepositoryTests.vb` — 8 tests: GetAll, Insert, Update, Delete, GetNextID (collision-safe)
+  - [x] `UserRepositoryTests.vb` — 4 tests: Insert, GetByUsername, UpdateUsername, UpdatePassword
+  - [x] `SettingsRepositoryTests.vb` — 4 tests: GetValue (existing/missing), SetValue (new/overwrite)
+  - Tests skip automatically when `RMIS_TEST_CONNSTR` env var is not set (no hard failure)
+  - **Files**: `RMIS_BFP_Tuao.Tests/` ✅
+- [ ] **Add `RecordService` end-to-end tests** *(optional)*
   - [ ] `AddRecord()` → `GetRecords()` count increases
   - [ ] `DeleteRecord()` → record no longer in list
   - [ ] `GetNextID()` returns unique IDs across successive calls
@@ -198,6 +207,7 @@
 - [x] **`Docs/DbSchema.md`** — table schemas, column types, constraints, layer diagram
 - [x] **`Docs/Db_Connection_Patern.md`** — config.txt pattern, repository examples
 - [x] **`Docs/audit.md`** — full system audit (this file's companion)
+- [x] **`Docs/Issues.md`** — structured issues register (updated 2026-06-19)
 - [x] **`Docs/TaskChecklist.md`** — this file
 
 ---
@@ -225,15 +235,15 @@
 | Critical | 3 | 3 ✅ |
 | High Priority | 14 | 13 ✅ |
 | Medium Priority — Persistence | 8 | 8 ✅ |
-| Medium Priority — Remaining | 10 | 3 ✅ |
+| Medium Priority — Remaining | 12 | 9 ✅ |
 | Low Priority | 6 | 1 ✅ |
-| Testing | 10 | 7 ✅ |
-| Documentation | 5 | 5 ✅ |
+| Testing | 10 | 9 ✅ |
+| Documentation | 6 | 6 ✅ |
 | Deployment | 3 | 1 ✅ |
-| **Total** | **59** | **41 ✅ (~69%)** |
+| **Total** | **62** | **50 ✅ (~81%)** |
 
-> **Functional completion is ~82%** — the remaining 18% is mostly UX polish (RBAC, validation, assets, installer), not core functionality.
+> **Functional completion is ~82%** — the remaining 18% is UX polish (RBAC, validation, auto-ID fill, assets, installer), not core functionality.
 
 ---
 
-*Updated by Claude Code on 2026-06-12. Cross-referenced against full static analysis of all source files.*
+*Updated by Claude Code on 2026-06-19. New items since 2026-06-12: Incident No auto-fill bug task, Issues.md documentation task. Full static re-analysis of all source files confirmed.*

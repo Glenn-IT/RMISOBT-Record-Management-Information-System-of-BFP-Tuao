@@ -7,7 +7,7 @@ Public Module UserRepository
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
             Using cmd As New SqlCommand(
-                "SELECT Username, PasswordHash, UserType FROM tbl_Users " &
+                "SELECT Username, PasswordHash, UserType, SecurityQuestion, SecurityAnswerHash FROM tbl_Users " &
                 "WHERE Username = @username", con)
                 cmd.Parameters.AddWithValue("@username", username)
                 Dim adapter As New SqlDataAdapter(cmd)
@@ -50,6 +50,33 @@ Public Module UserRepository
                 "UPDATE tbl_Users SET PasswordHash = @hash WHERE Username = @username", con)
                 cmd.Parameters.AddWithValue("@hash",     newPasswordHash)
                 cmd.Parameters.AddWithValue("@username", username)
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+    End Sub
+
+    Public Function GetSecurityQuestion(username As String) As String
+        Dim dt = GetByUsername(username)
+        If dt.Rows.Count = 0 Then Return ""
+        Return dt.Rows(0)("SecurityQuestion").ToString()
+    End Function
+
+    Public Function VerifySecurityAnswer(username As String, answer As String) As Boolean
+        Dim dt = GetByUsername(username)
+        If dt.Rows.Count = 0 Then Return False
+        Dim storedHash = dt.Rows(0)("SecurityAnswerHash").ToString()
+        If storedHash = "" Then Return False
+        Return PasswordHelper.VerifyPassword(answer.Trim().ToLower(), storedHash)
+    End Function
+
+    Public Sub UpdateSecurityQuestion(username As String, question As String, answerHash As String)
+        Using con As New SqlConnection(dbconstring.Connection)
+            con.Open()
+            Using cmd As New SqlCommand(
+                "UPDATE tbl_Users SET SecurityQuestion = @q, SecurityAnswerHash = @a WHERE Username = @u", con)
+                cmd.Parameters.AddWithValue("@q", question)
+                cmd.Parameters.AddWithValue("@a", answerHash)
+                cmd.Parameters.AddWithValue("@u", username)
                 cmd.ExecuteNonQuery()
             End Using
         End Using

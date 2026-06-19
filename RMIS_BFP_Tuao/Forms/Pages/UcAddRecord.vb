@@ -7,22 +7,51 @@ Public Class UcAddRecord
         cboStatus.Items.AddRange(Constants.Statuses)
         cboIncidentType.SelectedIndex = 0
         cboStatus.SelectedIndex = 0
+        Try
+            txtIncidentNo.Text = RecordService.Instance.GetNextID()
+        Catch
+            ' Leave blank if DB not yet available; user can type manually
+        End Try
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        If txtIncidentNo.Text.Trim() = "" OrElse
-           txtLocation.Text.Trim() = "" OrElse
+        If txtLocation.Text.Trim() = "" OrElse
            txtReportedBy.Text.Trim() = "" Then
             MessageBox.Show("Please fill in all required fields marked with *.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
+        If txtIncidentNo.Text.Trim() = "" Then
+            MessageBox.Show("Incident No could not be generated. Please enter it manually.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Dim casualties = txtCasualties.Text.Trim()
+        Dim damage = txtDamageEstimate.Text.Trim()
+
+        If casualties <> "" Then
+            Dim dummy As Integer
+            If Not Integer.TryParse(casualties, dummy) OrElse dummy < 0 Then
+                MessageBox.Show("Casualties must be a whole number (e.g. 0, 3).", "Validation",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
+        If damage <> "" Then
+            Dim dummy As Decimal
+            If Not Decimal.TryParse(damage, dummy) OrElse dummy < 0 Then
+                MessageBox.Show("Damage Estimate must be a number (e.g. 50000).", "Validation",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
         Try
             Dim record As New RecordModel() With {
-                .RecordID       = If(txtIncidentNo.Text.Trim() = "",
-                                     RecordService.Instance.GetNextID(),
-                                     txtIncidentNo.Text.Trim()),
+                .RecordID       = txtIncidentNo.Text.Trim(),
                 .IncidentType   = cboIncidentType.SelectedItem?.ToString(),
                 .DateReported   = dtpDateReported.Value,
                 .Location       = txtLocation.Text.Trim(),
@@ -48,7 +77,6 @@ Public Class UcAddRecord
     End Sub
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
-        txtIncidentNo.Clear()
         txtLocation.Clear()
         txtReportedBy.Clear()
         txtCasualties.Clear()
@@ -57,6 +85,11 @@ Public Class UcAddRecord
         cboIncidentType.SelectedIndex = 0
         cboStatus.SelectedIndex = 0
         dtpDateReported.Value = DateTime.Now
+        Try
+            txtIncidentNo.Text = RecordService.Instance.GetNextID()
+        Catch
+            txtIncidentNo.Clear()
+        End Try
     End Sub
 
 End Class

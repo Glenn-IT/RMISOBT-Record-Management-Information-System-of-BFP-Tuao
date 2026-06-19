@@ -1,6 +1,5 @@
-﻿# Project Progress
+# Project Progress
 
-progress: 72
+progress: 91
 status: Ongoing
-note: Set up project structure and installed dependencies.
-
+note: RBAC implemented (Staff cannot access Settings, Edit, or Delete). Integration tests added for IncidentRepository, UserRepository, and SettingsRepository. Remaining: PersonnelModel decision, BFP logo, developer names, installer.

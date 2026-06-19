@@ -30,6 +30,7 @@ Partial Class LoginForm
         txtUsername = New TextBox()
         lblPassword = New Label()
         txtPassword = New TextBox()
+        lnkForgotPassword = New LinkLabel()
         lblError = New Label()
         btnLogin = New Button()
         btnExit = New Button()
@@ -116,12 +117,13 @@ Partial Class LoginForm
         pnlLoginCard.Controls.Add(txtUsername)
         pnlLoginCard.Controls.Add(lblPassword)
         pnlLoginCard.Controls.Add(txtPassword)
+        pnlLoginCard.Controls.Add(lnkForgotPassword)
         pnlLoginCard.Controls.Add(lblError)
         pnlLoginCard.Controls.Add(btnLogin)
         pnlLoginCard.Controls.Add(btnExit)
         pnlLoginCard.Location = New Point(70, 90)
         pnlLoginCard.Name = "pnlLoginCard"
-        pnlLoginCard.Size = New Size(340, 420)
+        pnlLoginCard.Size = New Size(340, 445)
         pnlLoginCard.TabIndex = 0
         ' 
         ' lblLoginHeader
@@ -188,45 +190,58 @@ Partial Class LoginForm
         txtPassword.Size = New Size(300, 28)
         txtPassword.TabIndex = 5
         txtPassword.UseSystemPasswordChar = True
-        ' 
+        '
+        ' lnkForgotPassword
+        '
+        lnkForgotPassword.Font = New Font("Segoe UI", 8.5F)
+        lnkForgotPassword.LinkColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
+        lnkForgotPassword.ActiveLinkColor = Color.FromArgb(CByte(140), CByte(10), CByte(10))
+        lnkForgotPassword.Location = New Point(20, 250)
+        lnkForgotPassword.Name = "lnkForgotPassword"
+        lnkForgotPassword.Size = New Size(300, 18)
+        lnkForgotPassword.TabIndex = 6
+        lnkForgotPassword.TabStop = True
+        lnkForgotPassword.Text = "Forgot Password?"
+        lnkForgotPassword.TextAlign = ContentAlignment.MiddleRight
+        '
         ' lblError
-        ' 
+        '
         lblError.Font = New Font("Segoe UI", 8.5F)
         lblError.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
-        lblError.Location = New Point(20, 258)
+        lblError.Location = New Point(20, 274)
         lblError.Name = "lblError"
         lblError.Size = New Size(300, 22)
-        lblError.TabIndex = 6
+        lblError.TabIndex = 7
         lblError.Text = "Invalid username or password."
         lblError.Visible = False
-        ' 
+        '
         ' btnLogin
-        ' 
+        '
         btnLogin.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnLogin.Cursor = Cursors.Hand
         btnLogin.FlatAppearance.BorderSize = 0
         btnLogin.FlatStyle = FlatStyle.Flat
         btnLogin.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
         btnLogin.ForeColor = Color.White
-        btnLogin.Location = New Point(20, 286)
+        btnLogin.Location = New Point(20, 304)
         btnLogin.Name = "btnLogin"
         btnLogin.Size = New Size(300, 44)
-        btnLogin.TabIndex = 7
+        btnLogin.TabIndex = 8
         btnLogin.Text = "LOGIN"
         btnLogin.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnExit
-        ' 
+        '
         btnExit.BackColor = Color.White
         btnExit.Cursor = Cursors.Hand
         btnExit.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
         btnExit.FlatStyle = FlatStyle.Flat
         btnExit.Font = New Font("Segoe UI", 9.5F)
         btnExit.ForeColor = Color.FromArgb(CByte(120), CByte(120), CByte(120))
-        btnExit.Location = New Point(20, 344)
+        btnExit.Location = New Point(20, 362)
         btnExit.Name = "btnExit"
         btnExit.Size = New Size(300, 36)
-        btnExit.TabIndex = 8
+        btnExit.TabIndex = 9
         btnExit.Text = "EXIT"
         btnExit.UseVisualStyleBackColor = False
         ' 
@@ -277,6 +292,7 @@ Partial Class LoginForm
     Friend WithEvents txtUsername As TextBox
     Friend WithEvents lblPassword As Label
     Friend WithEvents txtPassword As TextBox
+    Friend WithEvents lnkForgotPassword As LinkLabel
     Friend WithEvents lblError As Label
     Friend WithEvents btnLogin As Button
     Friend WithEvents btnExit As Button

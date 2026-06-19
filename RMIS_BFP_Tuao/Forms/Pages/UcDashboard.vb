@@ -14,7 +14,7 @@ Public Class UcDashboard
             lblCard1Value.Text = records.Count.ToString()
             lblCard2Value.Text = records.Where(Function(r) r.Status = "Active").Count().ToString()
             lblCard3Value.Text = records.Where(Function(r) r.Status = "Resolved").Count().ToString()
-            lblCard4Value.Text = "0"
+            lblCard4Value.Text = records.Where(Function(r) r.Status = "Closed").Count().ToString()
 
             dgvRecent.Rows.Clear()
             For Each r In records.OrderByDescending(Function(x) x.DateReported).Take(5)

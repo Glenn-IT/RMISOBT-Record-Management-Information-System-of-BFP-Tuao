@@ -1,12 +1,18 @@
 Public Class MainForm
 
-    ' ?? Load: show Dashboard page by default ?????????????????????
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToScreen()
         lblTopDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy")
         lblTopUser.Text = "[ " & SessionManager.Username & " ]"
+        ApplyRoleRestrictions()
         LoadPage(New UcDashboard())
         SetActiveButton(btnNavDashboard)
+    End Sub
+
+    Private Sub ApplyRoleRestrictions()
+        If SessionManager.UserType <> Constants.UserTypeAdmin Then
+            btnNavSettings.Visible = False
+        End If
     End Sub
 
     ' ?? Page Loader: clears container and loads a UserControl ?????
@@ -39,6 +45,11 @@ Public Class MainForm
     End Sub
 
     Private Sub btnNavSettings_Click(sender As Object, e As EventArgs) Handles btnNavSettings.Click
+        If SessionManager.UserType <> Constants.UserTypeAdmin Then
+            MessageBox.Show("Access denied. Settings are restricted to Admin accounts.",
+                            "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
         SetActiveButton(btnNavSettings)
         LoadPage(New UcSettings())
     End Sub

@@ -31,6 +31,13 @@ Partial Class UcSettings
         lblConfirmPw = New Label()
         txtConfirmPw = New TextBox()
         btnSaveAccount = New Button()
+        lblSecTitle = New Label()
+        lblSecDivider = New Panel()
+        lblSecQuestion = New Label()
+        cboSecQuestion = New ComboBox()
+        lblSecAnswer = New Label()
+        txtSecAnswer = New TextBox()
+        btnSaveSecQuestion = New Button()
         pnlSystem = New Panel()
         lblSysTitle = New Label()
         lblSysDivider = New Panel()
@@ -97,9 +104,16 @@ Partial Class UcSettings
         pnlAccount.Controls.Add(lblConfirmPw)
         pnlAccount.Controls.Add(txtConfirmPw)
         pnlAccount.Controls.Add(btnSaveAccount)
+        pnlAccount.Controls.Add(lblSecTitle)
+        pnlAccount.Controls.Add(lblSecDivider)
+        pnlAccount.Controls.Add(lblSecQuestion)
+        pnlAccount.Controls.Add(cboSecQuestion)
+        pnlAccount.Controls.Add(lblSecAnswer)
+        pnlAccount.Controls.Add(txtSecAnswer)
+        pnlAccount.Controls.Add(btnSaveSecQuestion)
         pnlAccount.Location = New Point(24, 120)
         pnlAccount.Name = "pnlAccount"
-        pnlAccount.Size = New Size(458, 306)
+        pnlAccount.Size = New Size(458, 530)
         pnlAccount.TabIndex = 1
         ' 
         ' lblAccTitle
@@ -196,7 +210,81 @@ Partial Class UcSettings
         btnSaveAccount.TabIndex = 8
         btnSaveAccount.Text = "Save Changes"
         btnSaveAccount.UseVisualStyleBackColor = False
-        ' 
+        '
+        ' lblSecTitle
+        '
+        lblSecTitle.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        lblSecTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
+        lblSecTitle.Location = New Point(16, 300)
+        lblSecTitle.Name = "lblSecTitle"
+        lblSecTitle.Size = New Size(400, 30)
+        lblSecTitle.TabIndex = 9
+        lblSecTitle.Text = "Security Question"
+        '
+        ' lblSecDivider
+        '
+        lblSecDivider.BackColor = Color.FromArgb(CByte(220), CByte(220), CByte(220))
+        lblSecDivider.Location = New Point(16, 332)
+        lblSecDivider.Name = "lblSecDivider"
+        lblSecDivider.Size = New Size(408, 1)
+        lblSecDivider.TabIndex = 10
+        '
+        ' lblSecQuestion
+        '
+        lblSecQuestion.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblSecQuestion.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblSecQuestion.Location = New Point(16, 344)
+        lblSecQuestion.Name = "lblSecQuestion"
+        lblSecQuestion.Size = New Size(380, 20)
+        lblSecQuestion.TabIndex = 11
+        lblSecQuestion.Text = "Security Question"
+        '
+        ' cboSecQuestion
+        '
+        cboSecQuestion.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
+        cboSecQuestion.DropDownStyle = ComboBoxStyle.DropDownList
+        cboSecQuestion.FlatStyle = FlatStyle.Flat
+        cboSecQuestion.Font = New Font("Segoe UI", 10F)
+        cboSecQuestion.Location = New Point(16, 366)
+        cboSecQuestion.Name = "cboSecQuestion"
+        cboSecQuestion.Size = New Size(408, 27)
+        cboSecQuestion.TabIndex = 12
+        '
+        ' lblSecAnswer
+        '
+        lblSecAnswer.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblSecAnswer.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblSecAnswer.Location = New Point(16, 408)
+        lblSecAnswer.Name = "lblSecAnswer"
+        lblSecAnswer.Size = New Size(380, 20)
+        lblSecAnswer.TabIndex = 13
+        lblSecAnswer.Text = "Answer"
+        '
+        ' txtSecAnswer
+        '
+        txtSecAnswer.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
+        txtSecAnswer.BorderStyle = BorderStyle.FixedSingle
+        txtSecAnswer.Font = New Font("Segoe UI", 10F)
+        txtSecAnswer.Location = New Point(16, 430)
+        txtSecAnswer.Name = "txtSecAnswer"
+        txtSecAnswer.Size = New Size(408, 27)
+        txtSecAnswer.TabIndex = 14
+        '
+        ' btnSaveSecQuestion
+        '
+        btnSaveSecQuestion.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
+        btnSaveSecQuestion.Cursor = Cursors.Hand
+        btnSaveSecQuestion.FlatAppearance.BorderSize = 0
+        btnSaveSecQuestion.FlatStyle = FlatStyle.Flat
+        btnSaveSecQuestion.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnSaveSecQuestion.ForeColor = Color.White
+        btnSaveSecQuestion.Location = New Point(16, 472)
+        btnSaveSecQuestion.Name = "btnSaveSecQuestion"
+        btnSaveSecQuestion.Size = New Size(180, 36)
+        btnSaveSecQuestion.TabIndex = 15
+        btnSaveSecQuestion.Text = "Save Security Question"
+        btnSaveSecQuestion.UseVisualStyleBackColor = False
+        '
         ' pnlSystem
         ' 
         pnlSystem.Anchor = AnchorStyles.Top Or AnchorStyles.Right
@@ -319,8 +407,15 @@ Partial Class UcSettings
     Friend WithEvents txtPassword    As TextBox
     Friend WithEvents lblConfirmPw   As Label
     Friend WithEvents txtConfirmPw   As TextBox
-    Friend WithEvents btnSaveAccount As Button
-    Friend WithEvents pnlSystem      As Panel
+    Friend WithEvents btnSaveAccount    As Button
+    Friend WithEvents lblSecTitle       As Label
+    Friend WithEvents lblSecDivider     As Panel
+    Friend WithEvents lblSecQuestion    As Label
+    Friend WithEvents cboSecQuestion    As ComboBox
+    Friend WithEvents lblSecAnswer      As Label
+    Friend WithEvents txtSecAnswer      As TextBox
+    Friend WithEvents btnSaveSecQuestion As Button
+    Friend WithEvents pnlSystem         As Panel
     Friend WithEvents lblSysTitle    As Label
     Friend WithEvents lblSysDivider  As Panel
     Friend WithEvents lblStationName As Label

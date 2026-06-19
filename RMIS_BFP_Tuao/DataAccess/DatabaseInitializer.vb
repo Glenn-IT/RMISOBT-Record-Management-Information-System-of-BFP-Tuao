@@ -29,11 +29,13 @@ Public Class DatabaseInitializer
 
                 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'tbl_Users')
                 CREATE TABLE tbl_Users (
-                    UserID          INT             NOT NULL IDENTITY(1,1) PRIMARY KEY,
-                    Username        NVARCHAR(100)   NOT NULL UNIQUE,
-                    PasswordHash    NVARCHAR(255)   NOT NULL,
-                    UserType        NVARCHAR(50)    NOT NULL DEFAULT 'Staff',
-                    CreatedAt       DATETIME        NOT NULL DEFAULT GETDATE()
+                    UserID              INT             NOT NULL IDENTITY(1,1) PRIMARY KEY,
+                    Username            NVARCHAR(100)   NOT NULL UNIQUE,
+                    PasswordHash        NVARCHAR(255)   NOT NULL,
+                    UserType            NVARCHAR(50)    NOT NULL DEFAULT 'Staff',
+                    SecurityQuestion    NVARCHAR(255)   NOT NULL DEFAULT '',
+                    SecurityAnswerHash  NVARCHAR(255)   NOT NULL DEFAULT '',
+                    CreatedAt           DATETIME        NOT NULL DEFAULT GETDATE()
                 );
 
                 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'tbl_ActivityLogs')
@@ -52,6 +54,16 @@ Public Class DatabaseInitializer
                 );"
 
             Using cmd As New SqlCommand(sql, con)
+                cmd.ExecuteNonQuery()
+            End Using
+
+            ' Migration: add security question columns if they were added after initial deploy
+            Dim migrate As String =
+                "IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_Users') AND name = 'SecurityQuestion')
+                    ALTER TABLE tbl_Users ADD SecurityQuestion NVARCHAR(255) NOT NULL DEFAULT '';
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_Users') AND name = 'SecurityAnswerHash')
+                    ALTER TABLE tbl_Users ADD SecurityAnswerHash NVARCHAR(255) NOT NULL DEFAULT '';"
+            Using cmd As New SqlCommand(migrate, con)
                 cmd.ExecuteNonQuery()
             End Using
         End Using
@@ -80,10 +92,13 @@ Public Class DatabaseInitializer
             If exists Then Return
 
             Dim hash As String = PasswordHelper.HashPassword("admin123")
+            Dim answerHash As String = PasswordHelper.HashPassword("admin")
             Using cmd As New SqlCommand(
-                "INSERT INTO tbl_Users (Username, PasswordHash, UserType) " &
-                "VALUES ('admin', @hash, 'Admin')", con)
-                cmd.Parameters.AddWithValue("@hash", hash)
+                "INSERT INTO tbl_Users (Username, PasswordHash, UserType, SecurityQuestion, SecurityAnswerHash) " &
+                "VALUES ('admin', @hash, 'Admin', @question, @answer)", con)
+                cmd.Parameters.AddWithValue("@hash",     hash)
+                cmd.Parameters.AddWithValue("@question", "What is your mother's maiden name?")
+                cmd.Parameters.AddWithValue("@answer",   answerHash)
                 cmd.ExecuteNonQuery()
             End Using
         End Using

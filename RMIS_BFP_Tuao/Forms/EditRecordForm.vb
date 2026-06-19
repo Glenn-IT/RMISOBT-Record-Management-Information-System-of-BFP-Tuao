@@ -29,6 +29,27 @@ Public Class EditRecordForm
             Exit Sub
         End If
 
+        Dim casualties = txtCasualties.Text.Trim()
+        Dim damage = txtDamageEstimate.Text.Trim()
+
+        If casualties <> "" Then
+            Dim dummy As Integer
+            If Not Integer.TryParse(casualties, dummy) OrElse dummy < 0 Then
+                MessageBox.Show("Casualties must be a whole number (e.g. 0, 3).", "Validation",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
+        If damage <> "" Then
+            Dim dummy As Decimal
+            If Not Decimal.TryParse(damage, dummy) OrElse dummy < 0 Then
+                MessageBox.Show("Damage Estimate must be a number (e.g. 50000).", "Validation",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
         Try
             _record.IncidentType   = cboIncidentType.SelectedItem?.ToString()
             _record.DateReported   = dtpDateReported.Value

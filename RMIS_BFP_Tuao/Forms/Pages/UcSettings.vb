@@ -1,11 +1,27 @@
 Public Class UcSettings
     Inherits UserControl
 
+    Private ReadOnly SecurityQuestions As String() = {
+        "What is your mother's maiden name?",
+        "What was the name of your first pet?",
+        "What is the name of the city where you were born?",
+        "What was the name of your elementary school?",
+        "What is your favorite childhood nickname?"
+    }
+
     Private Sub UcSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            txtUsername.Text   = SessionManager.Username
+            txtUsername.Text    = SessionManager.Username
             txtStationName.Text = SettingsRepository.GetValue("StationName", "BFP Tuao Fire Station")
             txtStationAddr.Text = SettingsRepository.GetValue("StationAddress", "Tuao, Cagayan")
+
+            cboSecQuestion.Items.AddRange(SecurityQuestions)
+            Dim currentQuestion = UserRepository.GetSecurityQuestion(SessionManager.Username)
+            If currentQuestion <> "" Then
+                cboSecQuestion.SelectedItem = currentQuestion
+            Else
+                cboSecQuestion.SelectedIndex = 0
+            End If
         Catch ex As Exception
             MessageBox.Show("Failed to load settings: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -77,6 +93,33 @@ Public Class UcSettings
                             MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             MessageBox.Show("Failed to save system settings: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub btnSaveSecQuestion_Click(sender As Object, e As EventArgs) Handles btnSaveSecQuestion.Click
+        If cboSecQuestion.SelectedItem Is Nothing Then
+            MessageBox.Show("Please select a security question.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+        If txtSecAnswer.Text.Trim() = "" Then
+            MessageBox.Show("Please enter an answer for your security question.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Try
+            Dim question   = cboSecQuestion.SelectedItem.ToString()
+            Dim answerHash = PasswordHelper.HashPassword(txtSecAnswer.Text.Trim().ToLower())
+            UserRepository.UpdateSecurityQuestion(SessionManager.Username, question, answerHash)
+
+            txtSecAnswer.Clear()
+            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "Security question updated.")
+            MessageBox.Show("Security question saved successfully.", "Settings",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Failed to save security question: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub

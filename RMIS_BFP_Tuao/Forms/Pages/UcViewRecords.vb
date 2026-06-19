@@ -2,6 +2,10 @@ Public Class UcViewRecords
     Inherits UserControl
 
     Private Sub UcViewRecords_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If SessionManager.UserType <> Constants.UserTypeAdmin Then
+            btnEdit.Visible = False
+            btnDelete.Visible = False
+        End If
         Try
             PopulateGrid(RecordService.Instance.GetRecords())
         Catch ex As Exception
@@ -70,6 +74,11 @@ Public Class UcViewRecords
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        If SessionManager.UserType <> Constants.UserTypeAdmin Then
+            MessageBox.Show("Access denied. Only Admins can delete records.",
+                            "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
         If dgvRecords.SelectedRows.Count = 0 Then
             MessageBox.Show("Please select a record to delete.", "No Selection",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning)
