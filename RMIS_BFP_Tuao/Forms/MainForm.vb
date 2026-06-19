@@ -10,9 +10,7 @@ Public Class MainForm
     End Sub
 
     Private Sub ApplyRoleRestrictions()
-        If SessionManager.UserType <> Constants.UserTypeAdmin Then
-            btnNavSettings.Visible = False
-        End If
+        ' Role restrictions restored at v1.04 when Settings is unlocked
     End Sub
 
     ' ?? Page Loader: clears container and loads a UserControl ?????
@@ -31,32 +29,27 @@ Public Class MainForm
 
     Private Sub btnNavAddRecord_Click(sender As Object, e As EventArgs) Handles btnNavAddRecord.Click
         SetActiveButton(btnNavAddRecord)
-        LoadPage(New UcAddRecord())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.01
     End Sub
 
     Private Sub btnNavViewRecords_Click(sender As Object, e As EventArgs) Handles btnNavViewRecords.Click
         SetActiveButton(btnNavViewRecords)
-        LoadPage(New UcViewRecords())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.02
     End Sub
 
     Private Sub btnNavReports_Click(sender As Object, e As EventArgs) Handles btnNavReports.Click
         SetActiveButton(btnNavReports)
-        LoadPage(New UcReports())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.03
     End Sub
 
     Private Sub btnNavSettings_Click(sender As Object, e As EventArgs) Handles btnNavSettings.Click
-        If SessionManager.UserType <> Constants.UserTypeAdmin Then
-            MessageBox.Show("Access denied. Settings are restricted to Admin accounts.",
-                            "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
         SetActiveButton(btnNavSettings)
-        LoadPage(New UcSettings())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.04
     End Sub
 
     Private Sub btnNavDevelopers_Click(sender As Object, e As EventArgs) Handles btnNavDevelopers.Click
         SetActiveButton(btnNavDevelopers)
-        LoadPage(New UcDevelopers())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.05
     End Sub
 
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
