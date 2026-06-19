@@ -29,7 +29,7 @@ Public Class MainForm
 
     Private Sub btnNavAddRecord_Click(sender As Object, e As EventArgs) Handles btnNavAddRecord.Click
         SetActiveButton(btnNavAddRecord)
-        LoadPage(New UcUnderConstruction()) ' GATE v1.01
+        LoadPage(New UcAddRecord())
     End Sub
 
     Private Sub btnNavViewRecords_Click(sender As Object, e As EventArgs) Handles btnNavViewRecords.Click
