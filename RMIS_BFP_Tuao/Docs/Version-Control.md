@@ -4,8 +4,8 @@
 
 | Version | Feature Unlocked | Forms / Pages Unlocked | Still Gated |
 |---------|-----------------|------------------------|-------------|
-| v1.00 | Login + Dashboard | `LoginForm`, `ForgotPasswordForm`, `MainForm`, `UcDashboard` | Add Record, View Records, Reports, Settings, Developers |
-| v1.01 | Add Record | `UcAddRecord` | View Records, Reports, Settings, Developers |
+| v1.00 | Login Only | `LoginForm`, `ForgotPasswordForm`, `MainForm` | Dashboard, Add Record, View Records, Reports, Settings, Developers |
+| v1.01 | Dashboard + Add Record | `UcDashboard`, `UcAddRecord` | View Records, Reports, Settings, Developers |
 | v1.02 | View Records + Edit Record | `UcViewRecords`, `EditRecordForm` | Reports, Settings, Developers |
 | v1.03 | Reports | `UcReports` | Settings, Developers |
 | v1.04 | Admin Settings | `UcSettings` | Developers |
@@ -53,7 +53,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 
 | Version | Tag Name | Commit Hash |
 |---------|----------|-------------|
-| v1.00 | v1.00 | 977c9630c55bd4b9392c5825a444e44371212052 |
+| v1.00 | v1.00 | c2bba0f1a63bfd21893568de791f1f0d494407970c55bd4b9392c5825a444e44371212052 |
 | v1.01 | v1.01 | c0fe73cfd7350c8da6e561268a99f65aa1066371 |
 | v1.02 | v1.02 | f5c2d674a1b3873ebcdaebdd2a0e7bfc788f486a |
 | v1.03 | v1.03 | 1623d0ebc95060c97330c11f020e3c1e48dbd200 |
