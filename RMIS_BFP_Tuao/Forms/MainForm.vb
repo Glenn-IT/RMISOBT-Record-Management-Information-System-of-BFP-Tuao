@@ -5,7 +5,7 @@ Public Class MainForm
         lblTopDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy")
         lblTopUser.Text = "[ " & SessionManager.Username & " ]"
         ApplyRoleRestrictions()
-        LoadPage(New UcDashboard())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.01
         SetActiveButton(btnNavDashboard)
     End Sub
 
@@ -24,7 +24,7 @@ Public Class MainForm
     ' ?? Sidebar Navigation ????????????????????????????????????????
     Private Sub btnNavDashboard_Click(sender As Object, e As EventArgs) Handles btnNavDashboard.Click
         SetActiveButton(btnNavDashboard)
-        LoadPage(New UcDashboard())
+        LoadPage(New UcUnderConstruction()) ' GATE v1.01
     End Sub
 
     Private Sub btnNavAddRecord_Click(sender As Object, e As EventArgs) Handles btnNavAddRecord.Click
