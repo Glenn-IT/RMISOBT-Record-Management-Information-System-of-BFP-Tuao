@@ -53,7 +53,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 
 | Version | Tag Name | Commit Hash |
 |---------|----------|-------------|
-| v1.00 | v1.00 | c2bba0f1a63bfd21893568de791f1f0d494407970c55bd4b9392c5825a444e44371212052 |
+| v1.00 | v1.00 | f5dacf823fbfcb150bad9685735205bd88385376 |
 | v1.01 | v1.01 | c0fe73cfd7350c8da6e561268a99f65aa1066371 |
 | v1.02 | v1.02 | f5c2d674a1b3873ebcdaebdd2a0e7bfc788f486a |
 | v1.03 | v1.03 | 1623d0ebc95060c97330c11f020e3c1e48dbd200 |
