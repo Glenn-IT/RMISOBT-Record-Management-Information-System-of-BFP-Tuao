@@ -17,6 +17,7 @@ Partial Class LoginForm
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        components = New System.ComponentModel.Container()
         pnlLeft = New Panel()
         picLogo = New PictureBox()
         lblSystemTitle = New Label()
@@ -30,11 +31,13 @@ Partial Class LoginForm
         txtUsername = New TextBox()
         lblPassword = New Label()
         txtPassword = New TextBox()
+        chkShowPassword = New CheckBox()
         lnkForgotPassword = New LinkLabel()
         lblError = New Label()
         btnLogin = New Button()
         btnExit = New Button()
         lblFooter = New Label()
+        tmrLockout = New Timer(components)
         pnlLeft.SuspendLayout()
         CType(picLogo, ComponentModel.ISupportInitialize).BeginInit()
         pnlRight.SuspendLayout()
@@ -117,6 +120,7 @@ Partial Class LoginForm
         pnlLoginCard.Controls.Add(txtUsername)
         pnlLoginCard.Controls.Add(lblPassword)
         pnlLoginCard.Controls.Add(txtPassword)
+        pnlLoginCard.Controls.Add(chkShowPassword)
         pnlLoginCard.Controls.Add(lnkForgotPassword)
         pnlLoginCard.Controls.Add(lblError)
         pnlLoginCard.Controls.Add(btnLogin)
@@ -191,15 +195,28 @@ Partial Class LoginForm
         txtPassword.TabIndex = 5
         txtPassword.UseSystemPasswordChar = True
         '
+        ' chkShowPassword
+        '
+        chkShowPassword.AutoSize = True
+        chkShowPassword.Cursor = Cursors.Hand
+        chkShowPassword.Font = New Font("Segoe UI", 8.5F)
+        chkShowPassword.ForeColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
+        chkShowPassword.Location = New Point(20, 246)
+        chkShowPassword.Name = "chkShowPassword"
+        chkShowPassword.Size = New Size(110, 19)
+        chkShowPassword.TabIndex = 6
+        chkShowPassword.Text = "Show Password"
+        chkShowPassword.UseVisualStyleBackColor = True
+        '
         ' lnkForgotPassword
         '
         lnkForgotPassword.Font = New Font("Segoe UI", 8.5F)
         lnkForgotPassword.LinkColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         lnkForgotPassword.ActiveLinkColor = Color.FromArgb(CByte(140), CByte(10), CByte(10))
-        lnkForgotPassword.Location = New Point(20, 250)
+        lnkForgotPassword.Location = New Point(20, 270)
         lnkForgotPassword.Name = "lnkForgotPassword"
         lnkForgotPassword.Size = New Size(300, 18)
-        lnkForgotPassword.TabIndex = 6
+        lnkForgotPassword.TabIndex = 7
         lnkForgotPassword.TabStop = True
         lnkForgotPassword.Text = "Forgot Password?"
         lnkForgotPassword.TextAlign = ContentAlignment.MiddleRight
@@ -208,10 +225,10 @@ Partial Class LoginForm
         '
         lblError.Font = New Font("Segoe UI", 8.5F)
         lblError.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
-        lblError.Location = New Point(20, 274)
+        lblError.Location = New Point(20, 294)
         lblError.Name = "lblError"
         lblError.Size = New Size(300, 22)
-        lblError.TabIndex = 7
+        lblError.TabIndex = 8
         lblError.Text = "Invalid username or password."
         lblError.Visible = False
         '
@@ -223,10 +240,10 @@ Partial Class LoginForm
         btnLogin.FlatStyle = FlatStyle.Flat
         btnLogin.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
         btnLogin.ForeColor = Color.White
-        btnLogin.Location = New Point(20, 304)
+        btnLogin.Location = New Point(20, 324)
         btnLogin.Name = "btnLogin"
         btnLogin.Size = New Size(300, 44)
-        btnLogin.TabIndex = 8
+        btnLogin.TabIndex = 9
         btnLogin.Text = "LOGIN"
         btnLogin.UseVisualStyleBackColor = False
         '
@@ -238,12 +255,16 @@ Partial Class LoginForm
         btnExit.FlatStyle = FlatStyle.Flat
         btnExit.Font = New Font("Segoe UI", 9.5F)
         btnExit.ForeColor = Color.FromArgb(CByte(120), CByte(120), CByte(120))
-        btnExit.Location = New Point(20, 362)
+        btnExit.Location = New Point(20, 382)
         btnExit.Name = "btnExit"
         btnExit.Size = New Size(300, 36)
-        btnExit.TabIndex = 9
+        btnExit.TabIndex = 10
         btnExit.Text = "EXIT"
         btnExit.UseVisualStyleBackColor = False
+        '
+        ' tmrLockout
+        '
+        tmrLockout.Interval = 1000
         ' 
         ' lblFooter
         ' 
@@ -292,10 +313,12 @@ Partial Class LoginForm
     Friend WithEvents txtUsername As TextBox
     Friend WithEvents lblPassword As Label
     Friend WithEvents txtPassword As TextBox
+    Friend WithEvents chkShowPassword As CheckBox
     Friend WithEvents lnkForgotPassword As LinkLabel
     Friend WithEvents lblError As Label
     Friend WithEvents btnLogin As Button
     Friend WithEvents btnExit As Button
     Friend WithEvents lblFooter As Label
+    Friend WithEvents tmrLockout As Timer
 
 End Class
