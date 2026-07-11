@@ -28,16 +28,20 @@ Partial Class ForgotPasswordForm
         lblSecQuestion = New Label()
         cboSecQuestion = New ComboBox()
         lblAnswer = New Label()
+        pnlAnswerRow = New Panel()
         txtAnswer = New TextBox()
+        btnVerifyAnswer = New Button()
         lblNewPassword = New Label()
         txtNewPassword = New TextBox()
         lblConfirmPassword = New Label()
         txtConfirmPassword = New TextBox()
+        chkShowNewPassword = New CheckBox()
         lblStatus = New Label()
         btnReset = New Button()
         btnCancel = New Button()
         pnlCard.SuspendLayout()
         pnlUsernameRow.SuspendLayout()
+        pnlAnswerRow.SuspendLayout()
         SuspendLayout()
         '
         ' pnlCard
@@ -51,11 +55,12 @@ Partial Class ForgotPasswordForm
         pnlCard.Controls.Add(lblSecQuestion)
         pnlCard.Controls.Add(cboSecQuestion)
         pnlCard.Controls.Add(lblAnswer)
-        pnlCard.Controls.Add(txtAnswer)
+        pnlCard.Controls.Add(pnlAnswerRow)
         pnlCard.Controls.Add(lblNewPassword)
         pnlCard.Controls.Add(txtNewPassword)
         pnlCard.Controls.Add(lblConfirmPassword)
         pnlCard.Controls.Add(txtConfirmPassword)
+        pnlCard.Controls.Add(chkShowNewPassword)
         pnlCard.Controls.Add(lblStatus)
         pnlCard.Controls.Add(btnReset)
         pnlCard.Controls.Add(btnCancel)
@@ -171,17 +176,41 @@ Partial Class ForgotPasswordForm
         lblAnswer.Text = "Answer *"
         lblAnswer.Visible = False
         '
+        ' pnlAnswerRow
+        '
+        pnlAnswerRow.Controls.Add(txtAnswer)
+        pnlAnswerRow.Controls.Add(btnVerifyAnswer)
+        pnlAnswerRow.Location = New Point(36, 256)
+        pnlAnswerRow.Name = "pnlAnswerRow"
+        pnlAnswerRow.Size = New Size(388, 32)
+        pnlAnswerRow.TabIndex = 8
+        pnlAnswerRow.Visible = False
+        '
         ' txtAnswer
         '
         txtAnswer.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtAnswer.BorderStyle = BorderStyle.FixedSingle
         txtAnswer.Font = New Font("Segoe UI", 10.5F)
-        txtAnswer.Location = New Point(36, 256)
+        txtAnswer.Location = New Point(0, 0)
         txtAnswer.Name = "txtAnswer"
         txtAnswer.PlaceholderText = "Enter your answer"
-        txtAnswer.Size = New Size(388, 28)
-        txtAnswer.TabIndex = 8
-        txtAnswer.Visible = False
+        txtAnswer.Size = New Size(278, 28)
+        txtAnswer.TabIndex = 0
+        '
+        ' btnVerifyAnswer
+        '
+        btnVerifyAnswer.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
+        btnVerifyAnswer.Cursor = Cursors.Hand
+        btnVerifyAnswer.FlatAppearance.BorderSize = 0
+        btnVerifyAnswer.FlatStyle = FlatStyle.Flat
+        btnVerifyAnswer.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnVerifyAnswer.ForeColor = Color.White
+        btnVerifyAnswer.Location = New Point(284, 0)
+        btnVerifyAnswer.Name = "btnVerifyAnswer"
+        btnVerifyAnswer.Size = New Size(104, 28)
+        btnVerifyAnswer.TabIndex = 1
+        btnVerifyAnswer.Text = "Verify"
+        btnVerifyAnswer.UseVisualStyleBackColor = False
         '
         ' lblNewPassword
         '
@@ -231,14 +260,28 @@ Partial Class ForgotPasswordForm
         txtConfirmPassword.UseSystemPasswordChar = True
         txtConfirmPassword.Visible = False
         '
+        ' chkShowNewPassword
+        '
+        chkShowNewPassword.AutoSize = True
+        chkShowNewPassword.Cursor = Cursors.Hand
+        chkShowNewPassword.Font = New Font("Segoe UI", 8.5F)
+        chkShowNewPassword.ForeColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
+        chkShowNewPassword.Location = New Point(36, 422)
+        chkShowNewPassword.Name = "chkShowNewPassword"
+        chkShowNewPassword.Size = New Size(110, 19)
+        chkShowNewPassword.TabIndex = 13
+        chkShowNewPassword.Text = "Show Password"
+        chkShowNewPassword.UseVisualStyleBackColor = True
+        chkShowNewPassword.Visible = False
+        '
         ' lblStatus
         '
         lblStatus.Font = New Font("Segoe UI", 8.5F)
         lblStatus.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
-        lblStatus.Location = New Point(36, 428)
+        lblStatus.Location = New Point(36, 452)
         lblStatus.Name = "lblStatus"
         lblStatus.Size = New Size(388, 20)
-        lblStatus.TabIndex = 13
+        lblStatus.TabIndex = 14
         lblStatus.Text = ""
         lblStatus.Visible = False
         '
@@ -250,10 +293,10 @@ Partial Class ForgotPasswordForm
         btnReset.FlatStyle = FlatStyle.Flat
         btnReset.Font = New Font("Segoe UI", 10.5F, FontStyle.Bold)
         btnReset.ForeColor = Color.White
-        btnReset.Location = New Point(36, 456)
+        btnReset.Location = New Point(36, 480)
         btnReset.Name = "btnReset"
         btnReset.Size = New Size(388, 44)
-        btnReset.TabIndex = 14
+        btnReset.TabIndex = 15
         btnReset.Text = "Reset Password"
         btnReset.UseVisualStyleBackColor = False
         btnReset.Visible = False
@@ -266,17 +309,17 @@ Partial Class ForgotPasswordForm
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI", 9.5F)
         btnCancel.ForeColor = Color.FromArgb(CByte(120), CByte(120), CByte(120))
-        btnCancel.Location = New Point(36, 508)
+        btnCancel.Location = New Point(36, 532)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(388, 36)
-        btnCancel.TabIndex = 15
+        btnCancel.TabIndex = 16
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = False
         '
         ' ForgotPasswordForm
         '
         BackColor = Color.White
-        ClientSize = New Size(460, 564)
+        ClientSize = New Size(460, 596)
         Controls.Add(pnlCard)
         Font = New Font("Segoe UI", 9F)
         FormBorderStyle = FormBorderStyle.FixedSingle
@@ -289,6 +332,8 @@ Partial Class ForgotPasswordForm
         pnlCard.PerformLayout()
         pnlUsernameRow.ResumeLayout(False)
         pnlUsernameRow.PerformLayout()
+        pnlAnswerRow.ResumeLayout(False)
+        pnlAnswerRow.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -303,11 +348,14 @@ Partial Class ForgotPasswordForm
     Friend WithEvents lblSecQuestion     As Label
     Friend WithEvents cboSecQuestion      As ComboBox
     Friend WithEvents lblAnswer          As Label
+    Friend WithEvents pnlAnswerRow       As Panel
     Friend WithEvents txtAnswer          As TextBox
+    Friend WithEvents btnVerifyAnswer    As Button
     Friend WithEvents lblNewPassword     As Label
     Friend WithEvents txtNewPassword     As TextBox
     Friend WithEvents lblConfirmPassword As Label
     Friend WithEvents txtConfirmPassword As TextBox
+    Friend WithEvents chkShowNewPassword As CheckBox
     Friend WithEvents lblStatus          As Label
     Friend WithEvents btnReset           As Button
     Friend WithEvents btnCancel          As Button

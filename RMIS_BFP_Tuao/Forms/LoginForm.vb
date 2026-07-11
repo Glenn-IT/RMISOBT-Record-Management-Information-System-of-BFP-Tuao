@@ -7,6 +7,9 @@ Public Class LoginForm
     Private Const MaxAttempts As Integer = 3
     Private Const LockoutSeconds As Integer = 15
 
+    ' Username currently under an active lockout countdown (drives tmrLockout / btnLogin text)
+    Private _countdownUsername As String = Nothing
+
     Private Sub LoginForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToScreen()
     End Sub
@@ -28,7 +31,9 @@ Public Class LoginForm
         Try
             Dim dt = UserRepository.GetByUsername(username)
 
+            ' Username and password must both match exactly, including case
             If dt.Rows.Count = 0 OrElse
+               Not String.Equals(dt.Rows(0)("Username").ToString(), username, StringComparison.Ordinal) OrElse
                Not PasswordHelper.VerifyPassword(password, dt.Rows(0)("PasswordHash").ToString()) Then
                 RecordFailedAttempt(username)
                 ActivityLogger.Log(username, Constants.LogFailed, "Login failed — wrong credentials.")
@@ -60,7 +65,7 @@ Public Class LoginForm
 
         Dim remaining = (_lockedUntil(username) - DateTime.Now).TotalSeconds
         If remaining > 0 Then
-            ShowError($"Account locked. Try again in {CInt(Math.Ceiling(remaining))} second(s).")
+            StartLockoutCountdown(username)
             Return True
         End If
 
@@ -77,11 +82,41 @@ Public Class LoginForm
         If _failedAttempts(username) >= MaxAttempts Then
             _lockedUntil(username) = DateTime.Now.AddSeconds(LockoutSeconds)
             _failedAttempts.Remove(username)
-            ShowError($"Too many failed attempts. Account locked for {LockoutSeconds} seconds.")
+            StartLockoutCountdown(username)
         Else
             Dim remaining = MaxAttempts - _failedAttempts(username)
             ShowError($"Invalid username or password. {remaining} attempt(s) remaining before lockout.")
         End If
+    End Sub
+
+    ' ── Countdown on the Login button ────────────────────────────────────────
+
+    Private Sub StartLockoutCountdown(username As String)
+        _countdownUsername = username
+        btnLogin.Enabled = False
+        lblError.Visible = False
+        UpdateCountdownDisplay()
+        tmrLockout.Start()
+    End Sub
+
+    Private Sub UpdateCountdownDisplay()
+        Dim remaining = CInt(Math.Ceiling((_lockedUntil(_countdownUsername) - DateTime.Now).TotalSeconds))
+        If remaining > 0 Then
+            btnLogin.Text = $"LOCKED ({remaining}s)"
+        Else
+            EndLockoutCountdown()
+        End If
+    End Sub
+
+    Private Sub EndLockoutCountdown()
+        tmrLockout.Stop()
+        _countdownUsername = Nothing
+        btnLogin.Text = "LOGIN"
+        btnLogin.Enabled = True
+    End Sub
+
+    Private Sub tmrLockout_Tick(sender As Object, e As EventArgs) Handles tmrLockout.Tick
+        UpdateCountdownDisplay()
     End Sub
 
     ' ── Forgot Password ───────────────────────────────────────────────────────
@@ -103,8 +138,16 @@ Public Class LoginForm
         If e.KeyCode = Keys.Enter Then btnLogin.PerformClick()
     End Sub
 
+    Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
+        txtPassword.UseSystemPasswordChar = Not chkShowPassword.Checked
+    End Sub
+
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-        Application.Exit()
+        Dim result = MessageBox.Show("Are you sure you want to exit?",
+                                      "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If result = DialogResult.Yes Then
+            Application.Exit()
+        End If
     End Sub
 
 End Class

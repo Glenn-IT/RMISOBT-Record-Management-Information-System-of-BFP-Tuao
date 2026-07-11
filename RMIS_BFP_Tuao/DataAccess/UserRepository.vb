@@ -8,7 +8,7 @@ Public Module UserRepository
             con.Open()
             Using cmd As New SqlCommand(
                 "SELECT Username, PasswordHash, UserType, SecurityQuestion, SecurityAnswerHash FROM tbl_Users " &
-                "WHERE Username = @username", con)
+                "WHERE Username = @username COLLATE Latin1_General_CS_AS", con)
                 cmd.Parameters.AddWithValue("@username", username)
                 Dim adapter As New SqlDataAdapter(cmd)
                 adapter.Fill(dt)

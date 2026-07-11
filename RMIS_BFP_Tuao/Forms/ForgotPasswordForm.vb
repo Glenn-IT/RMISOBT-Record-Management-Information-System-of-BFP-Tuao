@@ -41,7 +41,7 @@ Public Class ForgotPasswordForm
             cboSecQuestion.Visible  = True
             cboSecQuestion.SelectedIndex = -1
             lblAnswer.Visible       = True
-            txtAnswer.Visible       = True
+            pnlAnswerRow.Visible    = True
             txtAnswer.Clear()
             cboSecQuestion.Focus()
 
@@ -50,16 +50,59 @@ Public Class ForgotPasswordForm
         End Try
     End Sub
 
-    ' ── Reveal password fields after answer is typed ──────────────────────────
+    ' ── Verify security question + answer before revealing new-password fields ─
 
-    Private Sub txtAnswer_TextChanged(sender As Object, e As EventArgs) Handles txtAnswer.TextChanged
-        If txtAnswer.Visible AndAlso txtAnswer.Text.Trim() <> "" Then
-            lblNewPassword.Visible     = True
-            txtNewPassword.Visible     = True
-            lblConfirmPassword.Visible = True
-            txtConfirmPassword.Visible = True
-            btnReset.Visible           = True
+    Private Sub btnVerifyAnswer_Click(sender As Object, e As EventArgs) Handles btnVerifyAnswer.Click
+        HideStatus()
+        If Not IsSecurityAnswerCorrect() Then Exit Sub
+
+        lblNewPassword.Visible     = True
+        txtNewPassword.Visible     = True
+        lblConfirmPassword.Visible = True
+        txtConfirmPassword.Visible = True
+        chkShowNewPassword.Visible = True
+        btnReset.Visible           = True
+        txtNewPassword.Focus()
+    End Sub
+
+    ' Checks the selected question matches the stored one AND the answer is correct.
+    ' Same error message either way — prevents probing which part was wrong.
+    Private Function IsSecurityAnswerCorrect() As Boolean
+        If cboSecQuestion.SelectedIndex = -1 Then
+            ShowStatus("Please select your security question.")
+            Return False
         End If
+
+        Dim answer = txtAnswer.Text.Trim()
+        If answer = "" Then
+            ShowStatus("Please enter your security answer.")
+            Return False
+        End If
+
+        Try
+            Dim selectedQuestion = cboSecQuestion.SelectedItem.ToString()
+            Dim storedQuestion   = UserRepository.GetSecurityQuestion(_verifiedUsername)
+            Dim questionMatch    = (selectedQuestion = storedQuestion)
+            Dim answerMatch      = UserRepository.VerifySecurityAnswer(_verifiedUsername, answer)
+
+            If Not questionMatch OrElse Not answerMatch Then
+                ShowStatus("Incorrect security question or answer. Please try again.")
+                ActivityLogger.Log(_verifiedUsername, Constants.LogFailed,
+                                   "Failed password reset — wrong security question or answer.")
+                Return False
+            End If
+
+            Return True
+
+        Catch ex As Exception
+            ShowStatus("Database error: " & ex.Message)
+            Return False
+        End Try
+    End Function
+
+    Private Sub chkShowNewPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowNewPassword.CheckedChanged
+        txtNewPassword.UseSystemPasswordChar     = Not chkShowNewPassword.Checked
+        txtConfirmPassword.UseSystemPasswordChar = Not chkShowNewPassword.Checked
     End Sub
 
     ' ── Reset password ────────────────────────────────────────────────────────
@@ -67,20 +110,8 @@ Public Class ForgotPasswordForm
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         HideStatus()
 
-        If cboSecQuestion.SelectedIndex = -1 Then
-            ShowStatus("Please select your security question.")
-            Exit Sub
-        End If
-
-        Dim selectedQuestion = cboSecQuestion.SelectedItem.ToString()
-        Dim answer           = txtAnswer.Text.Trim()
-        Dim newPassword      = txtNewPassword.Text
-        Dim confirmPw        = txtConfirmPassword.Text
-
-        If answer = "" Then
-            ShowStatus("Please enter your security answer.")
-            Exit Sub
-        End If
+        Dim newPassword = txtNewPassword.Text
+        Dim confirmPw    = txtConfirmPassword.Text
 
         If newPassword = "" Then
             ShowStatus("New password cannot be empty.")
@@ -92,20 +123,10 @@ Public Class ForgotPasswordForm
             Exit Sub
         End If
 
+        ' Re-verify in case the question/answer selection changed after the initial check
+        If Not IsSecurityAnswerCorrect() Then Exit Sub
+
         Try
-            ' Verify selected question matches stored question AND answer is correct.
-            ' Same error message either way — prevents probing which was wrong.
-            Dim storedQuestion = UserRepository.GetSecurityQuestion(_verifiedUsername)
-            Dim questionMatch  = (selectedQuestion = storedQuestion)
-            Dim answerMatch    = UserRepository.VerifySecurityAnswer(_verifiedUsername, answer)
-
-            If Not questionMatch OrElse Not answerMatch Then
-                ShowStatus("Incorrect security question or answer. Please try again.")
-                ActivityLogger.Log(_verifiedUsername, Constants.LogFailed,
-                                   "Failed password reset — wrong security question or answer.")
-                Exit Sub
-            End If
-
             UserRepository.UpdatePassword(_verifiedUsername, PasswordHelper.HashPassword(newPassword))
             ActivityLogger.Log(_verifiedUsername, Constants.LogSuccess,
                                "Password reset via security question.")
@@ -141,11 +162,13 @@ Public Class ForgotPasswordForm
         txtNewPassword.Visible     = False
         lblConfirmPassword.Visible = False
         txtConfirmPassword.Visible = False
+        chkShowNewPassword.Visible = False
+        chkShowNewPassword.Checked = False
         btnReset.Visible           = False
         lblSecQuestion.Visible     = False
         cboSecQuestion.Visible     = False
         lblAnswer.Visible          = False
-        txtAnswer.Visible          = False
+        pnlAnswerRow.Visible       = False
         _verifiedUsername          = ""
     End Sub
 
