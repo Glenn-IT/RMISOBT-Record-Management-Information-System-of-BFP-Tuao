@@ -31,17 +31,17 @@ Public Class MainForm
 
     Private Sub btnNavAddRecord_Click(sender As Object, e As EventArgs) Handles btnNavAddRecord.Click
         SetActiveButton(btnNavAddRecord)
-        LoadPage(New UcAddRecord())
+        LoadPage(New UcUnderConstruction()) ' GATE v2.00
     End Sub
 
     Private Sub btnNavViewRecords_Click(sender As Object, e As EventArgs) Handles btnNavViewRecords.Click
         SetActiveButton(btnNavViewRecords)
-        LoadPage(New UcViewRecords())
+        LoadPage(New UcUnderConstruction()) ' GATE v2.00
     End Sub
 
     Private Sub btnNavReports_Click(sender As Object, e As EventArgs) Handles btnNavReports.Click
         SetActiveButton(btnNavReports)
-        LoadPage(New UcReports())
+        LoadPage(New UcUnderConstruction()) ' GATE v2.00
     End Sub
 
     Private Sub btnNavSettings_Click(sender As Object, e As EventArgs) Handles btnNavSettings.Click
@@ -56,7 +56,7 @@ Public Class MainForm
 
     Private Sub btnNavDevelopers_Click(sender As Object, e As EventArgs) Handles btnNavDevelopers.Click
         SetActiveButton(btnNavDevelopers)
-        LoadPage(New UcDevelopers())
+        LoadPage(New UcUnderConstruction()) ' GATE v2.00
     End Sub
 
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
