@@ -37,6 +37,7 @@ Public Class LoginForm
                Not PasswordHelper.VerifyPassword(password, dt.Rows(0)("PasswordHash").ToString()) Then
                 RecordFailedAttempt(username)
                 ActivityLogger.Log(username, Constants.LogFailed, "Login failed — wrong credentials.")
+                ClearCredentialFields()
                 Exit Sub
             End If
 
@@ -132,6 +133,12 @@ Public Class LoginForm
     Private Sub ShowError(message As String)
         lblError.Text = message
         lblError.Visible = True
+    End Sub
+
+    Private Sub ClearCredentialFields()
+        txtUsername.Clear()
+        txtPassword.Clear()
+        txtUsername.Focus()
     End Sub
 
     Private Sub txtPassword_KeyDown(sender As Object, e As KeyEventArgs) Handles txtPassword.KeyDown
