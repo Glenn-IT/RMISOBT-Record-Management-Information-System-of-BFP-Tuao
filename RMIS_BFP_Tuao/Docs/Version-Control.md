@@ -11,6 +11,7 @@
 | v1.04 | Admin Settings | `UcSettings` | Developers |
 | v1.05 | Developers (Full System) | `UcDevelopers` | — |
 | v2.00 | Dashboard + Admin Settings only | `UcDashboard`, `UcSettings` | Add Record, View Records, Reports, Developers |
+| v2.01 | Same as v2.00 + login field-clearing fix | `UcDashboard`, `UcSettings` | Add Record, View Records, Reports, Developers |
 
 ---
 
@@ -61,6 +62,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 | v1.04 | v1.04 | a695c22d7eb4b26fe526b39c10445c18eaaa3fd0 |
 | v1.05 | v1.05 | c04b538bb8451c5257861fbe31a3f0e827948b72 |
 | v2.00 | v2.00 | e77ad7ceeb7c424b09a0d359a468885647512fb4 |
+| v2.01 | v2.01 | cf85df9d392c94b6b318b3e8921c1bd3d3e05ad8 |
 
 Run this after all versions are pushed to fill in hashes:
 ```bash
