@@ -383,6 +383,9 @@ Partial Class UcSettings
         Controls.Add(pnlHeader)
         Controls.Add(pnlAccount)
         Controls.Add(pnlSystem)
+        Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcSettings"
         Size = New Size(1147, 701)
         pnlHeader.ResumeLayout(False)

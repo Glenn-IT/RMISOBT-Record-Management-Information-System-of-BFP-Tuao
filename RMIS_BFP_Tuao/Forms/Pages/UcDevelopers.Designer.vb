@@ -313,6 +313,9 @@ Partial Class UcDevelopers
         Controls.Add(pnlHeader)
         Controls.Add(pnlAbout)
         Controls.Add(pnlTeam)
+        Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcDevelopers"
         Size = New Size(970, 569)
         pnlHeader.ResumeLayout(False)

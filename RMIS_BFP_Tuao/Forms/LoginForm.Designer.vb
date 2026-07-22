@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class LoginForm
     Inherits System.Windows.Forms.Form
 
@@ -73,7 +73,7 @@ Partial Class LoginForm
         lblSystemTitle.ForeColor = Color.White
         lblSystemTitle.Location = New Point(20, 295)
         lblSystemTitle.Name = "lblSystemTitle"
-        lblSystemTitle.Size = New Size(380, 45)
+        lblSystemTitle.Size = New Size(380, 54)
         lblSystemTitle.TabIndex = 1
         lblSystemTitle.Text = "BFP TUAO"
         lblSystemTitle.TextAlign = ContentAlignment.MiddleCenter
@@ -284,10 +284,10 @@ Partial Class LoginForm
         Controls.Add(pnlRight)
         Controls.Add(pnlLeft)
         Font = New Font("Segoe UI", 9.0F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         FormBorderStyle = FormBorderStyle.FixedSingle
         MaximizeBox = False
-        MaximumSize = New Size(900, 650)
-        MinimumSize = New Size(900, 650)
         Name = "LoginForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "BFP Tuao — RMIS Login"

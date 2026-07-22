@@ -163,7 +163,7 @@ Partial Class UcReports
         pnlCardTotal.Controls.Add(lblCardTotalValue)
         pnlCardTotal.Location = New Point(0, 28)
         pnlCardTotal.Name = "pnlCardTotal"
-        pnlCardTotal.Size = New Size(206, 72)
+        pnlCardTotal.Size = New Size(206, 80)
         pnlCardTotal.TabIndex = 1
         ' 
         ' lblCardTotalTitle
@@ -182,7 +182,7 @@ Partial Class UcReports
         lblCardTotalValue.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         lblCardTotalValue.Location = New Point(12, 30)
         lblCardTotalValue.Name = "lblCardTotalValue"
-        lblCardTotalValue.Size = New Size(180, 38)
+        lblCardTotalValue.Size = New Size(180, 46)
         lblCardTotalValue.TabIndex = 1
         lblCardTotalValue.Text = "0"
         ' 
@@ -193,7 +193,7 @@ Partial Class UcReports
         pnlCardActive.Controls.Add(lblCardActiveValue)
         pnlCardActive.Location = New Point(214, 28)
         pnlCardActive.Name = "pnlCardActive"
-        pnlCardActive.Size = New Size(206, 72)
+        pnlCardActive.Size = New Size(206, 80)
         pnlCardActive.TabIndex = 2
         ' 
         ' lblCardActiveTitle
@@ -212,7 +212,7 @@ Partial Class UcReports
         lblCardActiveValue.ForeColor = Color.FromArgb(CByte(220), CByte(120), CByte(0))
         lblCardActiveValue.Location = New Point(12, 30)
         lblCardActiveValue.Name = "lblCardActiveValue"
-        lblCardActiveValue.Size = New Size(180, 38)
+        lblCardActiveValue.Size = New Size(180, 46)
         lblCardActiveValue.TabIndex = 1
         lblCardActiveValue.Text = "0"
         ' 
@@ -223,7 +223,7 @@ Partial Class UcReports
         pnlCardResolved.Controls.Add(lblCardResolvedValue)
         pnlCardResolved.Location = New Point(428, 28)
         pnlCardResolved.Name = "pnlCardResolved"
-        pnlCardResolved.Size = New Size(206, 72)
+        pnlCardResolved.Size = New Size(206, 80)
         pnlCardResolved.TabIndex = 3
         ' 
         ' lblCardResolvedTitle
@@ -242,7 +242,7 @@ Partial Class UcReports
         lblCardResolvedValue.ForeColor = Color.FromArgb(CByte(30), CByte(130), CByte(30))
         lblCardResolvedValue.Location = New Point(12, 30)
         lblCardResolvedValue.Name = "lblCardResolvedValue"
-        lblCardResolvedValue.Size = New Size(180, 38)
+        lblCardResolvedValue.Size = New Size(180, 46)
         lblCardResolvedValue.TabIndex = 1
         lblCardResolvedValue.Text = "0"
         ' 
@@ -253,7 +253,7 @@ Partial Class UcReports
         pnlCardClosed.Controls.Add(lblCardClosedValue)
         pnlCardClosed.Location = New Point(642, 28)
         pnlCardClosed.Name = "pnlCardClosed"
-        pnlCardClosed.Size = New Size(206, 72)
+        pnlCardClosed.Size = New Size(206, 80)
         pnlCardClosed.TabIndex = 4
         ' 
         ' lblCardClosedTitle
@@ -272,7 +272,7 @@ Partial Class UcReports
         lblCardClosedValue.ForeColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
         lblCardClosedValue.Location = New Point(12, 30)
         lblCardClosedValue.Name = "lblCardClosedValue"
-        lblCardClosedValue.Size = New Size(180, 38)
+        lblCardClosedValue.Size = New Size(180, 46)
         lblCardClosedValue.TabIndex = 1
         lblCardClosedValue.Text = "0"
         ' 
@@ -375,6 +375,9 @@ Partial Class UcReports
         Controls.Add(pnlHeader)
         Controls.Add(pnlSummary)
         Controls.Add(pnlBreakdown)
+        Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcReports"
         Size = New Size(1110, 713)
         pnlHeader.ResumeLayout(False)

@@ -2,6 +2,7 @@ Public Class UcViewRecords
     Inherits UserControl
 
     Private Sub UcViewRecords_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        dgvRecords.ApplyDpiScaling()
         If SessionManager.UserType <> Constants.UserTypeAdmin Then
             btnEdit.Visible = False
             btnDelete.Visible = False

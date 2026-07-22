@@ -10,8 +10,11 @@ Public Class UcUnderConstruction
     Private _lblDesc    As Label
 
     Public Sub New()
+        Me.SuspendLayout()
+
         Me.BackColor = Color.FromArgb(26, 35, 126)
         Me.Dock = DockStyle.Fill
+        Me.Font = New Font("Segoe UI", 9F)
 
         _pnlCenter = New Panel() With {
             .Size      = New Size(580, 270),
@@ -56,6 +59,13 @@ Public Class UcUnderConstruction
 
         _pnlCenter.Controls.AddRange({_lblEmoji, _lblTitle, _lblVersion, _lblDesc})
         Me.Controls.Add(_pnlCenter)
+
+        ' These sizes/locations are 96 DPI pixel literals, so this control needs
+        ' the same DPI auto-scaling the designer-generated pages declare.
+        Me.AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        Me.AutoScaleMode = AutoScaleMode.Dpi
+
+        Me.ResumeLayout(False)
     End Sub
 
     Protected Overrides Sub OnResize(e As EventArgs)

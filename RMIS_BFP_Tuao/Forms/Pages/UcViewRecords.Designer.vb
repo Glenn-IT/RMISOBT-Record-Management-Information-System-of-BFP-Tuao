@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UcViewRecords
     Inherits System.Windows.Forms.UserControl
 
@@ -276,6 +276,9 @@ Partial Class UcViewRecords
         Controls.Add(pnlHeader)
         Controls.Add(pnlToolbar)
         Controls.Add(pnlGridCard)
+        Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcViewRecords"
         Size = New Size(969, 676)
         pnlHeader.ResumeLayout(False)
