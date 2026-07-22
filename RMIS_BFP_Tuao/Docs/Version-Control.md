@@ -13,6 +13,7 @@
 | v2.00 | Dashboard + Admin Settings only | `UcDashboard`, `UcSettings` | Add Record, View Records, Reports, Developers |
 | v2.01 | Same as v2.00 + login field-clearing fix | `UcDashboard`, `UcSettings` | Add Record, View Records, Reports, Developers |
 | v3.00 | v2.01 + Add Record | `UcDashboard`, `UcSettings`, `UcAddRecord` | View Records, Reports, Developers |
+| v3.01 | v3.00 + DPI scaling fix | `UcDashboard`, `UcSettings`, `UcAddRecord` | View Records, Reports, Developers |
 
 ---
 
@@ -65,6 +66,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 | v2.00 | v2.00 | e77ad7ceeb7c424b09a0d359a468885647512fb4 |
 | v2.01 | v2.01 | cf85df9d392c94b6b318b3e8921c1bd3d3e05ad8 |
 | v3.00 | v3.00 | 46c58a784fd0b7384695cf22f5f00434fc48b4c0 |
+| v3.01 | v3.01 | ad471e337c70d8f33a5cd91cf5c6da0790831eee |
 
 Run this after all versions are pushed to fill in hashes:
 ```bash
