@@ -338,6 +338,9 @@ Partial Class UcAddRecord
         ' 
         BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         Controls.Add(pnlFormCard)
+        Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcAddRecord"
         Size = New Size(1119, 731)
         pnlFormCard.ResumeLayout(False)

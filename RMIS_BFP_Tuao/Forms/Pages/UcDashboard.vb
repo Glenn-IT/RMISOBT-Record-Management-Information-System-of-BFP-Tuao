@@ -2,6 +2,7 @@ Public Class UcDashboard
     Inherits UserControl
 
     Private Sub UcDashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        dgvRecent.ApplyDpiScaling()
         lblWelcomeSub.Text = "Welcome, " & SessionManager.Username &
                              "  |  " & DateTime.Now.ToString("MMMM dd, yyyy")
         LoadDashboardData()

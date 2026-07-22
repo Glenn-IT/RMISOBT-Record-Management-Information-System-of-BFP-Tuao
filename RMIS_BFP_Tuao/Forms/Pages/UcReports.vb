@@ -2,6 +2,7 @@ Public Class UcReports
     Inherits UserControl
 
     Private Sub UcReports_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        dgvBreakdown.ApplyDpiScaling()
         Try
             LoadReportData()
         Catch ex As Exception

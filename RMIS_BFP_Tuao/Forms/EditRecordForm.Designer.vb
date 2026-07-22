@@ -63,6 +63,8 @@ Partial Class EditRecordForm
         Me.StartPosition = FormStartPosition.CenterParent
         Me.BackColor = Color.FromArgb(240, 242, 245)
         Me.Font = New Font("Segoe UI", 9F)
+        Me.AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        Me.AutoScaleMode = AutoScaleMode.Dpi
 
         ' ════════════════════════════════════════════════════════
         ' pnlHeader

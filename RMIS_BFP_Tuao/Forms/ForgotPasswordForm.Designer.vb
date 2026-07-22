@@ -322,6 +322,8 @@ Partial Class ForgotPasswordForm
         ClientSize = New Size(460, 596)
         Controls.Add(pnlCard)
         Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         FormBorderStyle = FormBorderStyle.FixedSingle
         MaximizeBox = False
         MinimizeBox = False

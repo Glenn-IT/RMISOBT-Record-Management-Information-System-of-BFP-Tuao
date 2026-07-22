@@ -111,7 +111,7 @@ Partial Class UcDashboard
         lblCard1Value.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         lblCard1Value.Location = New Point(70, 44)
         lblCard1Value.Name = "lblCard1Value"
-        lblCard1Value.Size = New Size(110, 40)
+        lblCard1Value.Size = New Size(110, 46)
         lblCard1Value.TabIndex = 2
         lblCard1Value.Text = "0"
         ' 
@@ -153,7 +153,7 @@ Partial Class UcDashboard
         lblCard2Value.ForeColor = Color.FromArgb(CByte(220), CByte(120), CByte(0))
         lblCard2Value.Location = New Point(70, 44)
         lblCard2Value.Name = "lblCard2Value"
-        lblCard2Value.Size = New Size(110, 40)
+        lblCard2Value.Size = New Size(110, 46)
         lblCard2Value.TabIndex = 2
         lblCard2Value.Text = "0"
         ' 
@@ -195,7 +195,7 @@ Partial Class UcDashboard
         lblCard3Value.ForeColor = Color.FromArgb(CByte(30), CByte(130), CByte(30))
         lblCard3Value.Location = New Point(70, 44)
         lblCard3Value.Name = "lblCard3Value"
-        lblCard3Value.Size = New Size(110, 40)
+        lblCard3Value.Size = New Size(110, 46)
         lblCard3Value.TabIndex = 2
         lblCard3Value.Text = "0"
         ' 
@@ -237,7 +237,7 @@ Partial Class UcDashboard
         lblCard4Value.ForeColor = Color.FromArgb(CByte(20), CByte(80), CByte(180))
         lblCard4Value.Location = New Point(70, 44)
         lblCard4Value.Name = "lblCard4Value"
-        lblCard4Value.Size = New Size(110, 40)
+        lblCard4Value.Size = New Size(110, 46)
         lblCard4Value.TabIndex = 2
         lblCard4Value.Text = "0"
         ' 
@@ -339,6 +339,9 @@ Partial Class UcDashboard
         Controls.Add(pnlCard3)
         Controls.Add(pnlCard4)
         Controls.Add(pnlActivity)
+        Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcDashboard"
         Size = New Size(1111, 750)
         pnlCard1.ResumeLayout(False)

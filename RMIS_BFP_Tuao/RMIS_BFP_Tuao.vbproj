@@ -7,6 +7,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
     <RootNamespace>RMIS_BFP_Tuao</RootNamespace>
+    <!-- The manifest declares supported OS versions only; it deliberately does NOT
+         declare dpiAwareness. DPI mode is set in My Project/Application.HighDpi.vb
+         because this VB project starts via the Application Framework - see that
+         file for why <ApplicationHighDpiMode> and the manifest both fail here. -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>

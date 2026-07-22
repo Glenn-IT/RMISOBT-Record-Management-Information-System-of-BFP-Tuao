@@ -263,6 +263,7 @@ Partial Class MainForm
         ' 
         ' pnlPageContainer
         ' 
+        pnlPageContainer.AutoScroll = True
         pnlPageContainer.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         pnlPageContainer.Dock = DockStyle.Fill
         pnlPageContainer.Location = New Point(220, 60)
@@ -279,8 +280,10 @@ Partial Class MainForm
         Controls.Add(pnlSidebar)
         Controls.Add(pnlTopBar)
         Font = New Font("Segoe UI", 9F)
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         FormBorderStyle = FormBorderStyle.Sizable
-        MinimumSize = New Size(1200, 700)
+        MinimumSize = New Size(1000, 620)
         Name = "MainForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "BFP Tuao � Record Management Information System"
