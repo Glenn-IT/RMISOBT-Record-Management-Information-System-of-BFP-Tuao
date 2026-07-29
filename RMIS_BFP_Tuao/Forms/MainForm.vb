@@ -16,9 +16,6 @@ Public Class MainForm
     End Sub
 
     Private Sub ApplyRoleRestrictions()
-        If SessionManager.UserType <> Constants.UserTypeAdmin Then
-            btnNavSettings.Visible = False
-        End If
     End Sub
 
     ' ?? Page Loader: clears container and loads a UserControl ?????
@@ -51,13 +48,8 @@ Public Class MainForm
     End Sub
 
     Private Sub btnNavSettings_Click(sender As Object, e As EventArgs) Handles btnNavSettings.Click
-        If SessionManager.UserType <> Constants.UserTypeAdmin Then
-            MessageBox.Show("Access denied. Settings are restricted to Admin accounts.",
-                            "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
         SetActiveButton(btnNavSettings)
-        LoadPage(New UcSettings())
+        LoadPage(New UcUnderConstruction()) ' GATE v4.00
     End Sub
 
     Private Sub btnNavDevelopers_Click(sender As Object, e As EventArgs) Handles btnNavDevelopers.Click
