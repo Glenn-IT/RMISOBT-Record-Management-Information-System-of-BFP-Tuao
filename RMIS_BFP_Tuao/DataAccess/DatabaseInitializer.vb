@@ -24,6 +24,7 @@ Public Class DatabaseInitializer
                     DamageEstimate  NVARCHAR(100)   NOT NULL DEFAULT '0',
                     Remarks         NVARCHAR(500)   NOT NULL DEFAULT '',
                     Status          NVARCHAR(50)    NOT NULL DEFAULT 'Active',
+                    AttachmentPath  NVARCHAR(255)   NULL,
                     CreatedAt       DATETIME        NOT NULL DEFAULT GETDATE()
                 );
 
@@ -62,7 +63,9 @@ Public Class DatabaseInitializer
                 "IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_Users') AND name = 'SecurityQuestion')
                     ALTER TABLE tbl_Users ADD SecurityQuestion NVARCHAR(255) NOT NULL DEFAULT '';
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_Users') AND name = 'SecurityAnswerHash')
-                    ALTER TABLE tbl_Users ADD SecurityAnswerHash NVARCHAR(255) NOT NULL DEFAULT '';"
+                    ALTER TABLE tbl_Users ADD SecurityAnswerHash NVARCHAR(255) NOT NULL DEFAULT '';
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'AttachmentPath')
+                    ALTER TABLE tbl_IncidentRecords ADD AttachmentPath NVARCHAR(255) NULL;"
             Using cmd As New SqlCommand(migrate, con)
                 cmd.ExecuteNonQuery()
             End Using

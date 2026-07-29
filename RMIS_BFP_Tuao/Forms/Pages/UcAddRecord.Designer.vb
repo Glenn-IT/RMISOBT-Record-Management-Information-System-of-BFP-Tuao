@@ -39,6 +39,9 @@ Partial Class UcAddRecord
         txtDamageEstimate = New TextBox()
         lblRemarks = New Label()
         txtRemarks = New TextBox()
+        lblDocument = New Label()
+        txtDocumentName = New TextBox()
+        btnBrowseDocument = New Button()
         btnSave = New Button()
         btnClear = New Button()
         pnlFormCard.SuspendLayout()
@@ -69,6 +72,9 @@ Partial Class UcAddRecord
         pnlFormCard.Controls.Add(txtDamageEstimate)
         pnlFormCard.Controls.Add(lblRemarks)
         pnlFormCard.Controls.Add(txtRemarks)
+        pnlFormCard.Controls.Add(lblDocument)
+        pnlFormCard.Controls.Add(txtDocumentName)
+        pnlFormCard.Controls.Add(btnBrowseDocument)
         pnlFormCard.Controls.Add(btnSave)
         pnlFormCard.Controls.Add(btnClear)
         pnlFormCard.Location = New Point(24, 18)
@@ -301,7 +307,46 @@ Partial Class UcAddRecord
         txtRemarks.ScrollBars = ScrollBars.Vertical
         txtRemarks.Size = New Size(390, 62)
         txtRemarks.TabIndex = 20
-        ' 
+        '
+        ' lblDocument
+        '
+        lblDocument.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblDocument.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblDocument.Location = New Point(24, 480)
+        lblDocument.Name = "lblDocument"
+        lblDocument.Size = New Size(390, 20)
+        lblDocument.TabIndex = 21
+        lblDocument.Text = "Attached Document *"
+        '
+        ' txtDocumentName
+        '
+        txtDocumentName.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txtDocumentName.BackColor = Color.FromArgb(CByte(245), CByte(245), CByte(245))
+        txtDocumentName.BorderStyle = BorderStyle.FixedSingle
+        txtDocumentName.Font = New Font("Segoe UI", 10F)
+        txtDocumentName.Location = New Point(24, 502)
+        txtDocumentName.Name = "txtDocumentName"
+        txtDocumentName.PlaceholderText = "No document selected."
+        txtDocumentName.ReadOnly = True
+        txtDocumentName.Size = New Size(860, 27)
+        txtDocumentName.TabIndex = 22
+        '
+        ' btnBrowseDocument
+        '
+        btnBrowseDocument.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnBrowseDocument.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
+        btnBrowseDocument.Cursor = Cursors.Hand
+        btnBrowseDocument.FlatAppearance.BorderSize = 0
+        btnBrowseDocument.FlatStyle = FlatStyle.Flat
+        btnBrowseDocument.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnBrowseDocument.ForeColor = Color.White
+        btnBrowseDocument.Location = New Point(894, 501)
+        btnBrowseDocument.Name = "btnBrowseDocument"
+        btnBrowseDocument.Size = New Size(130, 29)
+        btnBrowseDocument.TabIndex = 23
+        btnBrowseDocument.Text = "Browse..."
+        btnBrowseDocument.UseVisualStyleBackColor = False
+        '
         ' btnSave
         ' 
         btnSave.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
@@ -314,7 +359,7 @@ Partial Class UcAddRecord
         btnSave.Location = New Point(24, 623)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(180, 40)
-        btnSave.TabIndex = 21
+        btnSave.TabIndex = 24
         btnSave.Text = "SAVE RECORD"
         btnSave.UseVisualStyleBackColor = False
         ' 
@@ -330,7 +375,7 @@ Partial Class UcAddRecord
         btnClear.Location = New Point(216, 623)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(160, 40)
-        btnClear.TabIndex = 22
+        btnClear.TabIndex = 25
         btnClear.Text = "CLEAR FORM"
         btnClear.UseVisualStyleBackColor = False
         ' 
@@ -371,6 +416,9 @@ Partial Class UcAddRecord
     Friend WithEvents txtDamageEstimate As TextBox
     Friend WithEvents lblRemarks        As Label
     Friend WithEvents txtRemarks        As TextBox
+    Friend WithEvents lblDocument       As Label
+    Friend WithEvents txtDocumentName   As TextBox
+    Friend WithEvents btnBrowseDocument As Button
     Friend WithEvents btnSave           As Button
     Friend WithEvents btnClear          As Button
 

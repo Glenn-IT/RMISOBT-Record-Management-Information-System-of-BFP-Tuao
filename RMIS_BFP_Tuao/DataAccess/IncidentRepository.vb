@@ -8,7 +8,7 @@ Public Module IncidentRepository
             con.Open()
             Using cmd As New SqlCommand(
                 "SELECT RecordID, IncidentType, DateReported, Location, ReportedBy, " &
-                "Casualties, DamageEstimate, Remarks, Status " &
+                "Casualties, DamageEstimate, Remarks, Status, AttachmentPath " &
                 "FROM tbl_IncidentRecords ORDER BY DateReported DESC", con)
                 Using reader = cmd.ExecuteReader()
                     While reader.Read()
@@ -21,7 +21,8 @@ Public Module IncidentRepository
                             .Casualties    = reader.GetString(5),
                             .DamageEstimate = reader.GetString(6),
                             .Remarks       = reader.GetString(7),
-                            .Status        = reader.GetString(8)
+                            .Status        = reader.GetString(8),
+                            .DocumentPath  = If(reader.IsDBNull(9), "", reader.GetString(9))
                         })
                     End While
                 End Using
@@ -36,8 +37,8 @@ Public Module IncidentRepository
             Using cmd As New SqlCommand(
                 "INSERT INTO tbl_IncidentRecords " &
                 "(RecordID, IncidentType, DateReported, Location, ReportedBy, " &
-                " Casualties, DamageEstimate, Remarks, Status) " &
-                "VALUES (@id, @type, @date, @loc, @by, @cas, @dmg, @rem, @status)", con)
+                " Casualties, DamageEstimate, Remarks, Status, AttachmentPath) " &
+                "VALUES (@id, @type, @date, @loc, @by, @cas, @dmg, @rem, @status, @doc)", con)
                 cmd.Parameters.AddWithValue("@id",     record.RecordID)
                 cmd.Parameters.AddWithValue("@type",   record.IncidentType)
                 cmd.Parameters.AddWithValue("@date",   record.DateReported)
@@ -47,6 +48,7 @@ Public Module IncidentRepository
                 cmd.Parameters.AddWithValue("@dmg",    record.DamageEstimate)
                 cmd.Parameters.AddWithValue("@rem",    record.Remarks)
                 cmd.Parameters.AddWithValue("@status", record.Status)
+                cmd.Parameters.AddWithValue("@doc",    If(record.DocumentPath, CType(DBNull.Value, Object)))
                 cmd.ExecuteNonQuery()
             End Using
         End Using
@@ -59,7 +61,7 @@ Public Module IncidentRepository
                 "UPDATE tbl_IncidentRecords SET " &
                 "IncidentType = @type, DateReported = @date, Location = @loc, " &
                 "ReportedBy = @by, Casualties = @cas, DamageEstimate = @dmg, " &
-                "Remarks = @rem, Status = @status " &
+                "Remarks = @rem, Status = @status, AttachmentPath = @doc " &
                 "WHERE RecordID = @id", con)
                 cmd.Parameters.AddWithValue("@id",     record.RecordID)
                 cmd.Parameters.AddWithValue("@type",   record.IncidentType)
@@ -70,6 +72,7 @@ Public Module IncidentRepository
                 cmd.Parameters.AddWithValue("@dmg",    record.DamageEstimate)
                 cmd.Parameters.AddWithValue("@rem",    record.Remarks)
                 cmd.Parameters.AddWithValue("@status", record.Status)
+                cmd.Parameters.AddWithValue("@doc",    If(record.DocumentPath, CType(DBNull.Value, Object)))
                 cmd.ExecuteNonQuery()
             End Using
         End Using

@@ -9,5 +9,6 @@ Public Class RecordModel
     Public Property DamageEstimate As String
     Public Property Remarks As String
     Public Property Status As String
+    Public Property DocumentPath As String
 
 End Class

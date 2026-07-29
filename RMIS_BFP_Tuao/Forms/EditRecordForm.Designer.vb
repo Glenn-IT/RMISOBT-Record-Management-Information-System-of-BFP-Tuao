@@ -41,6 +41,9 @@ Partial Class EditRecordForm
         txtDamageEstimate = New TextBox()
         lblStatus      = New Label()
         cboStatus      = New ComboBox()
+        lblDocument    = New Label()
+        txtDocumentName = New TextBox()
+        btnBrowseDocument = New Button()
         lblRemarks     = New Label()
         txtRemarks     = New TextBox()
 
@@ -56,7 +59,7 @@ Partial Class EditRecordForm
         ' Form
         ' ════════════════════════════════════════════════════════
         Me.Text = "Edit Incident Record"
-        Me.ClientSize = New Size(620, 590)
+        Me.ClientSize = New Size(620, 706)
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -98,7 +101,7 @@ Partial Class EditRecordForm
         ' pnlBody — form fields
         ' ════════════════════════════════════════════════════════
         pnlBody.BackColor = Color.White
-        pnlBody.Size = New Size(580, 430)
+        pnlBody.Size = New Size(580, 520)
         pnlBody.Location = New Point(20, 108)
         pnlBody.Controls.AddRange({
             lblRecordID, txtRecordID,
@@ -109,6 +112,7 @@ Partial Class EditRecordForm
             lblCasualties, txtCasualties,
             lblDamage, txtDamageEstimate,
             lblStatus, cboStatus,
+            lblDocument, txtDocumentName, btnBrowseDocument,
             lblRemarks, txtRemarks})
 
         ' helper: label + control row layout (left col x=16, right col x=300)
@@ -222,18 +226,44 @@ Partial Class EditRecordForm
         txtDamageEstimate.Size = New Size(540, 28)
         txtDamageEstimate.Location = New Point(16, 302)
 
+        ' --- Attached Document ---
+        lblDocument.Text = "Attached Document *"
+        lblDocument.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        lblDocument.ForeColor = Color.FromArgb(60, 60, 60)
+        lblDocument.AutoSize = False
+        lblDocument.Size = New Size(540, 22)
+        lblDocument.Location = New Point(16, 346)
+
+        txtDocumentName.Font = New Font("Segoe UI", 10)
+        txtDocumentName.BackColor = Color.FromArgb(245, 245, 245)
+        txtDocumentName.BorderStyle = BorderStyle.FixedSingle
+        txtDocumentName.ReadOnly = True
+        txtDocumentName.PlaceholderText = "No document selected."
+        txtDocumentName.Size = New Size(400, 28)
+        txtDocumentName.Location = New Point(16, 368)
+
+        btnBrowseDocument.Text = "Browse..."
+        btnBrowseDocument.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnBrowseDocument.Size = New Size(140, 28)
+        btnBrowseDocument.Location = New Point(416, 368)
+        btnBrowseDocument.BackColor = Color.FromArgb(30, 100, 180)
+        btnBrowseDocument.ForeColor = Color.White
+        btnBrowseDocument.FlatStyle = FlatStyle.Flat
+        btnBrowseDocument.FlatAppearance.BorderSize = 0
+        btnBrowseDocument.Cursor = Cursors.Hand
+
         ' --- Remarks ---
         lblRemarks.Text = "Remarks"
         lblRemarks.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblRemarks.ForeColor = Color.FromArgb(60, 60, 60)
         lblRemarks.AutoSize = False
         lblRemarks.Size = New Size(540, 22)
-        lblRemarks.Location = New Point(16, 346)
+        lblRemarks.Location = New Point(16, 414)
 
         txtRemarks.Font = New Font("Segoe UI", 10)
         txtRemarks.BorderStyle = BorderStyle.FixedSingle
         txtRemarks.Size = New Size(540, 64)
-        txtRemarks.Location = New Point(16, 368)
+        txtRemarks.Location = New Point(16, 436)
         txtRemarks.Multiline = True
         txtRemarks.ScrollBars = ScrollBars.Vertical
 
@@ -242,7 +272,7 @@ Partial Class EditRecordForm
         ' ════════════════════════════════════════════════════════
         pnlFooter.BackColor = Color.White
         pnlFooter.Size = New Size(580, 52)
-        pnlFooter.Location = New Point(20, 548)
+        pnlFooter.Location = New Point(20, 638)
         pnlFooter.Controls.Add(btnSave)
         pnlFooter.Controls.Add(btnCancel)
 
@@ -301,6 +331,9 @@ Partial Class EditRecordForm
     Friend WithEvents txtDamageEstimate As TextBox
     Friend WithEvents lblStatus        As Label
     Friend WithEvents cboStatus        As ComboBox
+    Friend WithEvents lblDocument      As Label
+    Friend WithEvents txtDocumentName  As TextBox
+    Friend WithEvents btnBrowseDocument As Button
     Friend WithEvents lblRemarks       As Label
     Friend WithEvents txtRemarks       As TextBox
     Friend WithEvents btnSave          As Button

@@ -12,6 +12,11 @@ Public Class LoginForm
 
     Private Sub LoginForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToScreen()
+        Try
+            picLogo.Image = BannerHelper.GetCurrentBanner()
+        Catch
+            ' Leave picLogo blank if the saved banner can't be loaded
+        End Try
     End Sub
 
     ' ── Login ─────────────────────────────────────────────────────────────────

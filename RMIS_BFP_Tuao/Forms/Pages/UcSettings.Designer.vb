@@ -46,9 +46,18 @@ Partial Class UcSettings
         lblStationAddr = New Label()
         txtStationAddr = New TextBox()
         btnSaveSystem = New Button()
+        pnlBanner = New Panel()
+        lblBannerTitle = New Label()
+        lblBannerDivider = New Panel()
+        picBanner = New PictureBox()
+        btnBrowseBanner = New Button()
+        btnSaveBanner = New Button()
+        lblBannerHint = New Label()
         pnlHeader.SuspendLayout()
         pnlAccount.SuspendLayout()
         pnlSystem.SuspendLayout()
+        pnlBanner.SuspendLayout()
+        CType(picBanner, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' pnlHeader
@@ -376,13 +385,97 @@ Partial Class UcSettings
         btnSaveSystem.TabIndex = 6
         btnSaveSystem.Text = "Save Changes"
         btnSaveSystem.UseVisualStyleBackColor = False
-        ' 
+        '
+        ' pnlBanner
+        '
+        pnlBanner.BackColor = Color.White
+        pnlBanner.Controls.Add(lblBannerTitle)
+        pnlBanner.Controls.Add(lblBannerDivider)
+        pnlBanner.Controls.Add(picBanner)
+        pnlBanner.Controls.Add(btnBrowseBanner)
+        pnlBanner.Controls.Add(btnSaveBanner)
+        pnlBanner.Controls.Add(lblBannerHint)
+        pnlBanner.Location = New Point(500, 120)
+        pnlBanner.Name = "pnlBanner"
+        pnlBanner.Size = New Size(440, 230)
+        pnlBanner.TabIndex = 3
+        '
+        ' lblBannerTitle
+        '
+        lblBannerTitle.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        lblBannerTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
+        lblBannerTitle.Location = New Point(16, 12)
+        lblBannerTitle.Name = "lblBannerTitle"
+        lblBannerTitle.Size = New Size(400, 30)
+        lblBannerTitle.TabIndex = 0
+        lblBannerTitle.Text = "Banner Image"
+        '
+        ' lblBannerDivider
+        '
+        lblBannerDivider.BackColor = Color.FromArgb(CByte(220), CByte(220), CByte(220))
+        lblBannerDivider.Location = New Point(16, 44)
+        lblBannerDivider.Name = "lblBannerDivider"
+        lblBannerDivider.Size = New Size(408, 1)
+        lblBannerDivider.TabIndex = 1
+        '
+        ' picBanner
+        '
+        picBanner.BackColor = Color.FromArgb(CByte(245), CByte(245), CByte(245))
+        picBanner.BorderStyle = BorderStyle.FixedSingle
+        picBanner.Location = New Point(16, 56)
+        picBanner.Name = "picBanner"
+        picBanner.Size = New Size(140, 140)
+        picBanner.SizeMode = PictureBoxSizeMode.Zoom
+        picBanner.TabIndex = 2
+        picBanner.TabStop = False
+        '
+        ' btnBrowseBanner
+        '
+        btnBrowseBanner.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
+        btnBrowseBanner.Cursor = Cursors.Hand
+        btnBrowseBanner.FlatAppearance.BorderSize = 0
+        btnBrowseBanner.FlatStyle = FlatStyle.Flat
+        btnBrowseBanner.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnBrowseBanner.ForeColor = Color.White
+        btnBrowseBanner.Location = New Point(172, 56)
+        btnBrowseBanner.Name = "btnBrowseBanner"
+        btnBrowseBanner.Size = New Size(150, 36)
+        btnBrowseBanner.TabIndex = 3
+        btnBrowseBanner.Text = "Browse..."
+        btnBrowseBanner.UseVisualStyleBackColor = False
+        '
+        ' btnSaveBanner
+        '
+        btnSaveBanner.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
+        btnSaveBanner.Cursor = Cursors.Hand
+        btnSaveBanner.FlatAppearance.BorderSize = 0
+        btnSaveBanner.FlatStyle = FlatStyle.Flat
+        btnSaveBanner.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnSaveBanner.ForeColor = Color.White
+        btnSaveBanner.Location = New Point(172, 100)
+        btnSaveBanner.Name = "btnSaveBanner"
+        btnSaveBanner.Size = New Size(150, 36)
+        btnSaveBanner.TabIndex = 4
+        btnSaveBanner.Text = "Save Banner"
+        btnSaveBanner.UseVisualStyleBackColor = False
+        '
+        ' lblBannerHint
+        '
+        lblBannerHint.Font = New Font("Segoe UI", 8F)
+        lblBannerHint.ForeColor = Color.Gray
+        lblBannerHint.Location = New Point(172, 144)
+        lblBannerHint.Name = "lblBannerHint"
+        lblBannerHint.Size = New Size(252, 52)
+        lblBannerHint.TabIndex = 5
+        lblBannerHint.Text = "PNG or JPG recommended. Appears on the login screen and sidebar."
+        '
         ' UcSettings
-        ' 
+        '
         BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         Controls.Add(pnlHeader)
         Controls.Add(pnlAccount)
         Controls.Add(pnlSystem)
+        Controls.Add(pnlBanner)
         Font = New Font("Segoe UI", 9F)
         AutoScaleDimensions = New SizeF(96.0F, 96.0F)
         AutoScaleMode = AutoScaleMode.Dpi
@@ -393,6 +486,8 @@ Partial Class UcSettings
         pnlAccount.PerformLayout()
         pnlSystem.ResumeLayout(False)
         pnlSystem.PerformLayout()
+        pnlBanner.ResumeLayout(False)
+        CType(picBanner, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
 
     End Sub
@@ -426,5 +521,12 @@ Partial Class UcSettings
     Friend WithEvents lblStationAddr As Label
     Friend WithEvents txtStationAddr As TextBox
     Friend WithEvents btnSaveSystem  As Button
+    Friend WithEvents pnlBanner         As Panel
+    Friend WithEvents lblBannerTitle    As Label
+    Friend WithEvents lblBannerDivider  As Panel
+    Friend WithEvents picBanner         As PictureBox
+    Friend WithEvents btnBrowseBanner   As Button
+    Friend WithEvents btnSaveBanner     As Button
+    Friend WithEvents lblBannerHint     As Label
 
 End Class

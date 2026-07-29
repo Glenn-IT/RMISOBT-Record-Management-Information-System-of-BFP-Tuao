@@ -1,6 +1,8 @@
 Public Class UcAddRecord
     Inherits UserControl
 
+    Private _documentPath As String = ""
+
     Private Sub UcAddRecord_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dtpDateReported.Value = DateTime.Now
         cboIncidentType.Items.AddRange(Constants.IncidentTypes)
@@ -14,10 +16,26 @@ Public Class UcAddRecord
         End Try
     End Sub
 
+    Private Sub btnBrowseDocument_Click(sender As Object, e As EventArgs) Handles btnBrowseDocument.Click
+        Using dlg As New OpenFileDialog()
+            dlg.Filter = "Documents|*.pdf;*.doc;*.docx;*.jpg;*.jpeg;*.png"
+            If dlg.ShowDialog() = DialogResult.OK Then
+                _documentPath = dlg.FileName
+                txtDocumentName.Text = IO.Path.GetFileName(_documentPath)
+            End If
+        End Using
+    End Sub
+
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         If txtLocation.Text.Trim() = "" OrElse
            txtReportedBy.Text.Trim() = "" Then
             MessageBox.Show("Please fill in all required fields marked with *.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        If _documentPath = "" Then
+            MessageBox.Show("You must upload a document.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
@@ -59,7 +77,8 @@ Public Class UcAddRecord
                 .Casualties     = txtCasualties.Text.Trim(),
                 .DamageEstimate = txtDamageEstimate.Text.Trim(),
                 .Remarks        = txtRemarks.Text.Trim(),
-                .Status         = cboStatus.SelectedItem?.ToString()
+                .Status         = cboStatus.SelectedItem?.ToString(),
+                .DocumentPath   = DocumentStorage.SaveDocument(_documentPath, txtIncidentNo.Text.Trim())
             }
 
             RecordService.Instance.AddRecord(record)
@@ -82,6 +101,8 @@ Public Class UcAddRecord
         txtCasualties.Clear()
         txtDamageEstimate.Clear()
         txtRemarks.Clear()
+        txtDocumentName.Clear()
+        _documentPath = ""
         cboIncidentType.SelectedIndex = 0
         cboStatus.SelectedIndex = 0
         dtpDateReported.Value = DateTime.Now

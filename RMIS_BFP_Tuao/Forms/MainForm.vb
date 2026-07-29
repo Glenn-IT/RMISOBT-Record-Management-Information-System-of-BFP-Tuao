@@ -5,8 +5,14 @@ Public Class MainForm
         lblTopDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy")
         lblTopUser.Text = "[ " & SessionManager.Username & " ]"
         ApplyRoleRestrictions()
+        RefreshBanner()
         LoadPage(New UcDashboard())
         SetActiveButton(btnNavDashboard)
+    End Sub
+
+    Public Sub RefreshBanner()
+        picSideLogo.Image?.Dispose()
+        picSideLogo.Image = BannerHelper.GetCurrentBanner()
     End Sub
 
     Private Sub ApplyRoleRestrictions()

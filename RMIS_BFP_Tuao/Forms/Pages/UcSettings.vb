@@ -1,6 +1,8 @@
 Public Class UcSettings
     Inherits UserControl
 
+    Private _selectedBannerPath As String = ""
+
     Private ReadOnly SecurityQuestions As String() = {
         "What is your mother's maiden name?",
         "What was the name of your first pet?",
@@ -22,8 +24,51 @@ Public Class UcSettings
             Else
                 cboSecQuestion.SelectedIndex = 0
             End If
+
+            LoadBannerPreview()
         Catch ex As Exception
             MessageBox.Show("Failed to load settings: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub LoadBannerPreview()
+        picBanner.Image?.Dispose()
+        picBanner.Image = BannerHelper.GetCurrentBanner()
+    End Sub
+
+    Private Sub btnBrowseBanner_Click(sender As Object, e As EventArgs) Handles btnBrowseBanner.Click
+        Using dlg As New OpenFileDialog()
+            dlg.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp"
+            If dlg.ShowDialog() = DialogResult.OK Then
+                _selectedBannerPath = dlg.FileName
+                picBanner.Image?.Dispose()
+                picBanner.Image = BannerHelper.LoadImage(_selectedBannerPath)
+            End If
+        End Using
+    End Sub
+
+    Private Sub btnSaveBanner_Click(sender As Object, e As EventArgs) Handles btnSaveBanner.Click
+        If _selectedBannerPath = "" Then
+            MessageBox.Show("Please browse for an image first.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Try
+            BannerHelper.SaveBanner(_selectedBannerPath)
+            _selectedBannerPath = ""
+            LoadBannerPreview()
+
+            Dim main = TryCast(Me.ParentForm, MainForm)
+            If main IsNot Nothing Then main.RefreshBanner()
+
+            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                               "Banner image updated.")
+            MessageBox.Show("Banner image saved successfully.", "Settings",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Failed to save banner image: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub

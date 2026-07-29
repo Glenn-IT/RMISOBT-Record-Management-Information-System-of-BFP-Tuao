@@ -22,6 +22,7 @@ Stores all fire incident reports.
 | `DamageEstimate` | `NVARCHAR(100)` | NOT NULL, DEFAULT `'0'` | Estimated damage in PHP |
 | `Remarks` | `NVARCHAR(500)` | NOT NULL, DEFAULT `''` | Additional notes |
 | `Status` | `NVARCHAR(50)` | NOT NULL, DEFAULT `'Active'` | Active, Resolved, Under Investigation, Closed |
+| `AttachmentPath` | `NVARCHAR(255)` | NULL | Path to the required attached document (copied into `Documents\` by the app). Named `AttachmentPath`, not `DocumentPath`, to avoid colliding with any pre-existing `DocumentPath` column of a different type. |
 | `CreatedAt` | `DATETIME` | NOT NULL, DEFAULT `GETDATE()` | Record creation timestamp |
 
 **ID generation:** `INC-{YEAR}-{MAX+1:D3}` queried from `MAX(RecordID)` for the current year — collision-safe.
@@ -73,6 +74,12 @@ Key/value store for application-level settings.
 |-----|---------------|
 | `StationName` | `BFP Tuao Fire Station` |
 | `StationAddress` | `Tuao, Cagayan` |
+
+**Other keys (set on demand, no seeded default):**
+
+| Key | Purpose |
+|-----|---------|
+| `BannerImagePath` | Path to the uploaded banner image (copied into `Assets\Banner\` by the app) |
 
 ---
 

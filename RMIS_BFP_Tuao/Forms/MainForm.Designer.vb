@@ -23,6 +23,7 @@ Partial Class MainForm
         lblTopUser = New Label()
         pnlSidebar = New Panel()
         pnlLogo = New Panel()
+        picSideLogo = New PictureBox()
         lblSideTitle = New Label()
         lblSideSub = New Label()
         btnNavDashboard = New Button()
@@ -36,6 +37,7 @@ Partial Class MainForm
         pnlTopBar.SuspendLayout()
         pnlSidebar.SuspendLayout()
         pnlLogo.SuspendLayout()
+        CType(picSideLogo, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' pnlTopBar
@@ -105,37 +107,48 @@ Partial Class MainForm
         ' pnlLogo
         '
         pnlLogo.BackColor = Color.FromArgb(CByte(140), CByte(10), CByte(10))
+        pnlLogo.Controls.Add(picSideLogo)
         pnlLogo.Controls.Add(lblSideTitle)
         pnlLogo.Controls.Add(lblSideSub)
         pnlLogo.Dock = DockStyle.Top
         pnlLogo.Name = "pnlLogo"
-        pnlLogo.Size = New Size(220, 90)
+        pnlLogo.Size = New Size(220, 130)
         pnlLogo.TabIndex = 0
-        ' 
+        '
+        ' picSideLogo
+        '
+        picSideLogo.BackColor = Color.Transparent
+        picSideLogo.Location = New Point(85, 8)
+        picSideLogo.Name = "picSideLogo"
+        picSideLogo.Size = New Size(50, 50)
+        picSideLogo.SizeMode = PictureBoxSizeMode.Zoom
+        picSideLogo.TabIndex = 0
+        picSideLogo.TabStop = False
+        '
         ' lblSideTitle
-        ' 
+        '
         lblSideTitle.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
         lblSideTitle.ForeColor = Color.White
-        lblSideTitle.Location = New Point(10, 16)
+        lblSideTitle.Location = New Point(10, 64)
         lblSideTitle.Name = "lblSideTitle"
         lblSideTitle.Size = New Size(200, 32)
-        lblSideTitle.TabIndex = 0
+        lblSideTitle.TabIndex = 1
         lblSideTitle.Text = "BFP TUAO"
         lblSideTitle.TextAlign = ContentAlignment.MiddleCenter
-        ' 
+        '
         ' lblSideSub
-        ' 
+        '
         lblSideSub.Font = New Font("Segoe UI", 8F)
         lblSideSub.ForeColor = Color.FromArgb(CByte(255), CByte(200), CByte(200))
-        lblSideSub.Location = New Point(10, 52)
+        lblSideSub.Location = New Point(10, 100)
         lblSideSub.Name = "lblSideSub"
         lblSideSub.Size = New Size(200, 20)
-        lblSideSub.TabIndex = 1
+        lblSideSub.TabIndex = 2
         lblSideSub.Text = "Fire Protection"
         lblSideSub.TextAlign = ContentAlignment.MiddleCenter
-        ' 
+        '
         ' btnNavDashboard
-        ' 
+        '
         btnNavDashboard.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavDashboard.Cursor = Cursors.Hand
         btnNavDashboard.FlatAppearance.BorderSize = 0
@@ -143,7 +156,7 @@ Partial Class MainForm
         btnNavDashboard.FlatStyle = FlatStyle.Flat
         btnNavDashboard.Font = New Font("Segoe UI", 10F)
         btnNavDashboard.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
-        btnNavDashboard.Location = New Point(0, 100)
+        btnNavDashboard.Location = New Point(0, 140)
         btnNavDashboard.Name = "btnNavDashboard"
         btnNavDashboard.Padding = New Padding(20, 0, 0, 0)
         btnNavDashboard.Size = New Size(220, 46)
@@ -151,9 +164,9 @@ Partial Class MainForm
         btnNavDashboard.Text = "  Dashboard"
         btnNavDashboard.TextAlign = ContentAlignment.MiddleLeft
         btnNavDashboard.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnNavAddRecord
-        ' 
+        '
         btnNavAddRecord.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavAddRecord.Cursor = Cursors.Hand
         btnNavAddRecord.FlatAppearance.BorderSize = 0
@@ -161,7 +174,7 @@ Partial Class MainForm
         btnNavAddRecord.FlatStyle = FlatStyle.Flat
         btnNavAddRecord.Font = New Font("Segoe UI", 10F)
         btnNavAddRecord.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
-        btnNavAddRecord.Location = New Point(0, 150)
+        btnNavAddRecord.Location = New Point(0, 190)
         btnNavAddRecord.Name = "btnNavAddRecord"
         btnNavAddRecord.Padding = New Padding(20, 0, 0, 0)
         btnNavAddRecord.Size = New Size(220, 46)
@@ -169,9 +182,9 @@ Partial Class MainForm
         btnNavAddRecord.Text = "  Add Record"
         btnNavAddRecord.TextAlign = ContentAlignment.MiddleLeft
         btnNavAddRecord.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnNavViewRecords
-        ' 
+        '
         btnNavViewRecords.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavViewRecords.Cursor = Cursors.Hand
         btnNavViewRecords.FlatAppearance.BorderSize = 0
@@ -179,7 +192,7 @@ Partial Class MainForm
         btnNavViewRecords.FlatStyle = FlatStyle.Flat
         btnNavViewRecords.Font = New Font("Segoe UI", 10F)
         btnNavViewRecords.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
-        btnNavViewRecords.Location = New Point(0, 200)
+        btnNavViewRecords.Location = New Point(0, 240)
         btnNavViewRecords.Name = "btnNavViewRecords"
         btnNavViewRecords.Padding = New Padding(20, 0, 0, 0)
         btnNavViewRecords.Size = New Size(220, 46)
@@ -187,9 +200,9 @@ Partial Class MainForm
         btnNavViewRecords.Text = "  View Records"
         btnNavViewRecords.TextAlign = ContentAlignment.MiddleLeft
         btnNavViewRecords.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnNavReports
-        ' 
+        '
         btnNavReports.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavReports.Cursor = Cursors.Hand
         btnNavReports.FlatAppearance.BorderSize = 0
@@ -197,7 +210,7 @@ Partial Class MainForm
         btnNavReports.FlatStyle = FlatStyle.Flat
         btnNavReports.Font = New Font("Segoe UI", 10F)
         btnNavReports.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
-        btnNavReports.Location = New Point(0, 250)
+        btnNavReports.Location = New Point(0, 290)
         btnNavReports.Name = "btnNavReports"
         btnNavReports.Padding = New Padding(20, 0, 0, 0)
         btnNavReports.Size = New Size(220, 46)
@@ -205,9 +218,9 @@ Partial Class MainForm
         btnNavReports.Text = "  Reports"
         btnNavReports.TextAlign = ContentAlignment.MiddleLeft
         btnNavReports.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnNavSettings
-        ' 
+        '
         btnNavSettings.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavSettings.Cursor = Cursors.Hand
         btnNavSettings.FlatAppearance.BorderSize = 0
@@ -215,7 +228,7 @@ Partial Class MainForm
         btnNavSettings.FlatStyle = FlatStyle.Flat
         btnNavSettings.Font = New Font("Segoe UI", 10F)
         btnNavSettings.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
-        btnNavSettings.Location = New Point(0, 300)
+        btnNavSettings.Location = New Point(0, 340)
         btnNavSettings.Name = "btnNavSettings"
         btnNavSettings.Padding = New Padding(20, 0, 0, 0)
         btnNavSettings.Size = New Size(220, 46)
@@ -223,9 +236,9 @@ Partial Class MainForm
         btnNavSettings.Text = "  Settings"
         btnNavSettings.TextAlign = ContentAlignment.MiddleLeft
         btnNavSettings.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnNavDevelopers
-        ' 
+        '
         btnNavDevelopers.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
         btnNavDevelopers.Cursor = Cursors.Hand
         btnNavDevelopers.FlatAppearance.BorderSize = 0
@@ -233,7 +246,7 @@ Partial Class MainForm
         btnNavDevelopers.FlatStyle = FlatStyle.Flat
         btnNavDevelopers.Font = New Font("Segoe UI", 10F)
         btnNavDevelopers.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
-        btnNavDevelopers.Location = New Point(0, 350)
+        btnNavDevelopers.Location = New Point(0, 390)
         btnNavDevelopers.Name = "btnNavDevelopers"
         btnNavDevelopers.Padding = New Padding(20, 0, 0, 0)
         btnNavDevelopers.Size = New Size(220, 46)
@@ -291,6 +304,7 @@ Partial Class MainForm
         pnlTopBar.ResumeLayout(False)
         pnlSidebar.ResumeLayout(False)
         pnlLogo.ResumeLayout(False)
+        CType(picSideLogo, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
 
     End Sub
@@ -300,6 +314,7 @@ Partial Class MainForm
     Friend WithEvents pnlSidebar        As Panel
     Friend WithEvents pnlPageContainer  As Panel
     Friend WithEvents pnlLogo           As Panel
+    Friend WithEvents picSideLogo       As PictureBox
     Friend WithEvents lblTopTitle       As Label
     Friend WithEvents lblTopDate        As Label
     Friend WithEvents lblTopUser        As Label
