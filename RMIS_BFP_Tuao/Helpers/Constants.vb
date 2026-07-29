@@ -7,6 +7,9 @@ Public Module Constants
     Public ReadOnly Statuses As String() = {
         "Active", "Resolved", "Under Investigation", "Closed"}
 
+    Public ReadOnly AlarmLevels As String() = {
+        "1st Alarm", "2nd Alarm", "3rd Alarm", "4th Alarm", "5th Alarm", "General Alarm"}
+
     Public Const UserTypeAdmin As String = "Admin"
     Public Const UserTypeStaff As String = "Staff"
 

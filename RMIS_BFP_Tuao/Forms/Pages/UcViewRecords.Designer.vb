@@ -26,6 +26,7 @@ Partial Class UcViewRecords
         pnlToolbar = New Panel()
         lblSearchLabel = New Label()
         txtSearch = New TextBox()
+        btnView = New Button()
         btnRefresh = New Button()
         btnEdit = New Button()
         btnDelete = New Button()
@@ -35,7 +36,7 @@ Partial Class UcViewRecords
         colID = New DataGridViewTextBoxColumn()
         colType = New DataGridViewTextBoxColumn()
         colDate = New DataGridViewTextBoxColumn()
-        colLocation = New DataGridViewTextBoxColumn()
+        colInvolvedProperty = New DataGridViewTextBoxColumn()
         colStatus = New DataGridViewTextBoxColumn()
         pnlHeader.SuspendLayout()
         pnlToolbar.SuspendLayout()
@@ -90,6 +91,7 @@ Partial Class UcViewRecords
         pnlToolbar.BackColor = Color.White
         pnlToolbar.Controls.Add(lblSearchLabel)
         pnlToolbar.Controls.Add(txtSearch)
+        pnlToolbar.Controls.Add(btnView)
         pnlToolbar.Controls.Add(btnRefresh)
         pnlToolbar.Controls.Add(btnEdit)
         pnlToolbar.Controls.Add(btnDelete)
@@ -118,63 +120,78 @@ Partial Class UcViewRecords
         txtSearch.Location = New Point(72, 13)
         txtSearch.Name = "txtSearch"
         txtSearch.PlaceholderText = "Type to search records..."
-        txtSearch.Size = New Size(300, 27)
+        txtSearch.Size = New Size(220, 27)
         txtSearch.TabIndex = 1
-        ' 
+        '
+        ' btnView
+        '
+        btnView.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        btnView.Cursor = Cursors.Hand
+        btnView.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnView.FlatStyle = FlatStyle.Flat
+        btnView.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        btnView.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnView.Location = New Point(302, 13)
+        btnView.Name = "btnView"
+        btnView.Size = New Size(90, 30)
+        btnView.TabIndex = 2
+        btnView.Text = "View"
+        btnView.UseVisualStyleBackColor = False
+        '
         ' btnRefresh
-        ' 
+        '
         btnRefresh.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         btnRefresh.Cursor = Cursors.Hand
         btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
         btnRefresh.FlatStyle = FlatStyle.Flat
         btnRefresh.Font = New Font("Segoe UI", 9F)
         btnRefresh.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
-        btnRefresh.Location = New Point(386, 13)
+        btnRefresh.Location = New Point(402, 13)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(90, 30)
-        btnRefresh.TabIndex = 2
+        btnRefresh.TabIndex = 3
         btnRefresh.Text = "Refresh"
         btnRefresh.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnEdit
-        ' 
+        '
         btnEdit.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
         btnEdit.Cursor = Cursors.Hand
         btnEdit.FlatAppearance.BorderSize = 0
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnEdit.ForeColor = Color.White
-        btnEdit.Location = New Point(490, 13)
+        btnEdit.Location = New Point(502, 13)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(120, 30)
-        btnEdit.TabIndex = 3
+        btnEdit.TabIndex = 4
         btnEdit.Text = "Edit Selected"
         btnEdit.UseVisualStyleBackColor = False
-        ' 
+        '
         ' btnDelete
-        ' 
+        '
         btnDelete.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnDelete.Cursor = Cursors.Hand
         btnDelete.FlatAppearance.BorderSize = 0
         btnDelete.FlatStyle = FlatStyle.Flat
         btnDelete.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnDelete.ForeColor = Color.White
-        btnDelete.Location = New Point(624, 13)
+        btnDelete.Location = New Point(632, 13)
         btnDelete.Name = "btnDelete"
         btnDelete.Size = New Size(130, 30)
-        btnDelete.TabIndex = 4
+        btnDelete.TabIndex = 5
         btnDelete.Text = "Delete Selected"
         btnDelete.UseVisualStyleBackColor = False
-        ' 
+        '
         ' lblRecordCount
-        ' 
+        '
         lblRecordCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblRecordCount.Font = New Font("Segoe UI", 9F)
         lblRecordCount.ForeColor = Color.Gray
-        lblRecordCount.Location = New Point(766, 13)
+        lblRecordCount.Location = New Point(772, 13)
         lblRecordCount.Name = "lblRecordCount"
-        lblRecordCount.Size = New Size(160, 30)
-        lblRecordCount.TabIndex = 5
+        lblRecordCount.Size = New Size(154, 30)
+        lblRecordCount.TabIndex = 6
         lblRecordCount.Text = "Total Records: 0"
         lblRecordCount.TextAlign = ContentAlignment.MiddleRight
         ' 
@@ -206,7 +223,7 @@ Partial Class UcViewRecords
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         dgvRecords.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvRecords.ColumnHeadersHeight = 38
-        dgvRecords.Columns.AddRange(New DataGridViewColumn() {colID, colType, colDate, colLocation, colStatus})
+        dgvRecords.Columns.AddRange(New DataGridViewColumn() {colID, colType, colDate, colInvolvedProperty, colStatus})
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = SystemColors.Window
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.5F)
@@ -245,22 +262,22 @@ Partial Class UcViewRecords
         colType.MinimumWidth = 6
         colType.Name = "colType"
         colType.ReadOnly = True
-        ' 
+        '
         ' colDate
-        ' 
-        colDate.FillWeight = 15F
-        colDate.HeaderText = "Date Reported"
+        '
+        colDate.FillWeight = 20F
+        colDate.HeaderText = "Incident Date/Time"
         colDate.MinimumWidth = 6
         colDate.Name = "colDate"
         colDate.ReadOnly = True
-        ' 
-        ' colLocation
-        ' 
-        colLocation.FillWeight = 35F
-        colLocation.HeaderText = "Location"
-        colLocation.MinimumWidth = 6
-        colLocation.Name = "colLocation"
-        colLocation.ReadOnly = True
+        '
+        ' colInvolvedProperty
+        '
+        colInvolvedProperty.FillWeight = 30F
+        colInvolvedProperty.HeaderText = "Involved Property"
+        colInvolvedProperty.MinimumWidth = 6
+        colInvolvedProperty.Name = "colInvolvedProperty"
+        colInvolvedProperty.ReadOnly = True
         ' 
         ' colStatus
         ' 
@@ -299,6 +316,7 @@ Partial Class UcViewRecords
     Friend WithEvents lblPageSub As Label
     Friend WithEvents lblSearchLabel As Label
     Friend WithEvents txtSearch As TextBox
+    Friend WithEvents btnView As Button
     Friend WithEvents btnRefresh As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnDelete As Button
@@ -307,7 +325,7 @@ Partial Class UcViewRecords
     Friend WithEvents colID As DataGridViewTextBoxColumn
     Friend WithEvents colType As DataGridViewTextBoxColumn
     Friend WithEvents colDate As DataGridViewTextBoxColumn
-    Friend WithEvents colLocation As DataGridViewTextBoxColumn
+    Friend WithEvents colInvolvedProperty As DataGridViewTextBoxColumn
     Friend WithEvents colStatus As DataGridViewTextBoxColumn
 
 End Class

@@ -18,10 +18,10 @@ Public Class UcDashboard
             lblCard4Value.Text = records.Where(Function(r) r.Status = "Closed").Count().ToString()
 
             dgvRecent.Rows.Clear()
-            For Each r In records.OrderByDescending(Function(x) x.DateReported).Take(5)
+            For Each r In records.OrderByDescending(Function(x) x.IncidentDateTime).Take(5)
                 dgvRecent.Rows.Add(r.RecordID, r.IncidentType,
-                                   r.DateReported.ToString("MM/dd/yyyy"),
-                                   r.Location, r.Status)
+                                   r.IncidentDateTime.ToString("MM/dd/yyyy"),
+                                   r.InvolvedProperty, r.Status)
             Next
         Catch ex As Exception
             MessageBox.Show("Failed to load dashboard data: " & ex.Message,

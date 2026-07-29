@@ -38,15 +38,19 @@ Public Class IncidentRepositoryTests
 
     Private Function MakeRecord(Optional suffix As String = "001") As RecordModel
         Return New RecordModel() With {
-            .RecordID       = $"INC-2026-{suffix}",
-            .IncidentType   = "Structure Fire",
-            .DateReported   = New DateTime(2026, 1, 15),
-            .Location       = "Brgy. Centro, Tuao",
-            .ReportedBy     = "Test Officer",
-            .Casualties     = "0",
-            .DamageEstimate = "10000",
-            .Remarks        = "Test record",
-            .Status         = "Active"
+            .RecordID           = $"INC-2026-{suffix}",
+            .IncidentType       = "Structure Fire",
+            .IncidentDateTime   = New DateTime(2026, 1, 15, 16, 37, 0),
+            .InvolvedProperty   = "Brgy. Centro, Tuao",
+            .OwnerOccupant      = "Maria Santos",
+            .CallerInformation  = "Test Officer",
+            .AlarmLevel         = "1st Alarm",
+            .ResponseTime       = New TimeSpan(16, 45, 0),
+            .CauseOfFire        = "Electrical short circuit",
+            .Casualties         = "0",
+            .DamageEstimate     = "10000",
+            .Remarks            = "Test record",
+            .Status             = "Active"
         }
     End Function
 
@@ -78,7 +82,7 @@ Public Class IncidentRepositoryTests
         Dim found = IncidentRepository.GetAll().FirstOrDefault(Function(r) r.RecordID = "INC-2026-T02")
         Assert.IsNotNull(found)
         Assert.AreEqual("Structure Fire", found.IncidentType)
-        Assert.AreEqual("Brgy. Centro, Tuao", found.Location)
+        Assert.AreEqual("Brgy. Centro, Tuao", found.InvolvedProperty)
         Assert.AreEqual("Active", found.Status)
     End Sub
 

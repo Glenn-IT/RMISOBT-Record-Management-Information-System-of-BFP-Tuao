@@ -11,16 +11,25 @@ Public Class EditRecordForm
     Private Sub EditRecordForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cboIncidentType.Items.AddRange(Constants.IncidentTypes)
         cboStatus.Items.AddRange(Constants.Statuses)
+        cboAlarmLevel.Items.AddRange(Constants.AlarmLevels)
 
-        txtRecordID.Text       = _record.RecordID
-        cboIncidentType.Text   = _record.IncidentType
-        dtpDateReported.Value  = _record.DateReported
-        txtLocation.Text       = _record.Location
-        txtReportedBy.Text     = _record.ReportedBy
-        txtCasualties.Text     = _record.Casualties
-        txtDamageEstimate.Text = _record.DamageEstimate
-        txtRemarks.Text        = _record.Remarks
-        cboStatus.Text         = _record.Status
+        txtRecordID.Text          = _record.RecordID
+        cboIncidentType.Text      = _record.IncidentType
+        dtpIncidentDateTime.Value = _record.IncidentDateTime
+        txtInvolvedProperty.Text  = _record.InvolvedProperty
+        txtOwnerOccupant.Text     = _record.OwnerOccupant
+        txtCallerInformation.Text = _record.CallerInformation
+        cboAlarmLevel.Text        = _record.AlarmLevel
+        txtCasualties.Text        = _record.Casualties
+        txtDamageEstimate.Text    = _record.DamageEstimate
+        txtCauseOfFire.Text       = _record.CauseOfFire
+        txtRemarks.Text           = _record.Remarks
+        cboStatus.Text            = _record.Status
+
+        dtpResponseTime.Checked = _record.ResponseTime.HasValue
+        If _record.ResponseTime.HasValue Then
+            dtpResponseTime.Value = DateTime.Today.Add(_record.ResponseTime.Value)
+        End If
 
         If Not String.IsNullOrEmpty(_record.DocumentPath) Then
             txtDocumentName.Text = IO.Path.GetFileName(_record.DocumentPath)
@@ -38,8 +47,8 @@ Public Class EditRecordForm
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        If txtLocation.Text.Trim() = "" OrElse txtReportedBy.Text.Trim() = "" Then
-            MessageBox.Show("Location and Reported By are required.", "Validation",
+        If txtInvolvedProperty.Text.Trim() = "" OrElse txtCallerInformation.Text.Trim() = "" Then
+            MessageBox.Show("Involved Property and Caller Information are required.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
@@ -72,14 +81,18 @@ Public Class EditRecordForm
         End If
 
         Try
-            _record.IncidentType   = cboIncidentType.SelectedItem?.ToString()
-            _record.DateReported   = dtpDateReported.Value
-            _record.Location       = txtLocation.Text.Trim()
-            _record.ReportedBy     = txtReportedBy.Text.Trim()
-            _record.Casualties     = txtCasualties.Text.Trim()
-            _record.DamageEstimate = txtDamageEstimate.Text.Trim()
-            _record.Remarks        = txtRemarks.Text.Trim()
-            _record.Status         = cboStatus.SelectedItem?.ToString()
+            _record.IncidentType      = cboIncidentType.SelectedItem?.ToString()
+            _record.IncidentDateTime  = dtpIncidentDateTime.Value
+            _record.InvolvedProperty  = txtInvolvedProperty.Text.Trim()
+            _record.OwnerOccupant     = txtOwnerOccupant.Text.Trim()
+            _record.CallerInformation = txtCallerInformation.Text.Trim()
+            _record.AlarmLevel        = cboAlarmLevel.SelectedItem?.ToString()
+            _record.ResponseTime      = If(dtpResponseTime.Checked, dtpResponseTime.Value.TimeOfDay, CType(Nothing, TimeSpan?))
+            _record.CauseOfFire       = txtCauseOfFire.Text.Trim()
+            _record.Casualties        = txtCasualties.Text.Trim()
+            _record.DamageEstimate    = txtDamageEstimate.Text.Trim()
+            _record.Remarks           = txtRemarks.Text.Trim()
+            _record.Status            = cboStatus.SelectedItem?.ToString()
 
             If _newDocumentPath <> "" Then
                 _record.DocumentPath = DocumentStorage.SaveDocument(_newDocumentPath, _record.RecordID)

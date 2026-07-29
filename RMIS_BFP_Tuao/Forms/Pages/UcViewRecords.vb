@@ -19,8 +19,8 @@ Public Class UcViewRecords
         dgvRecords.Rows.Clear()
         For Each r In data
             dgvRecords.Rows.Add(r.RecordID, r.IncidentType,
-                            r.DateReported.ToString("MM/dd/yyyy"),
-                            r.Location, r.Status)
+                            r.IncidentDateTime.ToString("MM/dd/yyyy") & " " & DateTimeHelper.ToMilitaryTime(r.IncidentDateTime),
+                            r.InvolvedProperty, r.Status)
         Next
         lblRecordCount.Text = "Total Records: " & data.Count
     End Sub
@@ -36,12 +36,38 @@ Public Class UcViewRecords
             Dim filtered = all.Where(Function(r)
                                          Return r.RecordID.ToLower().Contains(keyword) OrElse
                                             r.IncidentType.ToLower().Contains(keyword) OrElse
-                                            r.Location.ToLower().Contains(keyword) OrElse
+                                            r.InvolvedProperty.ToLower().Contains(keyword) OrElse
                                             r.Status.ToLower().Contains(keyword)
                                      End Function).ToList()
             PopulateGrid(filtered)
         Catch ex As Exception
             MessageBox.Show("Search error: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+        If dgvRecords.SelectedRows.Count = 0 Then
+            MessageBox.Show("Please select a record to view.", "No Selection",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Dim selectedID = dgvRecords.SelectedRows(0).Cells("colID").Value?.ToString()
+        Try
+            Dim all = RecordService.Instance.GetRecords()
+            Dim record = all.FirstOrDefault(Function(r) r.RecordID = selectedID)
+            If record Is Nothing Then
+                MessageBox.Show("Record not found.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            Using dlg As New ViewRecordForm(record)
+                dlg.ShowDialog()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Failed to open record details: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub

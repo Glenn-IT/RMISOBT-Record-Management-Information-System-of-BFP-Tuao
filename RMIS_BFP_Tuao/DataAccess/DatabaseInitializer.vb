@@ -15,17 +15,21 @@ Public Class DatabaseInitializer
             Dim sql As String =
                 "IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'tbl_IncidentRecords')
                 CREATE TABLE tbl_IncidentRecords (
-                    RecordID        VARCHAR(20)     NOT NULL PRIMARY KEY,
-                    IncidentType    NVARCHAR(100)   NOT NULL,
-                    DateReported    DATE            NOT NULL,
-                    Location        NVARCHAR(255)   NOT NULL,
-                    ReportedBy      NVARCHAR(100)   NOT NULL,
-                    Casualties      NVARCHAR(50)    NOT NULL DEFAULT '0',
-                    DamageEstimate  NVARCHAR(100)   NOT NULL DEFAULT '0',
-                    Remarks         NVARCHAR(500)   NOT NULL DEFAULT '',
-                    Status          NVARCHAR(50)    NOT NULL DEFAULT 'Active',
-                    AttachmentPath  NVARCHAR(255)   NULL,
-                    CreatedAt       DATETIME        NOT NULL DEFAULT GETDATE()
+                    RecordID          VARCHAR(20)     NOT NULL PRIMARY KEY,
+                    IncidentType      NVARCHAR(100)   NOT NULL,
+                    IncidentDateTime  DATETIME2(0)    NOT NULL,
+                    InvolvedProperty  NVARCHAR(255)   NOT NULL,
+                    OwnerOccupant     NVARCHAR(150)   NULL,
+                    CallerInformation NVARCHAR(100)   NOT NULL,
+                    AlarmLevel        NVARCHAR(50)    NULL,
+                    ResponseTime      TIME(0)         NULL,
+                    CauseOfFire       NVARCHAR(255)   NULL,
+                    Casualties        NVARCHAR(50)    NOT NULL DEFAULT '0',
+                    DamageEstimate    NVARCHAR(100)   NOT NULL DEFAULT '0',
+                    Remarks           NVARCHAR(500)   NOT NULL DEFAULT '',
+                    Status            NVARCHAR(50)    NOT NULL DEFAULT 'Active',
+                    AttachmentPath    NVARCHAR(255)   NULL,
+                    CreatedAt         DATETIME        NOT NULL DEFAULT GETDATE()
                 );
 
                 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'tbl_Users')
@@ -65,7 +69,29 @@ Public Class DatabaseInitializer
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_Users') AND name = 'SecurityAnswerHash')
                     ALTER TABLE tbl_Users ADD SecurityAnswerHash NVARCHAR(255) NOT NULL DEFAULT '';
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'AttachmentPath')
-                    ALTER TABLE tbl_IncidentRecords ADD AttachmentPath NVARCHAR(255) NULL;"
+                    ALTER TABLE tbl_IncidentRecords ADD AttachmentPath NVARCHAR(255) NULL;
+
+                 IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'Location')
+                    ALTER TABLE tbl_IncidentRecords DROP COLUMN Location;
+                 IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'ReportedBy')
+                    ALTER TABLE tbl_IncidentRecords DROP COLUMN ReportedBy;
+                 IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'DateReported')
+                    ALTER TABLE tbl_IncidentRecords DROP COLUMN DateReported;
+
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'InvolvedProperty')
+                    ALTER TABLE tbl_IncidentRecords ADD InvolvedProperty NVARCHAR(255) NOT NULL DEFAULT '';
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'OwnerOccupant')
+                    ALTER TABLE tbl_IncidentRecords ADD OwnerOccupant NVARCHAR(150) NULL;
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'CallerInformation')
+                    ALTER TABLE tbl_IncidentRecords ADD CallerInformation NVARCHAR(100) NOT NULL DEFAULT '';
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'AlarmLevel')
+                    ALTER TABLE tbl_IncidentRecords ADD AlarmLevel NVARCHAR(50) NULL;
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'ResponseTime')
+                    ALTER TABLE tbl_IncidentRecords ADD ResponseTime TIME(0) NULL;
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'IncidentDateTime')
+                    ALTER TABLE tbl_IncidentRecords ADD IncidentDateTime DATETIME2(0) NOT NULL DEFAULT GETDATE();
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'CauseOfFire')
+                    ALTER TABLE tbl_IncidentRecords ADD CauseOfFire NVARCHAR(255) NULL;"
             Using cmd As New SqlCommand(migrate, con)
                 cmd.ExecuteNonQuery()
             End Using

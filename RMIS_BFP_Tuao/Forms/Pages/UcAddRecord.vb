@@ -4,11 +4,14 @@ Public Class UcAddRecord
     Private _documentPath As String = ""
 
     Private Sub UcAddRecord_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        dtpDateReported.Value = DateTime.Now
+        dtpIncidentDateTime.Value = DateTime.Now
+        dtpResponseTime.Checked = False
         cboIncidentType.Items.AddRange(Constants.IncidentTypes)
         cboStatus.Items.AddRange(Constants.Statuses)
+        cboAlarmLevel.Items.AddRange(Constants.AlarmLevels)
         cboIncidentType.SelectedIndex = 0
         cboStatus.SelectedIndex = 0
+        cboAlarmLevel.SelectedIndex = 0
         Try
             txtIncidentNo.Text = RecordService.Instance.GetNextID()
         Catch
@@ -27,8 +30,8 @@ Public Class UcAddRecord
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        If txtLocation.Text.Trim() = "" OrElse
-           txtReportedBy.Text.Trim() = "" Then
+        If txtInvolvedProperty.Text.Trim() = "" OrElse
+           txtCallerInformation.Text.Trim() = "" Then
             MessageBox.Show("Please fill in all required fields marked with *.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
@@ -69,16 +72,20 @@ Public Class UcAddRecord
 
         Try
             Dim record As New RecordModel() With {
-                .RecordID       = txtIncidentNo.Text.Trim(),
-                .IncidentType   = cboIncidentType.SelectedItem?.ToString(),
-                .DateReported   = dtpDateReported.Value,
-                .Location       = txtLocation.Text.Trim(),
-                .ReportedBy     = txtReportedBy.Text.Trim(),
-                .Casualties     = txtCasualties.Text.Trim(),
-                .DamageEstimate = txtDamageEstimate.Text.Trim(),
-                .Remarks        = txtRemarks.Text.Trim(),
-                .Status         = cboStatus.SelectedItem?.ToString(),
-                .DocumentPath   = DocumentStorage.SaveDocument(_documentPath, txtIncidentNo.Text.Trim())
+                .RecordID          = txtIncidentNo.Text.Trim(),
+                .IncidentType      = cboIncidentType.SelectedItem?.ToString(),
+                .IncidentDateTime  = dtpIncidentDateTime.Value,
+                .InvolvedProperty  = txtInvolvedProperty.Text.Trim(),
+                .OwnerOccupant     = txtOwnerOccupant.Text.Trim(),
+                .CallerInformation = txtCallerInformation.Text.Trim(),
+                .AlarmLevel        = cboAlarmLevel.SelectedItem?.ToString(),
+                .ResponseTime      = If(dtpResponseTime.Checked, dtpResponseTime.Value.TimeOfDay, CType(Nothing, TimeSpan?)),
+                .CauseOfFire       = txtCauseOfFire.Text.Trim(),
+                .Casualties        = txtCasualties.Text.Trim(),
+                .DamageEstimate    = txtDamageEstimate.Text.Trim(),
+                .Remarks           = txtRemarks.Text.Trim(),
+                .Status            = cboStatus.SelectedItem?.ToString(),
+                .DocumentPath      = DocumentStorage.SaveDocument(_documentPath, txtIncidentNo.Text.Trim())
             }
 
             RecordService.Instance.AddRecord(record)
@@ -96,8 +103,10 @@ Public Class UcAddRecord
     End Sub
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
-        txtLocation.Clear()
-        txtReportedBy.Clear()
+        txtInvolvedProperty.Clear()
+        txtOwnerOccupant.Clear()
+        txtCallerInformation.Clear()
+        txtCauseOfFire.Clear()
         txtCasualties.Clear()
         txtDamageEstimate.Clear()
         txtRemarks.Clear()
@@ -105,7 +114,9 @@ Public Class UcAddRecord
         _documentPath = ""
         cboIncidentType.SelectedIndex = 0
         cboStatus.SelectedIndex = 0
-        dtpDateReported.Value = DateTime.Now
+        cboAlarmLevel.SelectedIndex = 0
+        dtpIncidentDateTime.Value = DateTime.Now
+        dtpResponseTime.Checked = False
         Try
             txtIncidentNo.Text = RecordService.Instance.GetNextID()
         Catch

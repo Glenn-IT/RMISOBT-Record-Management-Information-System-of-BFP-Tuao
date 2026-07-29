@@ -15,9 +15,13 @@ Stores all fire incident reports.
 |--------|------|-------------|-------|
 | `RecordID` | `VARCHAR(20)` | PK, NOT NULL | Format: `INC-YYYY-NNN` (e.g. `INC-2026-001`) |
 | `IncidentType` | `NVARCHAR(100)` | NOT NULL | Structure Fire, Vehicular Fire, Grass Fire, Industrial Fire, Electrical Fire, Other |
-| `DateReported` | `DATE` | NOT NULL | Date the incident was reported |
-| `Location` | `NVARCHAR(255)` | NOT NULL | Barangay / area description |
-| `ReportedBy` | `NVARCHAR(100)` | NOT NULL | Name of reporting officer |
+| `IncidentDateTime` | `DATETIME2(0)` | NOT NULL | Date and time the fire incident occurred (military time in the UI) |
+| `InvolvedProperty` | `NVARCHAR(255)` | NOT NULL | Involved building / establishment / vehicle |
+| `OwnerOccupant` | `NVARCHAR(150)` | NULL | Name of the owner/occupant |
+| `CallerInformation` | `NVARCHAR(100)` | NOT NULL | Name/contact of the person who called in the incident |
+| `AlarmLevel` | `NVARCHAR(50)` | NULL | 1st Alarm .. 5th Alarm, or General Alarm |
+| `ResponseTime` | `TIME(0)` | NULL | Time responders arrived/were dispatched (military time in the UI); null if not yet recorded |
+| `CauseOfFire` | `NVARCHAR(255)` | NULL | Free-text cause of the fire |
 | `Casualties` | `NVARCHAR(50)` | NOT NULL, DEFAULT `'0'` | Number of casualties |
 | `DamageEstimate` | `NVARCHAR(100)` | NOT NULL, DEFAULT `'0'` | Estimated damage in PHP |
 | `Remarks` | `NVARCHAR(500)` | NOT NULL, DEFAULT `''` | Additional notes |
@@ -91,7 +95,7 @@ tbl_Users ──(Username)──► tbl_ActivityLogs
                                 so log history survives username changes)
 
 tbl_IncidentRecords          (standalone — no FK to Users;
-                               ReportedBy is a free-text field)
+                               CallerInformation is a free-text field)
 ```
 
 ---

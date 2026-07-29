@@ -1,5 +1,5 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EditRecordForm
+Partial Class ViewRecordForm
     Inherits System.Windows.Forms.Form
 
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -28,15 +28,15 @@ Partial Class EditRecordForm
         lblRecordID    = New Label()
         txtRecordID    = New TextBox()
         lblIncidentType = New Label()
-        cboIncidentType = New ComboBox()
+        txtIncidentType = New TextBox()
         lblIncidentDateTime = New Label()
-        dtpIncidentDateTime = New DateTimePicker()
+        txtIncidentDateTime = New TextBox()
         lblAlarmLevel  = New Label()
-        cboAlarmLevel  = New ComboBox()
+        txtAlarmLevel  = New TextBox()
         lblResponseTime = New Label()
-        dtpResponseTime = New DateTimePicker()
+        txtResponseTime = New TextBox()
         lblStatus      = New Label()
-        cboStatus      = New ComboBox()
+        txtStatus      = New TextBox()
         lblInvolvedProperty = New Label()
         txtInvolvedProperty = New TextBox()
         lblOwnerOccupant = New Label()
@@ -51,12 +51,11 @@ Partial Class EditRecordForm
         txtCauseOfFire = New TextBox()
         lblDocument    = New Label()
         txtDocumentName = New TextBox()
-        btnBrowseDocument = New Button()
+        btnOpenDocument = New Button()
         lblRemarks     = New Label()
         txtRemarks     = New TextBox()
 
-        btnSave        = New Button()
-        btnCancel      = New Button()
+        btnClose       = New Button()
 
         pnlHeader.SuspendLayout()
         pnlBody.SuspendLayout()
@@ -66,7 +65,7 @@ Partial Class EditRecordForm
         ' ════════════════════════════════════════════════════════
         ' Form
         ' ════════════════════════════════════════════════════════
-        Me.Text = "Edit Incident Record"
+        Me.Text = "Incident Record Details"
         Me.ClientSize = New Size(620, 836)
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -87,14 +86,14 @@ Partial Class EditRecordForm
         pnlHeader.Controls.Add(lblSub)
         pnlHeader.Controls.Add(pnlDivider)
 
-        lblTitle.Text = "Edit Incident Record"
+        lblTitle.Text = "Incident Record Details"
         lblTitle.Font = New Font("Segoe UI", 13, FontStyle.Bold)
         lblTitle.ForeColor = Color.FromArgb(30, 30, 30)
         lblTitle.AutoSize = False
         lblTitle.Size = New Size(540, 30)
         lblTitle.Location = New Point(16, 10)
 
-        lblSub.Text = "Modify the fields below and click Save to update."
+        lblSub.Text = "Read-only view of the selected incident record."
         lblSub.Font = New Font("Segoe UI", 9)
         lblSub.ForeColor = Color.Gray
         lblSub.AutoSize = False
@@ -106,32 +105,32 @@ Partial Class EditRecordForm
         pnlDivider.Location = New Point(16, 70)
 
         ' ════════════════════════════════════════════════════════
-        ' pnlBody — form fields
+        ' pnlBody — read-only field display
         ' ════════════════════════════════════════════════════════
         pnlBody.BackColor = Color.White
         pnlBody.Size = New Size(580, 650)
         pnlBody.Location = New Point(20, 108)
         pnlBody.Controls.AddRange({
             lblRecordID, txtRecordID,
-            lblIncidentType, cboIncidentType,
-            lblIncidentDateTime, dtpIncidentDateTime,
-            lblAlarmLevel, cboAlarmLevel,
-            lblResponseTime, dtpResponseTime,
-            lblStatus, cboStatus,
+            lblIncidentType, txtIncidentType,
+            lblIncidentDateTime, txtIncidentDateTime,
+            lblAlarmLevel, txtAlarmLevel,
+            lblResponseTime, txtResponseTime,
+            lblStatus, txtStatus,
             lblInvolvedProperty, txtInvolvedProperty,
             lblOwnerOccupant, txtOwnerOccupant,
             lblCallerInformation, txtCallerInformation,
             lblCasualties, txtCasualties,
             lblDamage, txtDamageEstimate,
             lblCauseOfFire, txtCauseOfFire,
-            lblDocument, txtDocumentName, btnBrowseDocument,
+            lblDocument, txtDocumentName, btnOpenDocument,
             lblRemarks, txtRemarks})
 
-        ' helper: label + control row layout (left col x=16, right col x=316)
-        ' Row heights: 22px label + 28px control + 16px gap = 66px per row
+        ' helper: label + value row layout (left col x=16, right col x=316)
+        ' Row heights: 22px label + 28px value + 16px gap = 66px per row
 
-        ' --- Record ID (read-only) ---
-        lblRecordID.Text = "Record ID *"
+        ' --- Record ID ---
+        lblRecordID.Text = "Record ID"
         lblRecordID.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblRecordID.ForeColor = Color.FromArgb(60, 60, 60)
         lblRecordID.AutoSize = False
@@ -141,51 +140,54 @@ Partial Class EditRecordForm
         txtRecordID.Font = New Font("Segoe UI", 10)
         txtRecordID.BackColor = Color.FromArgb(230, 230, 230)
         txtRecordID.BorderStyle = BorderStyle.FixedSingle
+        txtRecordID.ReadOnly = True
         txtRecordID.Size = New Size(240, 28)
         txtRecordID.Location = New Point(16, 38)
-        txtRecordID.ReadOnly = True
 
         ' --- Incident Type ---
-        lblIncidentType.Text = "Incident Type *"
+        lblIncidentType.Text = "Incident Type"
         lblIncidentType.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblIncidentType.ForeColor = Color.FromArgb(60, 60, 60)
         lblIncidentType.AutoSize = False
         lblIncidentType.Size = New Size(240, 22)
         lblIncidentType.Location = New Point(316, 16)
 
-        cboIncidentType.Font = New Font("Segoe UI", 10)
-        cboIncidentType.Size = New Size(240, 28)
-        cboIncidentType.Location = New Point(316, 38)
-        cboIncidentType.DropDownStyle = ComboBoxStyle.DropDownList
-        cboIncidentType.FlatStyle = FlatStyle.Flat
+        txtIncidentType.Font = New Font("Segoe UI", 10)
+        txtIncidentType.BackColor = Color.FromArgb(230, 230, 230)
+        txtIncidentType.BorderStyle = BorderStyle.FixedSingle
+        txtIncidentType.ReadOnly = True
+        txtIncidentType.Size = New Size(240, 28)
+        txtIncidentType.Location = New Point(316, 38)
 
         ' --- Incident Date & Time ---
-        lblIncidentDateTime.Text = "Incident Date && Time *"
+        lblIncidentDateTime.Text = "Incident Date && Time"
         lblIncidentDateTime.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblIncidentDateTime.ForeColor = Color.FromArgb(60, 60, 60)
         lblIncidentDateTime.AutoSize = False
         lblIncidentDateTime.Size = New Size(240, 22)
         lblIncidentDateTime.Location = New Point(16, 82)
 
-        dtpIncidentDateTime.Font = New Font("Segoe UI", 10)
-        dtpIncidentDateTime.Size = New Size(240, 28)
-        dtpIncidentDateTime.Location = New Point(16, 104)
-        dtpIncidentDateTime.Format = DateTimePickerFormat.Custom
-        dtpIncidentDateTime.CustomFormat = "MM/dd/yyyy HHmm"
+        txtIncidentDateTime.Font = New Font("Segoe UI", 10)
+        txtIncidentDateTime.BackColor = Color.FromArgb(230, 230, 230)
+        txtIncidentDateTime.BorderStyle = BorderStyle.FixedSingle
+        txtIncidentDateTime.ReadOnly = True
+        txtIncidentDateTime.Size = New Size(240, 28)
+        txtIncidentDateTime.Location = New Point(16, 104)
 
         ' --- Alarm Level ---
-        lblAlarmLevel.Text = "Alarm Level *"
+        lblAlarmLevel.Text = "Alarm Level"
         lblAlarmLevel.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblAlarmLevel.ForeColor = Color.FromArgb(60, 60, 60)
         lblAlarmLevel.AutoSize = False
         lblAlarmLevel.Size = New Size(240, 22)
         lblAlarmLevel.Location = New Point(316, 82)
 
-        cboAlarmLevel.Font = New Font("Segoe UI", 10)
-        cboAlarmLevel.Size = New Size(240, 28)
-        cboAlarmLevel.Location = New Point(316, 104)
-        cboAlarmLevel.DropDownStyle = ComboBoxStyle.DropDownList
-        cboAlarmLevel.FlatStyle = FlatStyle.Flat
+        txtAlarmLevel.Font = New Font("Segoe UI", 10)
+        txtAlarmLevel.BackColor = Color.FromArgb(230, 230, 230)
+        txtAlarmLevel.BorderStyle = BorderStyle.FixedSingle
+        txtAlarmLevel.ReadOnly = True
+        txtAlarmLevel.Size = New Size(240, 28)
+        txtAlarmLevel.Location = New Point(316, 104)
 
         ' --- Response Time ---
         lblResponseTime.Text = "Response Time"
@@ -195,30 +197,30 @@ Partial Class EditRecordForm
         lblResponseTime.Size = New Size(240, 22)
         lblResponseTime.Location = New Point(16, 148)
 
-        dtpResponseTime.Font = New Font("Segoe UI", 10)
-        dtpResponseTime.Size = New Size(240, 28)
-        dtpResponseTime.Location = New Point(16, 170)
-        dtpResponseTime.Format = DateTimePickerFormat.Custom
-        dtpResponseTime.CustomFormat = "HHmm"
-        dtpResponseTime.ShowCheckBox = True
-        dtpResponseTime.ShowUpDown = True
+        txtResponseTime.Font = New Font("Segoe UI", 10)
+        txtResponseTime.BackColor = Color.FromArgb(230, 230, 230)
+        txtResponseTime.BorderStyle = BorderStyle.FixedSingle
+        txtResponseTime.ReadOnly = True
+        txtResponseTime.Size = New Size(240, 28)
+        txtResponseTime.Location = New Point(16, 170)
 
         ' --- Status ---
-        lblStatus.Text = "Status *"
+        lblStatus.Text = "Status"
         lblStatus.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblStatus.ForeColor = Color.FromArgb(60, 60, 60)
         lblStatus.AutoSize = False
         lblStatus.Size = New Size(240, 22)
         lblStatus.Location = New Point(316, 148)
 
-        cboStatus.Font = New Font("Segoe UI", 10)
-        cboStatus.Size = New Size(240, 28)
-        cboStatus.Location = New Point(316, 170)
-        cboStatus.DropDownStyle = ComboBoxStyle.DropDownList
-        cboStatus.FlatStyle = FlatStyle.Flat
+        txtStatus.Font = New Font("Segoe UI", 10)
+        txtStatus.BackColor = Color.FromArgb(230, 230, 230)
+        txtStatus.BorderStyle = BorderStyle.FixedSingle
+        txtStatus.ReadOnly = True
+        txtStatus.Size = New Size(240, 28)
+        txtStatus.Location = New Point(316, 170)
 
         ' --- Involved Property ---
-        lblInvolvedProperty.Text = "Involved Building / Establishment / Vehicle *"
+        lblInvolvedProperty.Text = "Involved Building / Establishment / Vehicle"
         lblInvolvedProperty.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblInvolvedProperty.ForeColor = Color.FromArgb(60, 60, 60)
         lblInvolvedProperty.AutoSize = False
@@ -226,7 +228,9 @@ Partial Class EditRecordForm
         lblInvolvedProperty.Location = New Point(16, 214)
 
         txtInvolvedProperty.Font = New Font("Segoe UI", 10)
+        txtInvolvedProperty.BackColor = Color.FromArgb(230, 230, 230)
         txtInvolvedProperty.BorderStyle = BorderStyle.FixedSingle
+        txtInvolvedProperty.ReadOnly = True
         txtInvolvedProperty.Size = New Size(540, 28)
         txtInvolvedProperty.Location = New Point(16, 236)
 
@@ -239,12 +243,14 @@ Partial Class EditRecordForm
         lblOwnerOccupant.Location = New Point(16, 280)
 
         txtOwnerOccupant.Font = New Font("Segoe UI", 10)
+        txtOwnerOccupant.BackColor = Color.FromArgb(230, 230, 230)
         txtOwnerOccupant.BorderStyle = BorderStyle.FixedSingle
+        txtOwnerOccupant.ReadOnly = True
         txtOwnerOccupant.Size = New Size(240, 28)
         txtOwnerOccupant.Location = New Point(16, 302)
 
         ' --- Caller Information ---
-        lblCallerInformation.Text = "Caller Information *"
+        lblCallerInformation.Text = "Caller Information"
         lblCallerInformation.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblCallerInformation.ForeColor = Color.FromArgb(60, 60, 60)
         lblCallerInformation.AutoSize = False
@@ -252,7 +258,9 @@ Partial Class EditRecordForm
         lblCallerInformation.Location = New Point(316, 280)
 
         txtCallerInformation.Font = New Font("Segoe UI", 10)
+        txtCallerInformation.BackColor = Color.FromArgb(230, 230, 230)
         txtCallerInformation.BorderStyle = BorderStyle.FixedSingle
+        txtCallerInformation.ReadOnly = True
         txtCallerInformation.Size = New Size(240, 28)
         txtCallerInformation.Location = New Point(316, 302)
 
@@ -265,7 +273,9 @@ Partial Class EditRecordForm
         lblCasualties.Location = New Point(16, 346)
 
         txtCasualties.Font = New Font("Segoe UI", 10)
+        txtCasualties.BackColor = Color.FromArgb(230, 230, 230)
         txtCasualties.BorderStyle = BorderStyle.FixedSingle
+        txtCasualties.ReadOnly = True
         txtCasualties.Size = New Size(240, 28)
         txtCasualties.Location = New Point(16, 368)
 
@@ -278,7 +288,9 @@ Partial Class EditRecordForm
         lblDamage.Location = New Point(316, 346)
 
         txtDamageEstimate.Font = New Font("Segoe UI", 10)
+        txtDamageEstimate.BackColor = Color.FromArgb(230, 230, 230)
         txtDamageEstimate.BorderStyle = BorderStyle.FixedSingle
+        txtDamageEstimate.ReadOnly = True
         txtDamageEstimate.Size = New Size(240, 28)
         txtDamageEstimate.Location = New Point(316, 368)
 
@@ -291,12 +303,14 @@ Partial Class EditRecordForm
         lblCauseOfFire.Location = New Point(16, 412)
 
         txtCauseOfFire.Font = New Font("Segoe UI", 10)
+        txtCauseOfFire.BackColor = Color.FromArgb(230, 230, 230)
         txtCauseOfFire.BorderStyle = BorderStyle.FixedSingle
+        txtCauseOfFire.ReadOnly = True
         txtCauseOfFire.Size = New Size(540, 28)
         txtCauseOfFire.Location = New Point(16, 434)
 
         ' --- Attached Document ---
-        lblDocument.Text = "Attached Document *"
+        lblDocument.Text = "Attached Document"
         lblDocument.Font = New Font("Segoe UI", 9, FontStyle.Bold)
         lblDocument.ForeColor = Color.FromArgb(60, 60, 60)
         lblDocument.AutoSize = False
@@ -304,22 +318,21 @@ Partial Class EditRecordForm
         lblDocument.Location = New Point(16, 478)
 
         txtDocumentName.Font = New Font("Segoe UI", 10)
-        txtDocumentName.BackColor = Color.FromArgb(245, 245, 245)
+        txtDocumentName.BackColor = Color.FromArgb(230, 230, 230)
         txtDocumentName.BorderStyle = BorderStyle.FixedSingle
         txtDocumentName.ReadOnly = True
-        txtDocumentName.PlaceholderText = "No document selected."
         txtDocumentName.Size = New Size(400, 28)
         txtDocumentName.Location = New Point(16, 500)
 
-        btnBrowseDocument.Text = "Browse..."
-        btnBrowseDocument.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
-        btnBrowseDocument.Size = New Size(140, 28)
-        btnBrowseDocument.Location = New Point(416, 500)
-        btnBrowseDocument.BackColor = Color.FromArgb(30, 100, 180)
-        btnBrowseDocument.ForeColor = Color.White
-        btnBrowseDocument.FlatStyle = FlatStyle.Flat
-        btnBrowseDocument.FlatAppearance.BorderSize = 0
-        btnBrowseDocument.Cursor = Cursors.Hand
+        btnOpenDocument.Text = "Open"
+        btnOpenDocument.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnOpenDocument.Size = New Size(140, 28)
+        btnOpenDocument.Location = New Point(416, 500)
+        btnOpenDocument.BackColor = Color.FromArgb(30, 100, 180)
+        btnOpenDocument.ForeColor = Color.White
+        btnOpenDocument.FlatStyle = FlatStyle.Flat
+        btnOpenDocument.FlatAppearance.BorderSize = 0
+        btnOpenDocument.Cursor = Cursors.Hand
 
         ' --- Remarks ---
         lblRemarks.Text = "Remarks"
@@ -330,40 +343,31 @@ Partial Class EditRecordForm
         lblRemarks.Location = New Point(16, 544)
 
         txtRemarks.Font = New Font("Segoe UI", 10)
+        txtRemarks.BackColor = Color.FromArgb(230, 230, 230)
         txtRemarks.BorderStyle = BorderStyle.FixedSingle
+        txtRemarks.ReadOnly = True
         txtRemarks.Size = New Size(540, 64)
         txtRemarks.Location = New Point(16, 566)
         txtRemarks.Multiline = True
         txtRemarks.ScrollBars = ScrollBars.Vertical
 
         ' ════════════════════════════════════════════════════════
-        ' pnlFooter — Save / Cancel buttons
+        ' pnlFooter — Close button
         ' ════════════════════════════════════════════════════════
         pnlFooter.BackColor = Color.White
         pnlFooter.Size = New Size(580, 52)
         pnlFooter.Location = New Point(20, 768)
-        pnlFooter.Controls.Add(btnSave)
-        pnlFooter.Controls.Add(btnCancel)
+        pnlFooter.Controls.Add(btnClose)
 
-        btnSave.Text = "Save Changes"
-        btnSave.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        btnSave.Size = New Size(140, 36)
-        btnSave.Location = New Point(298, 8)
-        btnSave.BackColor = Color.FromArgb(180, 20, 20)
-        btnSave.ForeColor = Color.White
-        btnSave.FlatStyle = FlatStyle.Flat
-        btnSave.FlatAppearance.BorderSize = 0
-        btnSave.Cursor = Cursors.Hand
-
-        btnCancel.Text = "Cancel"
-        btnCancel.Font = New Font("Segoe UI", 10)
-        btnCancel.Size = New Size(100, 36)
-        btnCancel.Location = New Point(452, 8)
-        btnCancel.BackColor = Color.FromArgb(240, 242, 245)
-        btnCancel.ForeColor = Color.FromArgb(60, 60, 60)
-        btnCancel.FlatStyle = FlatStyle.Flat
-        btnCancel.FlatAppearance.BorderColor = Color.FromArgb(200, 200, 200)
-        btnCancel.Cursor = Cursors.Hand
+        btnClose.Text = "Close"
+        btnClose.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        btnClose.Size = New Size(140, 36)
+        btnClose.Location = New Point(220, 8)
+        btnClose.BackColor = Color.FromArgb(180, 20, 20)
+        btnClose.ForeColor = Color.White
+        btnClose.FlatStyle = FlatStyle.Flat
+        btnClose.FlatAppearance.BorderSize = 0
+        btnClose.Cursor = Cursors.Hand
 
         ' ── Add to Form ──────────────────────────────────────────
         Me.Controls.Add(pnlHeader)
@@ -381,21 +385,21 @@ Partial Class EditRecordForm
     Friend WithEvents pnlHeader             As Panel
     Friend WithEvents pnlBody               As Panel
     Friend WithEvents pnlFooter             As Panel
-    Friend WithEvents pnlDivider             As Panel
+    Friend WithEvents pnlDivider            As Panel
     Friend WithEvents lblTitle              As Label
     Friend WithEvents lblSub                As Label
     Friend WithEvents lblRecordID           As Label
     Friend WithEvents txtRecordID           As TextBox
     Friend WithEvents lblIncidentType       As Label
-    Friend WithEvents cboIncidentType       As ComboBox
+    Friend WithEvents txtIncidentType       As TextBox
     Friend WithEvents lblIncidentDateTime   As Label
-    Friend WithEvents dtpIncidentDateTime   As DateTimePicker
+    Friend WithEvents txtIncidentDateTime   As TextBox
     Friend WithEvents lblAlarmLevel         As Label
-    Friend WithEvents cboAlarmLevel         As ComboBox
+    Friend WithEvents txtAlarmLevel         As TextBox
     Friend WithEvents lblResponseTime       As Label
-    Friend WithEvents dtpResponseTime       As DateTimePicker
+    Friend WithEvents txtResponseTime       As TextBox
     Friend WithEvents lblStatus             As Label
-    Friend WithEvents cboStatus             As ComboBox
+    Friend WithEvents txtStatus             As TextBox
     Friend WithEvents lblInvolvedProperty   As Label
     Friend WithEvents txtInvolvedProperty   As TextBox
     Friend WithEvents lblOwnerOccupant      As Label
@@ -410,10 +414,9 @@ Partial Class EditRecordForm
     Friend WithEvents txtCauseOfFire        As TextBox
     Friend WithEvents lblDocument           As Label
     Friend WithEvents txtDocumentName       As TextBox
-    Friend WithEvents btnBrowseDocument     As Button
+    Friend WithEvents btnOpenDocument       As Button
     Friend WithEvents lblRemarks            As Label
     Friend WithEvents txtRemarks            As TextBox
-    Friend WithEvents btnSave               As Button
-    Friend WithEvents btnCancel             As Button
+    Friend WithEvents btnClose              As Button
 
 End Class
