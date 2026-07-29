@@ -14,7 +14,7 @@
 | v2.01 | Same as v2.00 + login field-clearing fix | `UcDashboard`, `UcSettings` | Add Record, View Records, Reports, Developers |
 | v3.00 | v2.01 + Add Record | `UcDashboard`, `UcSettings`, `UcAddRecord` | View Records, Reports, Developers |
 | v3.01 | v3.00 + DPI scaling fix | `UcDashboard`, `UcSettings`, `UcAddRecord` | View Records, Reports, Developers |
-| v4.00 | v3.01 + View Records | `UcDashboard`, `UcSettings`, `UcAddRecord`, `UcViewRecords` | Reports, Developers |
+| v4.00 | v3.01 + new incident fields (Owner/Occupant, Alarm Level, Response Time, Caller Information, Cause of Fire) + View Records w/ record-details view | `UcDashboard`, `UcSettings`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm` | Reports, Developers |
 
 ---
 
@@ -68,7 +68,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 | v2.01 | v2.01 | cf85df9d392c94b6b318b3e8921c1bd3d3e05ad8 |
 | v3.00 | v3.00 | 46c58a784fd0b7384695cf22f5f00434fc48b4c0 |
 | v3.01 | v3.01 | ad471e337c70d8f33a5cd91cf5c6da0790831eee |
-| v4.00 | v4.00 | ffa8730f1c4bdafd0af77cd9750291e9e9e6b40e |
+| v4.00 | v4.00 | b1bbde094ebaaff0ea32b7859484828c07cd98bc |
 
 Run this after all versions are pushed to fill in hashes:
 ```bash
