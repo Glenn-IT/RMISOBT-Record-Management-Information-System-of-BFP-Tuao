@@ -57,7 +57,7 @@ Partial Class UcAddRecord
         '
         ' pnlFormCard
         '
-        pnlFormCard.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlFormCard.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         pnlFormCard.BackColor = Color.White
         pnlFormCard.Controls.Add(lblPageTitle)
         pnlFormCard.Controls.Add(lblPageSub)
