@@ -15,6 +15,7 @@
 | v3.00 | v2.01 + Add Record | `UcDashboard`, `UcSettings`, `UcAddRecord` | View Records, Reports, Developers |
 | v3.01 | v3.00 + DPI scaling fix | `UcDashboard`, `UcSettings`, `UcAddRecord` | View Records, Reports, Developers |
 | v4.00 | Login + Dashboard + Add Record + View Records (w/ new incident fields: Owner/Occupant, Alarm Level, Response Time, Caller Information, Cause of Fire, and record-details view) | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm` | Admin Settings, Reports, Developers |
+| v5.00 | v4.00 + Reports unlocked (Login, Dashboard, Add Record, View Records, Reports) | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm`, `UcReports` | Admin Settings, Developers |
 
 ---
 
@@ -69,6 +70,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 | v3.00 | v3.00 | 46c58a784fd0b7384695cf22f5f00434fc48b4c0 |
 | v3.01 | v3.01 | ad471e337c70d8f33a5cd91cf5c6da0790831eee |
 | v4.00 | v4.00 | 8394908c9ef814f0333e535e75eb78e80f35f0eb |
+| v5.00 | v5.00 | 2d2645ceb7be31be315e28fbe5dc5a729831fa0d |
 
 Run this after all versions are pushed to fill in hashes:
 ```bash
