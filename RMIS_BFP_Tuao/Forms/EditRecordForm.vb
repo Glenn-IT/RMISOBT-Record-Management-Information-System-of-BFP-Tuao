@@ -17,6 +17,7 @@ Public Class EditRecordForm
         cboIncidentType.Text      = _record.IncidentType
         dtpIncidentDateTime.Value = _record.IncidentDateTime
         txtInvolvedProperty.Text  = _record.InvolvedProperty
+        txtAddress.Text           = _record.Address
         txtOwnerOccupant.Text     = _record.OwnerOccupant
         txtCallerInformation.Text = _record.CallerInformation
         cboAlarmLevel.Text        = _record.AlarmLevel
@@ -47,8 +48,8 @@ Public Class EditRecordForm
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        If txtInvolvedProperty.Text.Trim() = "" OrElse txtCallerInformation.Text.Trim() = "" Then
-            MessageBox.Show("Involved Property and Caller Information are required.", "Validation",
+        If txtInvolvedProperty.Text.Trim() = "" OrElse txtAddress.Text.Trim() = "" OrElse txtCallerInformation.Text.Trim() = "" Then
+            MessageBox.Show("Involved Property, Address, and Caller Information are required.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
@@ -84,6 +85,7 @@ Public Class EditRecordForm
             _record.IncidentType      = cboIncidentType.SelectedItem?.ToString()
             _record.IncidentDateTime  = dtpIncidentDateTime.Value
             _record.InvolvedProperty  = txtInvolvedProperty.Text.Trim()
+            _record.Address           = txtAddress.Text.Trim()
             _record.OwnerOccupant     = txtOwnerOccupant.Text.Trim()
             _record.CallerInformation = txtCallerInformation.Text.Trim()
             _record.AlarmLevel        = cboAlarmLevel.SelectedItem?.ToString()

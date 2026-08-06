@@ -37,6 +37,7 @@ Public Class UcViewRecords
                                          Return r.RecordID.ToLower().Contains(keyword) OrElse
                                             r.IncidentType.ToLower().Contains(keyword) OrElse
                                             r.InvolvedProperty.ToLower().Contains(keyword) OrElse
+                                            (r.Address IsNot Nothing AndAlso r.Address.ToLower().Contains(keyword)) OrElse
                                             r.Status.ToLower().Contains(keyword)
                                      End Function).ToList()
             PopulateGrid(filtered)

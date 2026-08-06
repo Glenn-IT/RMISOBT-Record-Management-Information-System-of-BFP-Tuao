@@ -17,6 +17,7 @@ Public Class ViewRecordForm
         txtResponseTime.Text      = If(_record.ResponseTime.HasValue, DateTimeHelper.ToMilitaryTime(_record.ResponseTime.Value), "Not recorded")
         txtStatus.Text            = _record.Status
         txtInvolvedProperty.Text  = _record.InvolvedProperty
+        txtAddress.Text           = _record.Address
         txtOwnerOccupant.Text     = _record.OwnerOccupant
         txtCallerInformation.Text = _record.CallerInformation
         txtCasualties.Text        = _record.Casualties

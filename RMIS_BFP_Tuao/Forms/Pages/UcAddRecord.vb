@@ -31,6 +31,7 @@ Public Class UcAddRecord
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         If txtInvolvedProperty.Text.Trim() = "" OrElse
+           txtAddress.Text.Trim() = "" OrElse
            txtCallerInformation.Text.Trim() = "" Then
             MessageBox.Show("Please fill in all required fields marked with *.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -76,6 +77,7 @@ Public Class UcAddRecord
                 .IncidentType      = cboIncidentType.SelectedItem?.ToString(),
                 .IncidentDateTime  = dtpIncidentDateTime.Value,
                 .InvolvedProperty  = txtInvolvedProperty.Text.Trim(),
+                .Address           = txtAddress.Text.Trim(),
                 .OwnerOccupant     = txtOwnerOccupant.Text.Trim(),
                 .CallerInformation = txtCallerInformation.Text.Trim(),
                 .AlarmLevel        = cboAlarmLevel.SelectedItem?.ToString(),
@@ -104,6 +106,7 @@ Public Class UcAddRecord
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         txtInvolvedProperty.Clear()
+        txtAddress.Clear()
         txtOwnerOccupant.Clear()
         txtCallerInformation.Clear()
         txtCauseOfFire.Clear()

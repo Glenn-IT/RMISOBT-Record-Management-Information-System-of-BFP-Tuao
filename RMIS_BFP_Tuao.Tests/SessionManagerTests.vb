@@ -8,6 +8,11 @@ Public Class SessionManagerTests
         SessionManager.Clear()
     End Sub
 
+    <TestCleanup>
+    Public Sub Cleanup()
+        SessionManager.Clear()
+    End Sub
+
     <TestMethod>
     Public Sub Clear_ResetsAllFields()
         SessionManager.Username = "admin"
@@ -34,6 +39,7 @@ Public Class SessionManagerTests
 
     <TestMethod>
     Public Sub DefaultState_IsEmpty()
+        SessionManager.Clear()
         Assert.AreEqual("", SessionManager.Username)
         Assert.AreEqual("", SessionManager.UserType)
         Assert.AreEqual("", SessionManager.UserCode)

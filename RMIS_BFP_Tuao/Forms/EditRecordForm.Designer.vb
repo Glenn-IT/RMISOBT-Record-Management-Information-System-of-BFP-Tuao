@@ -36,6 +36,8 @@ Partial Class EditRecordForm
         cboStatus = New ComboBox()
         lblInvolvedProperty = New Label()
         txtInvolvedProperty = New TextBox()
+        lblAddress = New Label()
+        txtAddress = New TextBox()
         lblOwnerOccupant = New Label()
         txtOwnerOccupant = New TextBox()
         lblCallerInformation = New Label()
@@ -115,6 +117,8 @@ Partial Class EditRecordForm
         pnlBody.Controls.Add(cboStatus)
         pnlBody.Controls.Add(lblInvolvedProperty)
         pnlBody.Controls.Add(txtInvolvedProperty)
+        pnlBody.Controls.Add(lblAddress)
+        pnlBody.Controls.Add(txtAddress)
         pnlBody.Controls.Add(lblOwnerOccupant)
         pnlBody.Controls.Add(txtOwnerOccupant)
         pnlBody.Controls.Add(lblCallerInformation)
@@ -264,7 +268,7 @@ Partial Class EditRecordForm
         lblInvolvedProperty.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
         lblInvolvedProperty.Location = New Point(627, 18)
         lblInvolvedProperty.Name = "lblInvolvedProperty"
-        lblInvolvedProperty.Size = New Size(318, 24)
+        lblInvolvedProperty.Size = New Size(340, 22)
         lblInvolvedProperty.TabIndex = 12
         lblInvolvedProperty.Text = "Involved Building / Establishment / Vehicle *"
         ' 
@@ -272,11 +276,31 @@ Partial Class EditRecordForm
         ' 
         txtInvolvedProperty.BorderStyle = BorderStyle.FixedSingle
         txtInvolvedProperty.Font = New Font("Segoe UI", 10F)
-        txtInvolvedProperty.Location = New Point(627, 45)
+        txtInvolvedProperty.Location = New Point(627, 42)
         txtInvolvedProperty.Multiline = True
         txtInvolvedProperty.Name = "txtInvolvedProperty"
-        txtInvolvedProperty.Size = New Size(340, 170)
+        txtInvolvedProperty.Size = New Size(340, 65)
         txtInvolvedProperty.TabIndex = 13
+        ' 
+        ' lblAddress
+        ' 
+        lblAddress.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblAddress.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblAddress.Location = New Point(627, 115)
+        lblAddress.Name = "lblAddress"
+        lblAddress.Size = New Size(340, 22)
+        lblAddress.TabIndex = 14
+        lblAddress.Text = "Incident Address / Location *"
+        ' 
+        ' txtAddress
+        ' 
+        txtAddress.BorderStyle = BorderStyle.FixedSingle
+        txtAddress.Font = New Font("Segoe UI", 10F)
+        txtAddress.Location = New Point(627, 139)
+        txtAddress.Multiline = True
+        txtAddress.Name = "txtAddress"
+        txtAddress.Size = New Size(340, 65)
+        txtAddress.TabIndex = 15
         ' 
         ' lblOwnerOccupant
         ' 
@@ -285,7 +309,7 @@ Partial Class EditRecordForm
         lblOwnerOccupant.Location = New Point(18, 229)
         lblOwnerOccupant.Name = "lblOwnerOccupant"
         lblOwnerOccupant.Size = New Size(265, 24)
-        lblOwnerOccupant.TabIndex = 14
+        lblOwnerOccupant.TabIndex = 16
         lblOwnerOccupant.Text = "Name of Owner / Occupant"
         ' 
         ' txtOwnerOccupant
@@ -519,6 +543,8 @@ Partial Class EditRecordForm
     Friend WithEvents cboStatus             As ComboBox
     Friend WithEvents lblInvolvedProperty   As Label
     Friend WithEvents txtInvolvedProperty   As TextBox
+    Friend WithEvents lblAddress            As Label
+    Friend WithEvents txtAddress            As TextBox
     Friend WithEvents lblOwnerOccupant      As Label
     Friend WithEvents txtOwnerOccupant      As TextBox
     Friend WithEvents lblCallerInformation  As Label

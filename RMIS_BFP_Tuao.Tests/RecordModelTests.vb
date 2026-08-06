@@ -10,7 +10,8 @@ Public Class RecordModelTests
             .RecordID           = "INC-2026-001",
             .IncidentType       = "Structure Fire",
             .IncidentDateTime   = incidentDate,
-            .InvolvedProperty   = "Brgy. Centro, Tuao",
+            .InvolvedProperty   = "Commercial Building",
+            .Address            = "Brgy. Centro, Tuao",
             .OwnerOccupant      = "Maria Santos",
             .CallerInformation  = "Juan Dela Cruz",
             .AlarmLevel         = "1st Alarm",
@@ -25,7 +26,8 @@ Public Class RecordModelTests
         Assert.AreEqual("INC-2026-001",              r.RecordID)
         Assert.AreEqual("Structure Fire",             r.IncidentType)
         Assert.AreEqual(incidentDate,                 r.IncidentDateTime)
-        Assert.AreEqual("Brgy. Centro, Tuao",        r.InvolvedProperty)
+        Assert.AreEqual("Commercial Building",        r.InvolvedProperty)
+        Assert.AreEqual("Brgy. Centro, Tuao",        r.Address)
         Assert.AreEqual("Maria Santos",               r.OwnerOccupant)
         Assert.AreEqual("Juan Dela Cruz",             r.CallerInformation)
         Assert.AreEqual("1st Alarm",                  r.AlarmLevel)
@@ -43,6 +45,7 @@ Public Class RecordModelTests
         Assert.IsNull(r.RecordID)
         Assert.IsNull(r.IncidentType)
         Assert.IsNull(r.InvolvedProperty)
+        Assert.IsNull(r.Address)
         Assert.IsNull(r.Status)
         Assert.IsFalse(r.ResponseTime.HasValue)
     End Sub

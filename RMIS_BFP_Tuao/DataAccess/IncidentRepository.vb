@@ -7,7 +7,7 @@ Public Module IncidentRepository
         Using con As New SqlConnection(dbconstring.Connection)
             con.Open()
             Using cmd As New SqlCommand(
-                "SELECT RecordID, IncidentType, IncidentDateTime, InvolvedProperty, OwnerOccupant, " &
+                "SELECT RecordID, IncidentType, IncidentDateTime, InvolvedProperty, Address, OwnerOccupant, " &
                 "CallerInformation, AlarmLevel, ResponseTime, CauseOfFire, " &
                 "Casualties, DamageEstimate, Remarks, Status, AttachmentPath " &
                 "FROM tbl_IncidentRecords ORDER BY IncidentDateTime DESC", con)
@@ -18,16 +18,17 @@ Public Module IncidentRepository
                             .IncidentType       = reader.GetString(1),
                             .IncidentDateTime   = reader.GetDateTime(2),
                             .InvolvedProperty   = reader.GetString(3),
-                            .OwnerOccupant      = If(reader.IsDBNull(4), "", reader.GetString(4)),
-                            .CallerInformation  = reader.GetString(5),
-                            .AlarmLevel         = If(reader.IsDBNull(6), "", reader.GetString(6)),
-                            .ResponseTime       = If(reader.IsDBNull(7), CType(Nothing, TimeSpan?), reader.GetTimeSpan(7)),
-                            .CauseOfFire        = If(reader.IsDBNull(8), "", reader.GetString(8)),
-                            .Casualties         = reader.GetString(9),
-                            .DamageEstimate     = reader.GetString(10),
-                            .Remarks            = reader.GetString(11),
-                            .Status             = reader.GetString(12),
-                            .DocumentPath       = If(reader.IsDBNull(13), "", reader.GetString(13))
+                            .Address            = If(reader.IsDBNull(4), "", reader.GetString(4)),
+                            .OwnerOccupant      = If(reader.IsDBNull(5), "", reader.GetString(5)),
+                            .CallerInformation  = reader.GetString(6),
+                            .AlarmLevel         = If(reader.IsDBNull(7), "", reader.GetString(7)),
+                            .ResponseTime       = If(reader.IsDBNull(8), CType(Nothing, TimeSpan?), reader.GetTimeSpan(8)),
+                            .CauseOfFire        = If(reader.IsDBNull(9), "", reader.GetString(9)),
+                            .Casualties         = reader.GetString(10),
+                            .DamageEstimate     = reader.GetString(11),
+                            .Remarks            = reader.GetString(12),
+                            .Status             = reader.GetString(13),
+                            .DocumentPath       = If(reader.IsDBNull(14), "", reader.GetString(14))
                         })
                     End While
                 End Using
@@ -41,14 +42,15 @@ Public Module IncidentRepository
             con.Open()
             Using cmd As New SqlCommand(
                 "INSERT INTO tbl_IncidentRecords " &
-                "(RecordID, IncidentType, IncidentDateTime, InvolvedProperty, OwnerOccupant, " &
+                "(RecordID, IncidentType, IncidentDateTime, InvolvedProperty, Address, OwnerOccupant, " &
                 " CallerInformation, AlarmLevel, ResponseTime, CauseOfFire, " &
                 " Casualties, DamageEstimate, Remarks, Status, AttachmentPath) " &
-                "VALUES (@id, @type, @date, @prop, @owner, @caller, @alarm, @resp, @cause, @cas, @dmg, @rem, @status, @doc)", con)
+                "VALUES (@id, @type, @date, @prop, @addr, @owner, @caller, @alarm, @resp, @cause, @cas, @dmg, @rem, @status, @doc)", con)
                 cmd.Parameters.AddWithValue("@id",     record.RecordID)
                 cmd.Parameters.AddWithValue("@type",   record.IncidentType)
                 cmd.Parameters.AddWithValue("@date",   record.IncidentDateTime)
                 cmd.Parameters.AddWithValue("@prop",   record.InvolvedProperty)
+                cmd.Parameters.AddWithValue("@addr",   If(record.Address, CType(DBNull.Value, Object)))
                 cmd.Parameters.AddWithValue("@owner",  If(record.OwnerOccupant, CType(DBNull.Value, Object)))
                 cmd.Parameters.AddWithValue("@caller", record.CallerInformation)
                 cmd.Parameters.AddWithValue("@alarm",  If(record.AlarmLevel, CType(DBNull.Value, Object)))
@@ -69,7 +71,7 @@ Public Module IncidentRepository
             con.Open()
             Using cmd As New SqlCommand(
                 "UPDATE tbl_IncidentRecords SET " &
-                "IncidentType = @type, IncidentDateTime = @date, InvolvedProperty = @prop, OwnerOccupant = @owner, " &
+                "IncidentType = @type, IncidentDateTime = @date, InvolvedProperty = @prop, Address = @addr, OwnerOccupant = @owner, " &
                 "CallerInformation = @caller, AlarmLevel = @alarm, ResponseTime = @resp, CauseOfFire = @cause, " &
                 "Casualties = @cas, DamageEstimate = @dmg, " &
                 "Remarks = @rem, Status = @status, AttachmentPath = @doc " &
@@ -78,6 +80,7 @@ Public Module IncidentRepository
                 cmd.Parameters.AddWithValue("@type",   record.IncidentType)
                 cmd.Parameters.AddWithValue("@date",   record.IncidentDateTime)
                 cmd.Parameters.AddWithValue("@prop",   record.InvolvedProperty)
+                cmd.Parameters.AddWithValue("@addr",   If(record.Address, CType(DBNull.Value, Object)))
                 cmd.Parameters.AddWithValue("@owner",  If(record.OwnerOccupant, CType(DBNull.Value, Object)))
                 cmd.Parameters.AddWithValue("@caller", record.CallerInformation)
                 cmd.Parameters.AddWithValue("@alarm",  If(record.AlarmLevel, CType(DBNull.Value, Object)))

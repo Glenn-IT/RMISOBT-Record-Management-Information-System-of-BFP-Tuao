@@ -17,6 +17,7 @@ Stores all fire incident reports.
 | `IncidentType` | `NVARCHAR(100)` | NOT NULL | Structure Fire, Vehicular Fire, Grass Fire, Industrial Fire, Electrical Fire, Other |
 | `IncidentDateTime` | `DATETIME2(0)` | NOT NULL | Date and time the fire incident occurred (military time in the UI) |
 | `InvolvedProperty` | `NVARCHAR(255)` | NOT NULL | Involved building / establishment / vehicle |
+| `Address` | `NVARCHAR(255)` | NULL | Location / Address of the incident |
 | `OwnerOccupant` | `NVARCHAR(150)` | NULL | Name of the owner/occupant |
 | `CallerInformation` | `NVARCHAR(100)` | NOT NULL | Name/contact of the person who called in the incident |
 | `AlarmLevel` | `NVARCHAR(50)` | NULL | 1st Alarm .. 5th Alarm, or General Alarm |

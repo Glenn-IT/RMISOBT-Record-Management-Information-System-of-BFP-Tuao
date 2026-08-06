@@ -19,6 +19,7 @@ Public Class DatabaseInitializer
                     IncidentType      NVARCHAR(100)   NOT NULL,
                     IncidentDateTime  DATETIME2(0)    NOT NULL,
                     InvolvedProperty  NVARCHAR(255)   NOT NULL,
+                    Address           NVARCHAR(255)   NULL,
                     OwnerOccupant     NVARCHAR(150)   NULL,
                     CallerInformation NVARCHAR(100)   NOT NULL,
                     AlarmLevel        NVARCHAR(50)    NULL,
@@ -90,6 +91,8 @@ Public Class DatabaseInitializer
                     ALTER TABLE tbl_IncidentRecords ADD ResponseTime TIME(0) NULL;
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'IncidentDateTime')
                     ALTER TABLE tbl_IncidentRecords ADD IncidentDateTime DATETIME2(0) NOT NULL DEFAULT GETDATE();
+                 IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'Address')
+                    ALTER TABLE tbl_IncidentRecords ADD Address NVARCHAR(255) NULL;
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'CauseOfFire')
                     ALTER TABLE tbl_IncidentRecords ADD CauseOfFire NVARCHAR(255) NULL;"
             Using cmd As New SqlCommand(migrate, con)

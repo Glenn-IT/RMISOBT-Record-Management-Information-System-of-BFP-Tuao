@@ -4,6 +4,7 @@ Public Class RecordModel
     Public Property IncidentType As String
     Public Property IncidentDateTime As DateTime
     Public Property InvolvedProperty As String
+    Public Property Address As String
     Public Property OwnerOccupant As String
     Public Property CallerInformation As String
     Public Property AlarmLevel As String
