@@ -51,18 +51,18 @@ Partial Class UcViewRecords
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Controls.Add(lblPageSub)
         pnlHeader.Controls.Add(pnlDivider)
-        pnlHeader.Location = New Point(24, 18)
+        pnlHeader.Location = New Point(26, 20)
         pnlHeader.Name = "pnlHeader"
-        pnlHeader.Size = New Size(930, 88)
+        pnlHeader.Size = New Size(1027, 97)
         pnlHeader.TabIndex = 0
         ' 
         ' lblPageTitle
         ' 
         lblPageTitle.Font = New Font("Segoe UI", 15F, FontStyle.Bold)
         lblPageTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
-        lblPageTitle.Location = New Point(20, 12)
+        lblPageTitle.Location = New Point(22, 13)
         lblPageTitle.Name = "lblPageTitle"
-        lblPageTitle.Size = New Size(600, 34)
+        lblPageTitle.Size = New Size(662, 38)
         lblPageTitle.TabIndex = 0
         lblPageTitle.Text = "View Incident Records"
         ' 
@@ -70,9 +70,9 @@ Partial Class UcViewRecords
         ' 
         lblPageSub.Font = New Font("Segoe UI", 9F)
         lblPageSub.ForeColor = Color.Gray
-        lblPageSub.Location = New Point(20, 46)
+        lblPageSub.Location = New Point(22, 51)
         lblPageSub.Name = "lblPageSub"
-        lblPageSub.Size = New Size(600, 22)
+        lblPageSub.Size = New Size(662, 24)
         lblPageSub.TabIndex = 1
         lblPageSub.Text = "Browse, search, and manage all recorded fire incidents."
         ' 
@@ -80,9 +80,9 @@ Partial Class UcViewRecords
         ' 
         pnlDivider.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         pnlDivider.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
-        pnlDivider.Location = New Point(20, 78)
+        pnlDivider.Location = New Point(22, 86)
         pnlDivider.Name = "pnlDivider"
-        pnlDivider.Size = New Size(890, 3)
+        pnlDivider.Size = New Size(983, 3)
         pnlDivider.TabIndex = 2
         ' 
         ' pnlToolbar
@@ -96,18 +96,18 @@ Partial Class UcViewRecords
         pnlToolbar.Controls.Add(btnEdit)
         pnlToolbar.Controls.Add(btnDelete)
         pnlToolbar.Controls.Add(lblRecordCount)
-        pnlToolbar.Location = New Point(24, 118)
+        pnlToolbar.Location = New Point(26, 130)
         pnlToolbar.Name = "pnlToolbar"
-        pnlToolbar.Size = New Size(930, 56)
+        pnlToolbar.Size = New Size(1027, 62)
         pnlToolbar.TabIndex = 1
         ' 
         ' lblSearchLabel
         ' 
         lblSearchLabel.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         lblSearchLabel.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
-        lblSearchLabel.Location = New Point(16, 13)
+        lblSearchLabel.Location = New Point(18, 14)
         lblSearchLabel.Name = "lblSearchLabel"
-        lblSearchLabel.Size = New Size(54, 30)
+        lblSearchLabel.Size = New Size(60, 33)
         lblSearchLabel.TabIndex = 0
         lblSearchLabel.Text = "Search:"
         lblSearchLabel.TextAlign = ContentAlignment.MiddleLeft
@@ -117,80 +117,81 @@ Partial Class UcViewRecords
         txtSearch.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtSearch.BorderStyle = BorderStyle.FixedSingle
         txtSearch.Font = New Font("Segoe UI", 10F)
-        txtSearch.Location = New Point(72, 13)
+        txtSearch.Location = New Point(80, 14)
         txtSearch.Name = "txtSearch"
         txtSearch.PlaceholderText = "Type to search records..."
-        txtSearch.Size = New Size(220, 27)
+        txtSearch.Size = New Size(243, 27)
         txtSearch.TabIndex = 1
-        '
+        ' 
         ' btnView
-        '
+        ' 
         btnView.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         btnView.Cursor = Cursors.Hand
         btnView.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
         btnView.FlatStyle = FlatStyle.Flat
         btnView.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnView.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
-        btnView.Location = New Point(302, 13)
+        btnView.Location = New Point(333, 14)
         btnView.Name = "btnView"
-        btnView.Size = New Size(90, 30)
+        btnView.Size = New Size(99, 33)
         btnView.TabIndex = 2
         btnView.Text = "View"
         btnView.UseVisualStyleBackColor = False
-        '
+        ' 
         ' btnRefresh
-        '
+        ' 
         btnRefresh.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         btnRefresh.Cursor = Cursors.Hand
         btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
         btnRefresh.FlatStyle = FlatStyle.Flat
         btnRefresh.Font = New Font("Segoe UI", 9F)
         btnRefresh.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
-        btnRefresh.Location = New Point(402, 13)
+        btnRefresh.Location = New Point(444, 14)
         btnRefresh.Name = "btnRefresh"
-        btnRefresh.Size = New Size(90, 30)
+        btnRefresh.Size = New Size(99, 33)
         btnRefresh.TabIndex = 3
         btnRefresh.Text = "Refresh"
         btnRefresh.UseVisualStyleBackColor = False
-        '
+        ' 
         ' btnEdit
-        '
+        ' 
         btnEdit.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
         btnEdit.Cursor = Cursors.Hand
         btnEdit.FlatAppearance.BorderSize = 0
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnEdit.ForeColor = Color.White
-        btnEdit.Location = New Point(502, 13)
+        btnEdit.Location = New Point(554, 14)
         btnEdit.Name = "btnEdit"
-        btnEdit.Size = New Size(120, 30)
+        btnEdit.Size = New Size(132, 33)
         btnEdit.TabIndex = 4
         btnEdit.Text = "Edit Selected"
         btnEdit.UseVisualStyleBackColor = False
-        '
+        ' 
         ' btnDelete
-        '
+        ' 
         btnDelete.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnDelete.Cursor = Cursors.Hand
         btnDelete.FlatAppearance.BorderSize = 0
         btnDelete.FlatStyle = FlatStyle.Flat
         btnDelete.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnDelete.ForeColor = Color.White
-        btnDelete.Location = New Point(632, 13)
+        btnDelete.Location = New Point(698, 14)
         btnDelete.Name = "btnDelete"
-        btnDelete.Size = New Size(130, 30)
+        btnDelete.Size = New Size(144, 33)
         btnDelete.TabIndex = 5
         btnDelete.Text = "Delete Selected"
         btnDelete.UseVisualStyleBackColor = False
-        '
+        btnDelete.Visible = False
+        ' 
         ' lblRecordCount
-        '
+        ' 
         lblRecordCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblRecordCount.Font = New Font("Segoe UI", 9F)
         lblRecordCount.ForeColor = Color.Gray
-        lblRecordCount.Location = New Point(772, 13)
+        lblRecordCount.Location = New Point(852, 14)
         lblRecordCount.Name = "lblRecordCount"
-        lblRecordCount.Size = New Size(154, 30)
+        lblRecordCount.Size = New Size(170, 33)
         lblRecordCount.TabIndex = 6
         lblRecordCount.Text = "Total Records: 0"
         lblRecordCount.TextAlign = ContentAlignment.MiddleRight
@@ -200,9 +201,9 @@ Partial Class UcViewRecords
         pnlGridCard.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         pnlGridCard.BackColor = Color.White
         pnlGridCard.Controls.Add(dgvRecords)
-        pnlGridCard.Location = New Point(24, 186)
+        pnlGridCard.Location = New Point(26, 205)
         pnlGridCard.Name = "pnlGridCard"
-        pnlGridCard.Size = New Size(930, 467)
+        pnlGridCard.Size = New Size(1027, 516)
         pnlGridCard.TabIndex = 2
         ' 
         ' dgvRecords
@@ -236,7 +237,7 @@ Partial Class UcViewRecords
         dgvRecords.EnableHeadersVisualStyles = False
         dgvRecords.Font = New Font("Segoe UI", 9.5F)
         dgvRecords.GridColor = Color.FromArgb(CByte(225), CByte(225), CByte(225))
-        dgvRecords.Location = New Point(10, 10)
+        dgvRecords.Location = New Point(11, 11)
         dgvRecords.MultiSelect = False
         dgvRecords.Name = "dgvRecords"
         dgvRecords.ReadOnly = True
@@ -244,7 +245,7 @@ Partial Class UcViewRecords
         dgvRecords.RowHeadersWidth = 45
         dgvRecords.RowTemplate.Height = 36
         dgvRecords.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvRecords.Size = New Size(910, 447)
+        dgvRecords.Size = New Size(1005, 494)
         dgvRecords.TabIndex = 0
         ' 
         ' colID
@@ -262,17 +263,17 @@ Partial Class UcViewRecords
         colType.MinimumWidth = 6
         colType.Name = "colType"
         colType.ReadOnly = True
-        '
+        ' 
         ' colDate
-        '
+        ' 
         colDate.FillWeight = 20F
         colDate.HeaderText = "Incident Date/Time"
         colDate.MinimumWidth = 6
         colDate.Name = "colDate"
         colDate.ReadOnly = True
-        '
+        ' 
         ' colInvolvedProperty
-        '
+        ' 
         colInvolvedProperty.FillWeight = 30F
         colInvolvedProperty.HeaderText = "Involved Property"
         colInvolvedProperty.MinimumWidth = 6
@@ -289,15 +290,15 @@ Partial Class UcViewRecords
         ' 
         ' UcViewRecords
         ' 
+        AutoScaleDimensions = New SizeF(106F, 106F)
+        AutoScaleMode = AutoScaleMode.Dpi
         BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         Controls.Add(pnlHeader)
         Controls.Add(pnlToolbar)
         Controls.Add(pnlGridCard)
         Font = New Font("Segoe UI", 9F)
-        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
-        AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcViewRecords"
-        Size = New Size(969, 676)
+        Size = New Size(1070, 746)
         pnlHeader.ResumeLayout(False)
         pnlToolbar.ResumeLayout(False)
         pnlToolbar.PerformLayout()

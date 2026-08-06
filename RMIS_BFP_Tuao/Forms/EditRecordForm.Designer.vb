@@ -17,362 +17,483 @@ Partial Class EditRecordForm
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-
-        pnlHeader      = New Panel()
-        pnlBody        = New Panel()
-        pnlFooter      = New Panel()
-        lblTitle       = New Label()
-        lblSub         = New Label()
-        pnlDivider     = New Panel()
-
-        lblRecordID    = New Label()
-        txtRecordID    = New TextBox()
+        pnlHeader = New Panel()
+        lblTitle = New Label()
+        lblSub = New Label()
+        pnlDivider = New Panel()
+        pnlBody = New Panel()
+        lblRecordID = New Label()
+        txtRecordID = New TextBox()
         lblIncidentType = New Label()
         cboIncidentType = New ComboBox()
         lblIncidentDateTime = New Label()
         dtpIncidentDateTime = New DateTimePicker()
-        lblAlarmLevel  = New Label()
-        cboAlarmLevel  = New ComboBox()
+        lblAlarmLevel = New Label()
+        cboAlarmLevel = New ComboBox()
         lblResponseTime = New Label()
         dtpResponseTime = New DateTimePicker()
-        lblStatus      = New Label()
-        cboStatus      = New ComboBox()
+        lblStatus = New Label()
+        cboStatus = New ComboBox()
         lblInvolvedProperty = New Label()
         txtInvolvedProperty = New TextBox()
         lblOwnerOccupant = New Label()
         txtOwnerOccupant = New TextBox()
         lblCallerInformation = New Label()
         txtCallerInformation = New TextBox()
-        lblCasualties  = New Label()
-        txtCasualties  = New TextBox()
-        lblDamage      = New Label()
+        lblCasualties = New Label()
+        txtCasualties = New TextBox()
+        lblDamage = New Label()
         txtDamageEstimate = New TextBox()
         lblCauseOfFire = New Label()
         txtCauseOfFire = New TextBox()
-        lblDocument    = New Label()
+        lblDocument = New Label()
         txtDocumentName = New TextBox()
         btnBrowseDocument = New Button()
-        lblRemarks     = New Label()
-        txtRemarks     = New TextBox()
-
-        btnSave        = New Button()
-        btnCancel      = New Button()
-
+        lblRemarks = New Label()
+        txtRemarks = New TextBox()
+        pnlFooter = New Panel()
+        btnSave = New Button()
+        btnCancel = New Button()
         pnlHeader.SuspendLayout()
         pnlBody.SuspendLayout()
         pnlFooter.SuspendLayout()
         SuspendLayout()
-
-        ' ════════════════════════════════════════════════════════
-        ' Form
-        ' ════════════════════════════════════════════════════════
-        Me.Text = "Edit Incident Record"
-        Me.ClientSize = New Size(620, 836)
-        Me.FormBorderStyle = FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.StartPosition = FormStartPosition.CenterParent
-        Me.BackColor = Color.FromArgb(240, 242, 245)
-        Me.Font = New Font("Segoe UI", 9F)
-        Me.AutoScaleDimensions = New SizeF(96.0F, 96.0F)
-        Me.AutoScaleMode = AutoScaleMode.Dpi
-
-        ' ════════════════════════════════════════════════════════
+        ' 
         ' pnlHeader
-        ' ════════════════════════════════════════════════════════
+        ' 
         pnlHeader.BackColor = Color.White
-        pnlHeader.Size = New Size(580, 80)
-        pnlHeader.Location = New Point(20, 16)
         pnlHeader.Controls.Add(lblTitle)
         pnlHeader.Controls.Add(lblSub)
         pnlHeader.Controls.Add(pnlDivider)
-
+        pnlHeader.Location = New Point(22, 18)
+        pnlHeader.Name = "pnlHeader"
+        pnlHeader.Size = New Size(981, 88)
+        pnlHeader.TabIndex = 0
+        ' 
+        ' lblTitle
+        ' 
+        lblTitle.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
+        lblTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
+        lblTitle.Location = New Point(18, 11)
+        lblTitle.Name = "lblTitle"
+        lblTitle.Size = New Size(596, 33)
+        lblTitle.TabIndex = 0
         lblTitle.Text = "Edit Incident Record"
-        lblTitle.Font = New Font("Segoe UI", 13, FontStyle.Bold)
-        lblTitle.ForeColor = Color.FromArgb(30, 30, 30)
-        lblTitle.AutoSize = False
-        lblTitle.Size = New Size(540, 30)
-        lblTitle.Location = New Point(16, 10)
-
-        lblSub.Text = "Modify the fields below and click Save to update."
-        lblSub.Font = New Font("Segoe UI", 9)
+        ' 
+        ' lblSub
+        ' 
+        lblSub.Font = New Font("Segoe UI", 9F)
         lblSub.ForeColor = Color.Gray
-        lblSub.AutoSize = False
-        lblSub.Size = New Size(540, 20)
-        lblSub.Location = New Point(16, 42)
-
-        pnlDivider.BackColor = Color.FromArgb(180, 20, 20)
-        pnlDivider.Size = New Size(548, 3)
-        pnlDivider.Location = New Point(16, 70)
-
-        ' ════════════════════════════════════════════════════════
-        ' pnlBody — form fields
-        ' ════════════════════════════════════════════════════════
+        lblSub.Location = New Point(18, 46)
+        lblSub.Name = "lblSub"
+        lblSub.Size = New Size(596, 22)
+        lblSub.TabIndex = 1
+        lblSub.Text = "Modify the fields below and click Save to update."
+        ' 
+        ' pnlDivider
+        ' 
+        pnlDivider.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
+        pnlDivider.Location = New Point(18, 77)
+        pnlDivider.Name = "pnlDivider"
+        pnlDivider.Size = New Size(605, 3)
+        pnlDivider.TabIndex = 2
+        ' 
+        ' pnlBody
+        ' 
         pnlBody.BackColor = Color.White
-        pnlBody.Size = New Size(580, 650)
-        pnlBody.Location = New Point(20, 108)
-        pnlBody.Controls.AddRange({
-            lblRecordID, txtRecordID,
-            lblIncidentType, cboIncidentType,
-            lblIncidentDateTime, dtpIncidentDateTime,
-            lblAlarmLevel, cboAlarmLevel,
-            lblResponseTime, dtpResponseTime,
-            lblStatus, cboStatus,
-            lblInvolvedProperty, txtInvolvedProperty,
-            lblOwnerOccupant, txtOwnerOccupant,
-            lblCallerInformation, txtCallerInformation,
-            lblCasualties, txtCasualties,
-            lblDamage, txtDamageEstimate,
-            lblCauseOfFire, txtCauseOfFire,
-            lblDocument, txtDocumentName, btnBrowseDocument,
-            lblRemarks, txtRemarks})
-
-        ' helper: label + control row layout (left col x=16, right col x=316)
-        ' Row heights: 22px label + 28px control + 16px gap = 66px per row
-
-        ' --- Record ID (read-only) ---
+        pnlBody.Controls.Add(lblRecordID)
+        pnlBody.Controls.Add(txtRecordID)
+        pnlBody.Controls.Add(lblIncidentType)
+        pnlBody.Controls.Add(cboIncidentType)
+        pnlBody.Controls.Add(lblIncidentDateTime)
+        pnlBody.Controls.Add(dtpIncidentDateTime)
+        pnlBody.Controls.Add(lblAlarmLevel)
+        pnlBody.Controls.Add(cboAlarmLevel)
+        pnlBody.Controls.Add(lblResponseTime)
+        pnlBody.Controls.Add(dtpResponseTime)
+        pnlBody.Controls.Add(lblStatus)
+        pnlBody.Controls.Add(cboStatus)
+        pnlBody.Controls.Add(lblInvolvedProperty)
+        pnlBody.Controls.Add(txtInvolvedProperty)
+        pnlBody.Controls.Add(lblOwnerOccupant)
+        pnlBody.Controls.Add(txtOwnerOccupant)
+        pnlBody.Controls.Add(lblCallerInformation)
+        pnlBody.Controls.Add(txtCallerInformation)
+        pnlBody.Controls.Add(lblCasualties)
+        pnlBody.Controls.Add(txtCasualties)
+        pnlBody.Controls.Add(lblDamage)
+        pnlBody.Controls.Add(txtDamageEstimate)
+        pnlBody.Controls.Add(lblCauseOfFire)
+        pnlBody.Controls.Add(txtCauseOfFire)
+        pnlBody.Controls.Add(lblDocument)
+        pnlBody.Controls.Add(txtDocumentName)
+        pnlBody.Controls.Add(btnBrowseDocument)
+        pnlBody.Controls.Add(lblRemarks)
+        pnlBody.Controls.Add(txtRemarks)
+        pnlBody.Location = New Point(22, 119)
+        pnlBody.Name = "pnlBody"
+        pnlBody.Size = New Size(981, 556)
+        pnlBody.TabIndex = 1
+        ' 
+        ' lblRecordID
+        ' 
+        lblRecordID.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblRecordID.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblRecordID.Location = New Point(18, 18)
+        lblRecordID.Name = "lblRecordID"
+        lblRecordID.Size = New Size(265, 24)
+        lblRecordID.TabIndex = 0
         lblRecordID.Text = "Record ID *"
-        lblRecordID.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblRecordID.ForeColor = Color.FromArgb(60, 60, 60)
-        lblRecordID.AutoSize = False
-        lblRecordID.Size = New Size(240, 22)
-        lblRecordID.Location = New Point(16, 16)
-
-        txtRecordID.Font = New Font("Segoe UI", 10)
-        txtRecordID.BackColor = Color.FromArgb(230, 230, 230)
+        ' 
+        ' txtRecordID
+        ' 
+        txtRecordID.BackColor = Color.FromArgb(CByte(230), CByte(230), CByte(230))
         txtRecordID.BorderStyle = BorderStyle.FixedSingle
-        txtRecordID.Size = New Size(240, 28)
-        txtRecordID.Location = New Point(16, 38)
+        txtRecordID.Font = New Font("Segoe UI", 10F)
+        txtRecordID.Location = New Point(18, 42)
+        txtRecordID.Name = "txtRecordID"
         txtRecordID.ReadOnly = True
-
-        ' --- Incident Type ---
+        txtRecordID.Size = New Size(265, 27)
+        txtRecordID.TabIndex = 1
+        ' 
+        ' lblIncidentType
+        ' 
+        lblIncidentType.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblIncidentType.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblIncidentType.Location = New Point(349, 18)
+        lblIncidentType.Name = "lblIncidentType"
+        lblIncidentType.Size = New Size(265, 24)
+        lblIncidentType.TabIndex = 2
         lblIncidentType.Text = "Incident Type *"
-        lblIncidentType.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblIncidentType.ForeColor = Color.FromArgb(60, 60, 60)
-        lblIncidentType.AutoSize = False
-        lblIncidentType.Size = New Size(240, 22)
-        lblIncidentType.Location = New Point(316, 16)
-
-        cboIncidentType.Font = New Font("Segoe UI", 10)
-        cboIncidentType.Size = New Size(240, 28)
-        cboIncidentType.Location = New Point(316, 38)
+        ' 
+        ' cboIncidentType
+        ' 
         cboIncidentType.DropDownStyle = ComboBoxStyle.DropDownList
         cboIncidentType.FlatStyle = FlatStyle.Flat
-
-        ' --- Incident Date & Time ---
+        cboIncidentType.Font = New Font("Segoe UI", 10F)
+        cboIncidentType.Location = New Point(349, 42)
+        cboIncidentType.Name = "cboIncidentType"
+        cboIncidentType.Size = New Size(265, 28)
+        cboIncidentType.TabIndex = 3
+        ' 
+        ' lblIncidentDateTime
+        ' 
+        lblIncidentDateTime.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblIncidentDateTime.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblIncidentDateTime.Location = New Point(18, 91)
+        lblIncidentDateTime.Name = "lblIncidentDateTime"
+        lblIncidentDateTime.Size = New Size(265, 24)
+        lblIncidentDateTime.TabIndex = 4
         lblIncidentDateTime.Text = "Incident Date && Time *"
-        lblIncidentDateTime.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblIncidentDateTime.ForeColor = Color.FromArgb(60, 60, 60)
-        lblIncidentDateTime.AutoSize = False
-        lblIncidentDateTime.Size = New Size(240, 22)
-        lblIncidentDateTime.Location = New Point(16, 82)
-
-        dtpIncidentDateTime.Font = New Font("Segoe UI", 10)
-        dtpIncidentDateTime.Size = New Size(240, 28)
-        dtpIncidentDateTime.Location = New Point(16, 104)
-        dtpIncidentDateTime.Format = DateTimePickerFormat.Custom
+        ' 
+        ' dtpIncidentDateTime
+        ' 
         dtpIncidentDateTime.CustomFormat = "MM/dd/yyyy HHmm"
-
-        ' --- Alarm Level ---
+        dtpIncidentDateTime.Font = New Font("Segoe UI", 10F)
+        dtpIncidentDateTime.Format = DateTimePickerFormat.Custom
+        dtpIncidentDateTime.Location = New Point(18, 115)
+        dtpIncidentDateTime.Name = "dtpIncidentDateTime"
+        dtpIncidentDateTime.Size = New Size(265, 27)
+        dtpIncidentDateTime.TabIndex = 5
+        ' 
+        ' lblAlarmLevel
+        ' 
+        lblAlarmLevel.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblAlarmLevel.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblAlarmLevel.Location = New Point(349, 91)
+        lblAlarmLevel.Name = "lblAlarmLevel"
+        lblAlarmLevel.Size = New Size(265, 24)
+        lblAlarmLevel.TabIndex = 6
         lblAlarmLevel.Text = "Alarm Level *"
-        lblAlarmLevel.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblAlarmLevel.ForeColor = Color.FromArgb(60, 60, 60)
-        lblAlarmLevel.AutoSize = False
-        lblAlarmLevel.Size = New Size(240, 22)
-        lblAlarmLevel.Location = New Point(316, 82)
-
-        cboAlarmLevel.Font = New Font("Segoe UI", 10)
-        cboAlarmLevel.Size = New Size(240, 28)
-        cboAlarmLevel.Location = New Point(316, 104)
+        ' 
+        ' cboAlarmLevel
+        ' 
         cboAlarmLevel.DropDownStyle = ComboBoxStyle.DropDownList
         cboAlarmLevel.FlatStyle = FlatStyle.Flat
-
-        ' --- Response Time ---
+        cboAlarmLevel.Font = New Font("Segoe UI", 10F)
+        cboAlarmLevel.Location = New Point(349, 115)
+        cboAlarmLevel.Name = "cboAlarmLevel"
+        cboAlarmLevel.Size = New Size(265, 28)
+        cboAlarmLevel.TabIndex = 7
+        ' 
+        ' lblResponseTime
+        ' 
+        lblResponseTime.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblResponseTime.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblResponseTime.Location = New Point(18, 163)
+        lblResponseTime.Name = "lblResponseTime"
+        lblResponseTime.Size = New Size(265, 24)
+        lblResponseTime.TabIndex = 8
         lblResponseTime.Text = "Response Time"
-        lblResponseTime.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblResponseTime.ForeColor = Color.FromArgb(60, 60, 60)
-        lblResponseTime.AutoSize = False
-        lblResponseTime.Size = New Size(240, 22)
-        lblResponseTime.Location = New Point(16, 148)
-
-        dtpResponseTime.Font = New Font("Segoe UI", 10)
-        dtpResponseTime.Size = New Size(240, 28)
-        dtpResponseTime.Location = New Point(16, 170)
-        dtpResponseTime.Format = DateTimePickerFormat.Custom
+        ' 
+        ' dtpResponseTime
+        ' 
         dtpResponseTime.CustomFormat = "HHmm"
+        dtpResponseTime.Font = New Font("Segoe UI", 10F)
+        dtpResponseTime.Format = DateTimePickerFormat.Custom
+        dtpResponseTime.Location = New Point(18, 188)
+        dtpResponseTime.Name = "dtpResponseTime"
         dtpResponseTime.ShowCheckBox = True
         dtpResponseTime.ShowUpDown = True
-
-        ' --- Status ---
+        dtpResponseTime.Size = New Size(265, 27)
+        dtpResponseTime.TabIndex = 9
+        ' 
+        ' lblStatus
+        ' 
+        lblStatus.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblStatus.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblStatus.Location = New Point(349, 163)
+        lblStatus.Name = "lblStatus"
+        lblStatus.Size = New Size(265, 24)
+        lblStatus.TabIndex = 10
         lblStatus.Text = "Status *"
-        lblStatus.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblStatus.ForeColor = Color.FromArgb(60, 60, 60)
-        lblStatus.AutoSize = False
-        lblStatus.Size = New Size(240, 22)
-        lblStatus.Location = New Point(316, 148)
-
-        cboStatus.Font = New Font("Segoe UI", 10)
-        cboStatus.Size = New Size(240, 28)
-        cboStatus.Location = New Point(316, 170)
+        ' 
+        ' cboStatus
+        ' 
         cboStatus.DropDownStyle = ComboBoxStyle.DropDownList
         cboStatus.FlatStyle = FlatStyle.Flat
-
-        ' --- Involved Property ---
+        cboStatus.Font = New Font("Segoe UI", 10F)
+        cboStatus.Location = New Point(349, 188)
+        cboStatus.Name = "cboStatus"
+        cboStatus.Size = New Size(265, 28)
+        cboStatus.TabIndex = 11
+        ' 
+        ' lblInvolvedProperty
+        ' 
+        lblInvolvedProperty.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblInvolvedProperty.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblInvolvedProperty.Location = New Point(627, 18)
+        lblInvolvedProperty.Name = "lblInvolvedProperty"
+        lblInvolvedProperty.Size = New Size(318, 24)
+        lblInvolvedProperty.TabIndex = 12
         lblInvolvedProperty.Text = "Involved Building / Establishment / Vehicle *"
-        lblInvolvedProperty.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblInvolvedProperty.ForeColor = Color.FromArgb(60, 60, 60)
-        lblInvolvedProperty.AutoSize = False
-        lblInvolvedProperty.Size = New Size(540, 22)
-        lblInvolvedProperty.Location = New Point(16, 214)
-
-        txtInvolvedProperty.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtInvolvedProperty
+        ' 
         txtInvolvedProperty.BorderStyle = BorderStyle.FixedSingle
-        txtInvolvedProperty.Size = New Size(540, 28)
-        txtInvolvedProperty.Location = New Point(16, 236)
-
-        ' --- Owner / Occupant ---
+        txtInvolvedProperty.Font = New Font("Segoe UI", 10F)
+        txtInvolvedProperty.Location = New Point(627, 45)
+        txtInvolvedProperty.Multiline = True
+        txtInvolvedProperty.Name = "txtInvolvedProperty"
+        txtInvolvedProperty.Size = New Size(340, 170)
+        txtInvolvedProperty.TabIndex = 13
+        ' 
+        ' lblOwnerOccupant
+        ' 
+        lblOwnerOccupant.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblOwnerOccupant.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblOwnerOccupant.Location = New Point(18, 229)
+        lblOwnerOccupant.Name = "lblOwnerOccupant"
+        lblOwnerOccupant.Size = New Size(265, 24)
+        lblOwnerOccupant.TabIndex = 14
         lblOwnerOccupant.Text = "Name of Owner / Occupant"
-        lblOwnerOccupant.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblOwnerOccupant.ForeColor = Color.FromArgb(60, 60, 60)
-        lblOwnerOccupant.AutoSize = False
-        lblOwnerOccupant.Size = New Size(240, 22)
-        lblOwnerOccupant.Location = New Point(16, 280)
-
-        txtOwnerOccupant.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtOwnerOccupant
+        ' 
         txtOwnerOccupant.BorderStyle = BorderStyle.FixedSingle
-        txtOwnerOccupant.Size = New Size(240, 28)
-        txtOwnerOccupant.Location = New Point(16, 302)
-
-        ' --- Caller Information ---
+        txtOwnerOccupant.Font = New Font("Segoe UI", 10F)
+        txtOwnerOccupant.Location = New Point(18, 253)
+        txtOwnerOccupant.Name = "txtOwnerOccupant"
+        txtOwnerOccupant.Size = New Size(265, 27)
+        txtOwnerOccupant.TabIndex = 15
+        ' 
+        ' lblCallerInformation
+        ' 
+        lblCallerInformation.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblCallerInformation.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblCallerInformation.Location = New Point(349, 229)
+        lblCallerInformation.Name = "lblCallerInformation"
+        lblCallerInformation.Size = New Size(265, 24)
+        lblCallerInformation.TabIndex = 16
         lblCallerInformation.Text = "Caller Information *"
-        lblCallerInformation.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblCallerInformation.ForeColor = Color.FromArgb(60, 60, 60)
-        lblCallerInformation.AutoSize = False
-        lblCallerInformation.Size = New Size(240, 22)
-        lblCallerInformation.Location = New Point(316, 280)
-
-        txtCallerInformation.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtCallerInformation
+        ' 
         txtCallerInformation.BorderStyle = BorderStyle.FixedSingle
-        txtCallerInformation.Size = New Size(240, 28)
-        txtCallerInformation.Location = New Point(316, 302)
-
-        ' --- Casualties ---
+        txtCallerInformation.Font = New Font("Segoe UI", 10F)
+        txtCallerInformation.Location = New Point(349, 253)
+        txtCallerInformation.Name = "txtCallerInformation"
+        txtCallerInformation.Size = New Size(265, 27)
+        txtCallerInformation.TabIndex = 17
+        ' 
+        ' lblCasualties
+        ' 
+        lblCasualties.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblCasualties.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblCasualties.Location = New Point(18, 302)
+        lblCasualties.Name = "lblCasualties"
+        lblCasualties.Size = New Size(265, 24)
+        lblCasualties.TabIndex = 18
         lblCasualties.Text = "Casualties"
-        lblCasualties.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblCasualties.ForeColor = Color.FromArgb(60, 60, 60)
-        lblCasualties.AutoSize = False
-        lblCasualties.Size = New Size(240, 22)
-        lblCasualties.Location = New Point(16, 346)
-
-        txtCasualties.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtCasualties
+        ' 
         txtCasualties.BorderStyle = BorderStyle.FixedSingle
-        txtCasualties.Size = New Size(240, 28)
-        txtCasualties.Location = New Point(16, 368)
-
-        ' --- Damage Estimate ---
+        txtCasualties.Font = New Font("Segoe UI", 10F)
+        txtCasualties.Location = New Point(18, 326)
+        txtCasualties.Name = "txtCasualties"
+        txtCasualties.Size = New Size(265, 27)
+        txtCasualties.TabIndex = 19
+        ' 
+        ' lblDamage
+        ' 
+        lblDamage.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblDamage.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblDamage.Location = New Point(349, 302)
+        lblDamage.Name = "lblDamage"
+        lblDamage.Size = New Size(265, 24)
+        lblDamage.TabIndex = 20
         lblDamage.Text = "Damage Estimate (PHP)"
-        lblDamage.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblDamage.ForeColor = Color.FromArgb(60, 60, 60)
-        lblDamage.AutoSize = False
-        lblDamage.Size = New Size(240, 22)
-        lblDamage.Location = New Point(316, 346)
-
-        txtDamageEstimate.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtDamageEstimate
+        ' 
         txtDamageEstimate.BorderStyle = BorderStyle.FixedSingle
-        txtDamageEstimate.Size = New Size(240, 28)
-        txtDamageEstimate.Location = New Point(316, 368)
-
-        ' --- Cause of Fire ---
+        txtDamageEstimate.Font = New Font("Segoe UI", 10F)
+        txtDamageEstimate.Location = New Point(349, 326)
+        txtDamageEstimate.Name = "txtDamageEstimate"
+        txtDamageEstimate.Size = New Size(265, 27)
+        txtDamageEstimate.TabIndex = 21
+        ' 
+        ' lblCauseOfFire
+        ' 
+        lblCauseOfFire.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblCauseOfFire.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblCauseOfFire.Location = New Point(627, 229)
+        lblCauseOfFire.Name = "lblCauseOfFire"
+        lblCauseOfFire.Size = New Size(132, 24)
+        lblCauseOfFire.TabIndex = 22
         lblCauseOfFire.Text = "Cause of Fire"
-        lblCauseOfFire.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblCauseOfFire.ForeColor = Color.FromArgb(60, 60, 60)
-        lblCauseOfFire.AutoSize = False
-        lblCauseOfFire.Size = New Size(540, 22)
-        lblCauseOfFire.Location = New Point(16, 412)
-
-        txtCauseOfFire.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtCauseOfFire
+        ' 
         txtCauseOfFire.BorderStyle = BorderStyle.FixedSingle
-        txtCauseOfFire.Size = New Size(540, 28)
-        txtCauseOfFire.Location = New Point(16, 434)
-
-        ' --- Attached Document ---
+        txtCauseOfFire.Font = New Font("Segoe UI", 10F)
+        txtCauseOfFire.Location = New Point(627, 256)
+        txtCauseOfFire.Multiline = True
+        txtCauseOfFire.Name = "txtCauseOfFire"
+        txtCauseOfFire.Size = New Size(340, 97)
+        txtCauseOfFire.TabIndex = 23
+        ' 
+        ' lblDocument
+        ' 
+        lblDocument.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblDocument.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblDocument.Location = New Point(18, 370)
+        lblDocument.Name = "lblDocument"
+        lblDocument.Size = New Size(596, 24)
+        lblDocument.TabIndex = 24
         lblDocument.Text = "Attached Document *"
-        lblDocument.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblDocument.ForeColor = Color.FromArgb(60, 60, 60)
-        lblDocument.AutoSize = False
-        lblDocument.Size = New Size(540, 22)
-        lblDocument.Location = New Point(16, 478)
-
-        txtDocumentName.Font = New Font("Segoe UI", 10)
-        txtDocumentName.BackColor = Color.FromArgb(245, 245, 245)
+        ' 
+        ' txtDocumentName
+        ' 
+        txtDocumentName.BackColor = Color.FromArgb(CByte(245), CByte(245), CByte(245))
         txtDocumentName.BorderStyle = BorderStyle.FixedSingle
-        txtDocumentName.ReadOnly = True
+        txtDocumentName.Font = New Font("Segoe UI", 10F)
+        txtDocumentName.Location = New Point(18, 394)
+        txtDocumentName.Name = "txtDocumentName"
         txtDocumentName.PlaceholderText = "No document selected."
-        txtDocumentName.Size = New Size(400, 28)
-        txtDocumentName.Location = New Point(16, 500)
-
-        btnBrowseDocument.Text = "Browse..."
-        btnBrowseDocument.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
-        btnBrowseDocument.Size = New Size(140, 28)
-        btnBrowseDocument.Location = New Point(416, 500)
-        btnBrowseDocument.BackColor = Color.FromArgb(30, 100, 180)
-        btnBrowseDocument.ForeColor = Color.White
-        btnBrowseDocument.FlatStyle = FlatStyle.Flat
-        btnBrowseDocument.FlatAppearance.BorderSize = 0
+        txtDocumentName.ReadOnly = True
+        txtDocumentName.Size = New Size(441, 27)
+        txtDocumentName.TabIndex = 25
+        ' 
+        ' btnBrowseDocument
+        ' 
+        btnBrowseDocument.BackColor = Color.FromArgb(CByte(30), CByte(100), CByte(180))
         btnBrowseDocument.Cursor = Cursors.Hand
-
-        ' --- Remarks ---
+        btnBrowseDocument.FlatAppearance.BorderSize = 0
+        btnBrowseDocument.FlatStyle = FlatStyle.Flat
+        btnBrowseDocument.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnBrowseDocument.ForeColor = Color.White
+        btnBrowseDocument.Location = New Point(468, 394)
+        btnBrowseDocument.Name = "btnBrowseDocument"
+        btnBrowseDocument.Size = New Size(155, 27)
+        btnBrowseDocument.TabIndex = 26
+        btnBrowseDocument.Text = "Browse..."
+        btnBrowseDocument.UseVisualStyleBackColor = False
+        ' 
+        ' lblRemarks
+        ' 
+        lblRemarks.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblRemarks.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        lblRemarks.Location = New Point(18, 439)
+        lblRemarks.Name = "lblRemarks"
+        lblRemarks.Size = New Size(596, 24)
+        lblRemarks.TabIndex = 27
         lblRemarks.Text = "Remarks"
-        lblRemarks.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        lblRemarks.ForeColor = Color.FromArgb(60, 60, 60)
-        lblRemarks.AutoSize = False
-        lblRemarks.Size = New Size(540, 22)
-        lblRemarks.Location = New Point(16, 544)
-
-        txtRemarks.Font = New Font("Segoe UI", 10)
+        ' 
+        ' txtRemarks
+        ' 
         txtRemarks.BorderStyle = BorderStyle.FixedSingle
-        txtRemarks.Size = New Size(540, 64)
-        txtRemarks.Location = New Point(16, 566)
+        txtRemarks.Font = New Font("Segoe UI", 10F)
+        txtRemarks.Location = New Point(18, 463)
         txtRemarks.Multiline = True
+        txtRemarks.Name = "txtRemarks"
         txtRemarks.ScrollBars = ScrollBars.Vertical
-
-        ' ════════════════════════════════════════════════════════
-        ' pnlFooter — Save / Cancel buttons
-        ' ════════════════════════════════════════════════════════
+        txtRemarks.Size = New Size(596, 70)
+        txtRemarks.TabIndex = 28
+        ' 
+        ' pnlFooter
+        ' 
         pnlFooter.BackColor = Color.White
-        pnlFooter.Size = New Size(580, 52)
-        pnlFooter.Location = New Point(20, 768)
         pnlFooter.Controls.Add(btnSave)
         pnlFooter.Controls.Add(btnCancel)
-
-        btnSave.Text = "Save Changes"
-        btnSave.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        btnSave.Size = New Size(140, 36)
-        btnSave.Location = New Point(298, 8)
-        btnSave.BackColor = Color.FromArgb(180, 20, 20)
-        btnSave.ForeColor = Color.White
-        btnSave.FlatStyle = FlatStyle.Flat
-        btnSave.FlatAppearance.BorderSize = 0
+        pnlFooter.Location = New Point(22, 681)
+        pnlFooter.Name = "pnlFooter"
+        pnlFooter.Size = New Size(981, 57)
+        pnlFooter.TabIndex = 2
+        ' 
+        ' btnSave
+        ' 
+        btnSave.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnSave.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnSave.Cursor = Cursors.Hand
-
-        btnCancel.Text = "Cancel"
-        btnCancel.Font = New Font("Segoe UI", 10)
-        btnCancel.Size = New Size(100, 36)
-        btnCancel.Location = New Point(452, 8)
-        btnCancel.BackColor = Color.FromArgb(240, 242, 245)
-        btnCancel.ForeColor = Color.FromArgb(60, 60, 60)
-        btnCancel.FlatStyle = FlatStyle.Flat
-        btnCancel.FlatAppearance.BorderColor = Color.FromArgb(200, 200, 200)
+        btnSave.FlatAppearance.BorderSize = 0
+        btnSave.FlatStyle = FlatStyle.Flat
+        btnSave.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        btnSave.ForeColor = Color.White
+        btnSave.Location = New Point(687, 9)
+        btnSave.Name = "btnSave"
+        btnSave.Size = New Size(155, 40)
+        btnSave.TabIndex = 0
+        btnSave.Text = "Save Changes"
+        btnSave.UseVisualStyleBackColor = False
+        ' 
+        ' btnCancel
+        ' 
+        btnCancel.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnCancel.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         btnCancel.Cursor = Cursors.Hand
-
-        ' ── Add to Form ──────────────────────────────────────────
-        Me.Controls.Add(pnlHeader)
-        Me.Controls.Add(pnlBody)
-        Me.Controls.Add(pnlFooter)
-
-        pnlFooter.ResumeLayout(False)
-        pnlBody.ResumeLayout(False)
+        btnCancel.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.Font = New Font("Segoe UI", 10F)
+        btnCancel.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnCancel.Location = New Point(857, 9)
+        btnCancel.Name = "btnCancel"
+        btnCancel.Size = New Size(110, 40)
+        btnCancel.TabIndex = 1
+        btnCancel.Text = "Cancel"
+        btnCancel.UseVisualStyleBackColor = False
+        ' 
+        ' EditRecordForm
+        ' 
+        AutoScaleDimensions = New SizeF(106F, 106F)
+        AutoScaleMode = AutoScaleMode.Dpi
+        BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        ClientSize = New Size(1015, 753)
+        Controls.Add(pnlHeader)
+        Controls.Add(pnlBody)
+        Controls.Add(pnlFooter)
+        Font = New Font("Segoe UI", 9F)
+        FormBorderStyle = FormBorderStyle.FixedDialog
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "EditRecordForm"
+        StartPosition = FormStartPosition.CenterParent
+        Text = "Edit Incident Record"
         pnlHeader.ResumeLayout(False)
+        pnlBody.ResumeLayout(False)
+        pnlBody.PerformLayout()
+        pnlFooter.ResumeLayout(False)
         ResumeLayout(False)
 
     End Sub
