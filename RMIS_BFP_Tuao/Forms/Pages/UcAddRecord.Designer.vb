@@ -481,7 +481,6 @@ Partial Class UcAddRecord
         ' 
         ' btnSave
         ' 
-        btnSave.Anchor = AnchorStyles.None
         btnSave.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         btnSave.Cursor = Cursors.Hand
         btnSave.FlatAppearance.BorderSize = 0
@@ -497,7 +496,6 @@ Partial Class UcAddRecord
         ' 
         ' btnClear
         ' 
-        btnClear.Anchor = AnchorStyles.None
         btnClear.BackColor = Color.White
         btnClear.Cursor = Cursors.Hand
         btnClear.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
