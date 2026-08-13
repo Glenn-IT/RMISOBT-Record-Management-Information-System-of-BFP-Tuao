@@ -8,11 +8,28 @@ Public Class UcViewRecords
             btnDelete.Visible = False
         End If
         Try
-            PopulateGrid(RecordService.Instance.GetRecords())
+            InitFilters()
+            ApplyFilters()
         Catch ex As Exception
             MessageBox.Show("Failed to load records: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub InitFilters()
+        cmbType.Items.Clear()
+        cmbType.Items.Add("All Types")
+        For Each t In Constants.IncidentTypes
+            cmbType.Items.Add(t)
+        Next
+        cmbType.SelectedIndex = 0
+
+        cmbStatus.Items.Clear()
+        cmbStatus.Items.Add("All Statuses")
+        For Each s In Constants.Statuses
+            cmbStatus.Items.Add(s)
+        Next
+        cmbStatus.SelectedIndex = 0
     End Sub
 
     Private Sub PopulateGrid(data As List(Of RecordModel))
@@ -25,26 +42,42 @@ Public Class UcViewRecords
         lblRecordCount.Text = "Total Records: " & data.Count
     End Sub
 
-    Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
+    Private Sub ApplyFilters()
         Try
-            Dim keyword = txtSearch.Text.Trim().ToLower()
             Dim all = RecordService.Instance.GetRecords()
-            If keyword = "" Then
-                PopulateGrid(all)
-                Exit Sub
-            End If
+            Dim keyword = txtSearch.Text.Trim().ToLower()
+            Dim selectedType = If(cmbType.SelectedIndex > 0, cmbType.SelectedItem.ToString(), "All Types")
+            Dim selectedStatus = If(cmbStatus.SelectedIndex > 0, cmbStatus.SelectedItem.ToString(), "All Statuses")
+
             Dim filtered = all.Where(Function(r)
-                                         Return r.RecordID.ToLower().Contains(keyword) OrElse
-                                            r.IncidentType.ToLower().Contains(keyword) OrElse
-                                            r.InvolvedProperty.ToLower().Contains(keyword) OrElse
-                                            (r.Address IsNot Nothing AndAlso r.Address.ToLower().Contains(keyword)) OrElse
-                                            r.Status.ToLower().Contains(keyword)
-                                     End Function).ToList()
+                ' Keyword matching
+                Dim matchesKeyword = (keyword = "") OrElse
+                    r.RecordID.ToLower().Contains(keyword) OrElse
+                    r.IncidentType.ToLower().Contains(keyword) OrElse
+                    r.InvolvedProperty.ToLower().Contains(keyword) OrElse
+                    (r.Address IsNot Nothing AndAlso r.Address.ToLower().Contains(keyword)) OrElse
+                    r.Status.ToLower().Contains(keyword)
+
+                ' Type matching
+                Dim matchesType = (selectedType = "All Types") OrElse
+                    r.IncidentType.Equals(selectedType, StringComparison.OrdinalIgnoreCase)
+
+                ' Status matching (Active, Resolved, Closed, Under Investigation)
+                Dim matchesStatus = (selectedStatus = "All Statuses") OrElse
+                    r.Status.Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
+
+                Return matchesKeyword AndAlso matchesType AndAlso matchesStatus
+            End Function).ToList()
+
             PopulateGrid(filtered)
         Catch ex As Exception
-            MessageBox.Show("Search error: " & ex.Message,
+            MessageBox.Show("Filtering error: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub Filter_Changed(sender As Object, e As EventArgs) Handles txtSearch.TextChanged, cmbType.SelectedIndexChanged, cmbStatus.SelectedIndexChanged
+        ApplyFilters()
     End Sub
 
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
@@ -92,7 +125,7 @@ Public Class UcViewRecords
 
             Using dlg As New EditRecordForm(record)
                 If dlg.ShowDialog() = DialogResult.OK Then
-                    PopulateGrid(RecordService.Instance.GetRecords())
+                    ApplyFilters()
                 End If
             End Using
         Catch ex As Exception
@@ -121,7 +154,7 @@ Public Class UcViewRecords
                 RecordService.Instance.DeleteRecord(selectedID)
                 ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
                                    "Deleted incident record: " & selectedID)
-                PopulateGrid(RecordService.Instance.GetRecords())
+                ApplyFilters()
             Catch ex As Exception
                 MessageBox.Show("Failed to delete record: " & ex.Message,
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -132,7 +165,9 @@ Public Class UcViewRecords
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         Try
             txtSearch.Clear()
-            PopulateGrid(RecordService.Instance.GetRecords())
+            If cmbType.Items.Count > 0 Then cmbType.SelectedIndex = 0
+            If cmbStatus.Items.Count > 0 Then cmbStatus.SelectedIndex = 0
+            ApplyFilters()
         Catch ex As Exception
             MessageBox.Show("Failed to refresh records: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
