@@ -25,6 +25,15 @@ Partial Class UcReports
         pnlDivider = New Panel()
         btnExport = New Button()
         btnPrint = New Button()
+        pnlToolbar = New Panel()
+        lblSearchLabel = New Label()
+        txtSearch = New TextBox()
+        lblTypeLabel = New Label()
+        cmbType = New ComboBox()
+        lblStatusLabel = New Label()
+        cmbStatus = New ComboBox()
+        btnRefresh = New Button()
+        lblRecordCount = New Label()
         pnlSummary = New Panel()
         lblSumTitle = New Label()
         pnlCardTotal = New Panel()
@@ -48,6 +57,7 @@ Partial Class UcReports
         colResolved = New DataGridViewTextBoxColumn()
         colOther = New DataGridViewTextBoxColumn()
         pnlHeader.SuspendLayout()
+        pnlToolbar.SuspendLayout()
         pnlSummary.SuspendLayout()
         pnlCardTotal.SuspendLayout()
         pnlCardActive.SuspendLayout()
@@ -132,6 +142,116 @@ Partial Class UcReports
         btnPrint.Text = "Print Report"
         btnPrint.UseVisualStyleBackColor = False
         ' 
+        ' pnlToolbar
+        ' 
+        pnlToolbar.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlToolbar.BackColor = Color.White
+        pnlToolbar.Controls.Add(lblSearchLabel)
+        pnlToolbar.Controls.Add(txtSearch)
+        pnlToolbar.Controls.Add(lblTypeLabel)
+        pnlToolbar.Controls.Add(cmbType)
+        pnlToolbar.Controls.Add(lblStatusLabel)
+        pnlToolbar.Controls.Add(cmbStatus)
+        pnlToolbar.Controls.Add(btnRefresh)
+        pnlToolbar.Controls.Add(lblRecordCount)
+        pnlToolbar.Location = New Point(24, 114)
+        pnlToolbar.Name = "pnlToolbar"
+        pnlToolbar.Size = New Size(1066, 48)
+        pnlToolbar.TabIndex = 1
+        ' 
+        ' lblSearchLabel
+        ' 
+        lblSearchLabel.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblSearchLabel.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblSearchLabel.Location = New Point(15, 12)
+        lblSearchLabel.Name = "lblSearchLabel"
+        lblSearchLabel.Size = New Size(55, 23)
+        lblSearchLabel.TabIndex = 0
+        lblSearchLabel.Text = "Search:"
+        lblSearchLabel.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
+        txtSearch.BorderStyle = BorderStyle.FixedSingle
+        txtSearch.Font = New Font("Segoe UI", 10F)
+        txtSearch.Location = New Point(73, 10)
+        txtSearch.Name = "txtSearch"
+        txtSearch.PlaceholderText = "Type to search records..."
+        txtSearch.Size = New Size(180, 27)
+        txtSearch.TabIndex = 1
+        ' 
+        ' lblTypeLabel
+        ' 
+        lblTypeLabel.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblTypeLabel.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblTypeLabel.Location = New Point(268, 12)
+        lblTypeLabel.Name = "lblTypeLabel"
+        lblTypeLabel.Size = New Size(42, 23)
+        lblTypeLabel.TabIndex = 2
+        lblTypeLabel.Text = "Type:"
+        lblTypeLabel.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' cmbType
+        ' 
+        cmbType.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
+        cmbType.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbType.Font = New Font("Segoe UI", 9.5F)
+        cmbType.FormattingEnabled = True
+        cmbType.Location = New Point(312, 10)
+        cmbType.Name = "cmbType"
+        cmbType.Size = New Size(160, 27)
+        cmbType.TabIndex = 3
+        ' 
+        ' lblStatusLabel
+        ' 
+        lblStatusLabel.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblStatusLabel.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblStatusLabel.Location = New Point(487, 12)
+        lblStatusLabel.Name = "lblStatusLabel"
+        lblStatusLabel.Size = New Size(52, 23)
+        lblStatusLabel.TabIndex = 4
+        lblStatusLabel.Text = "Status:"
+        lblStatusLabel.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' cmbStatus
+        ' 
+        cmbStatus.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
+        cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbStatus.Font = New Font("Segoe UI", 9.5F)
+        cmbStatus.FormattingEnabled = True
+        cmbStatus.Location = New Point(541, 10)
+        cmbStatus.Name = "cmbStatus"
+        cmbStatus.Size = New Size(160, 27)
+        cmbStatus.TabIndex = 5
+        ' 
+        ' btnRefresh
+        ' 
+        btnRefresh.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        btnRefresh.Cursor = Cursors.Hand
+        btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnRefresh.FlatStyle = FlatStyle.Flat
+        btnRefresh.Font = New Font("Segoe UI", 9F)
+        btnRefresh.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnRefresh.Location = New Point(716, 9)
+        btnRefresh.Name = "btnRefresh"
+        btnRefresh.Size = New Size(85, 30)
+        btnRefresh.TabIndex = 6
+        btnRefresh.Text = "Refresh"
+        btnRefresh.UseVisualStyleBackColor = False
+        ' 
+        ' lblRecordCount
+        ' 
+        lblRecordCount.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblRecordCount.Font = New Font("Segoe UI", 9F)
+        lblRecordCount.ForeColor = Color.Gray
+        lblRecordCount.Location = New Point(880, 9)
+        lblRecordCount.Name = "lblRecordCount"
+        lblRecordCount.Size = New Size(170, 30)
+        lblRecordCount.TabIndex = 7
+        lblRecordCount.Text = "Total Records: 0"
+        lblRecordCount.TextAlign = ContentAlignment.MiddleRight
+        ' 
         ' pnlSummary
         ' 
         pnlSummary.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
@@ -141,10 +261,10 @@ Partial Class UcReports
         pnlSummary.Controls.Add(pnlCardActive)
         pnlSummary.Controls.Add(pnlCardResolved)
         pnlSummary.Controls.Add(pnlCardClosed)
-        pnlSummary.Location = New Point(24, 118)
+        pnlSummary.Location = New Point(24, 168)
         pnlSummary.Name = "pnlSummary"
         pnlSummary.Size = New Size(1066, 110)
-        pnlSummary.TabIndex = 1
+        pnlSummary.TabIndex = 2
         ' 
         ' lblSumTitle
         ' 
@@ -282,10 +402,10 @@ Partial Class UcReports
         pnlBreakdown.BackColor = Color.White
         pnlBreakdown.Controls.Add(lblBreakTitle)
         pnlBreakdown.Controls.Add(dgvBreakdown)
-        pnlBreakdown.Location = New Point(24, 240)
+        pnlBreakdown.Location = New Point(24, 290)
         pnlBreakdown.Name = "pnlBreakdown"
-        pnlBreakdown.Size = New Size(1066, 454)
-        pnlBreakdown.TabIndex = 2
+        pnlBreakdown.Size = New Size(1066, 404)
+        pnlBreakdown.TabIndex = 3
         ' 
         ' lblBreakTitle
         ' 
@@ -336,7 +456,7 @@ Partial Class UcReports
         dgvBreakdown.RowHeadersWidth = 45
         dgvBreakdown.RowTemplate.Height = 36
         dgvBreakdown.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvBreakdown.Size = New Size(1034, 398)
+        dgvBreakdown.Size = New Size(1034, 348)
         dgvBreakdown.TabIndex = 1
         ' 
         ' colType
@@ -373,6 +493,7 @@ Partial Class UcReports
         ' 
         BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         Controls.Add(pnlHeader)
+        Controls.Add(pnlToolbar)
         Controls.Add(pnlSummary)
         Controls.Add(pnlBreakdown)
         Font = New Font("Segoe UI", 9F)
@@ -381,6 +502,8 @@ Partial Class UcReports
         Name = "UcReports"
         Size = New Size(1110, 713)
         pnlHeader.ResumeLayout(False)
+        pnlToolbar.ResumeLayout(False)
+        pnlToolbar.PerformLayout()
         pnlSummary.ResumeLayout(False)
         pnlCardTotal.ResumeLayout(False)
         pnlCardActive.ResumeLayout(False)
@@ -398,6 +521,15 @@ Partial Class UcReports
     Friend WithEvents lblPageSub           As Label
     Friend WithEvents btnExport            As Button
     Friend WithEvents btnPrint             As Button
+    Friend WithEvents pnlToolbar           As Panel
+    Friend WithEvents lblSearchLabel       As Label
+    Friend WithEvents txtSearch            As TextBox
+    Friend WithEvents lblTypeLabel         As Label
+    Friend WithEvents cmbType              As ComboBox
+    Friend WithEvents lblStatusLabel       As Label
+    Friend WithEvents cmbStatus            As ComboBox
+    Friend WithEvents btnRefresh           As Button
+    Friend WithEvents lblRecordCount       As Label
     Friend WithEvents pnlSummary           As Panel
     Friend WithEvents lblSumTitle          As Label
     Friend WithEvents pnlCardTotal         As Panel
