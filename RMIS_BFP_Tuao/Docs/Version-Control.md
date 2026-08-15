@@ -17,7 +17,7 @@
 | v4.00 | Login + Dashboard + Add Record + View Records (w/ new incident fields: Owner/Occupant, Alarm Level, Response Time, Caller Information, Cause of Fire, and record-details view) | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm` | Admin Settings, Reports, Developers |
 | v5.00 | v4.00 + Reports unlocked (Login, Dashboard, Add Record, View Records, Reports) | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm`, `UcReports` | Admin Settings, Developers |
 | v5.01 | v5.00 + Incident Address field update & UI button refactor | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm`, `UcReports` | Admin Settings, Developers |
-| v5.10 | v5.01 + Incident Type & Status (Active, Resolved, Closed) filtering on View Records page | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm`, `UcReports` | Admin Settings, Developers |
+| v5.10 | v5.01 + Incident Type & Status (Active, Resolved, Closed) filtering on View Records and Reports pages | `LoginForm`, `ForgotPasswordForm`, `UcDashboard`, `UcAddRecord`, `UcViewRecords`, `ViewRecordForm`, `UcReports` | Admin Settings, Developers |
 
 ---
 
@@ -74,7 +74,7 @@ exact presentation state. Tags are pushed separately with `git push origin vX.XX
 | v4.00 | v4.00 | 8394908c9ef814f0333e535e75eb78e80f35f0eb |
 | v5.00 | v5.00 | 2d2645ceb7be31be315e28fbe5dc5a729831fa0d |
 | v5.01 | v5.01 | a174c4acb96fec1a69eacdc5897c747859e6da40 |
-| v5.10 | v5.10 | 7054104aadd7bfbf310470bbec9e035a00833b06 |
+| v5.10 | v5.10 | e0d76438431127d2f8d63a8755b4af695543979f |
 
 Run this after all versions are pushed to fill in hashes:
 ```bash
