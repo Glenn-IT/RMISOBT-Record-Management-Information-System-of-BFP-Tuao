@@ -49,7 +49,7 @@ Public Class MainForm
 
     Private Sub btnNavSettings_Click(sender As Object, e As EventArgs) Handles btnNavSettings.Click
         SetActiveButton(btnNavSettings)
-        LoadPage(New UcUnderConstruction())
+        LoadPage(New UcSettings())
     End Sub
 
     Private Sub btnNavDevelopers_Click(sender As Object, e As EventArgs) Handles btnNavDevelopers.Click
