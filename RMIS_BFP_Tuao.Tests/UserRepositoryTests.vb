@@ -84,4 +84,41 @@ Public Class UserRepositoryTests
         Assert.IsFalse(PasswordHelper.VerifyPassword("oldpass", storedHash))
     End Sub
 
+    ' ── Security Question Tests ────────────────────────────────────────────
+
+    <TestMethod>
+    Public Sub UpdateSecurityQuestion_And_VerifySecurityAnswer_Success()
+        If SkipIfNoDb() Then Assert.Inconclusive("RMIS_TEST_CONNSTR not set — skipping DB test.") : Return
+        Dim uname = "test_user_sec_" & Guid.NewGuid().ToString("N").Substring(0, 6)
+        UserRepository.Insert(uname, PasswordHelper.HashPassword("pass"), Constants.UserTypeStaff)
+
+        Dim question = "What is your favorite color?"
+        Dim answer = "Blue"
+        Dim answerHash = PasswordHelper.HashPassword(answer.Trim().ToLower())
+
+        UserRepository.UpdateSecurityQuestion(uname, question, answerHash)
+
+        Dim retrievedQuestion = UserRepository.GetSecurityQuestion(uname)
+        Assert.AreEqual(question, retrievedQuestion)
+
+        Assert.IsTrue(UserRepository.VerifySecurityAnswer(uname, "Blue"))
+        Assert.IsTrue(UserRepository.VerifySecurityAnswer(uname, "blue"))
+        Assert.IsTrue(UserRepository.VerifySecurityAnswer(uname, "  blue  "))
+        Assert.IsFalse(UserRepository.VerifySecurityAnswer(uname, "Red"))
+    End Sub
+
+    <TestMethod>
+    Public Sub VerifySecurityAnswer_WrongAnswer_ReturnsFalse()
+        If SkipIfNoDb() Then Assert.Inconclusive("RMIS_TEST_CONNSTR not set — skipping DB test.") : Return
+        Dim uname = "test_user_sec2_" & Guid.NewGuid().ToString("N").Substring(0, 6)
+        UserRepository.Insert(uname, PasswordHelper.HashPassword("pass"), Constants.UserTypeStaff)
+
+        Dim question = "What was your first pet?"
+        Dim answerHash = PasswordHelper.HashPassword("dog")
+        UserRepository.UpdateSecurityQuestion(uname, question, answerHash)
+
+        Assert.IsFalse(UserRepository.VerifySecurityAnswer(uname, "cat"))
+        Assert.IsFalse(UserRepository.VerifySecurityAnswer(uname, ""))
+    End Sub
+
 End Class

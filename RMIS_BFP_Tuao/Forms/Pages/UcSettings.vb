@@ -17,12 +17,28 @@ Public Class UcSettings
             txtStationName.Text = SettingsRepository.GetValue("StationName", "BFP Tuao Fire Station")
             txtStationAddr.Text = SettingsRepository.GetValue("StationAddress", "Tuao, Cagayan")
 
+            cboSecQuestion.Items.Clear()
             cboSecQuestion.Items.AddRange(SecurityQuestions)
+
             Dim currentQuestion = UserRepository.GetSecurityQuestion(SessionManager.Username)
             If currentQuestion <> "" Then
                 cboSecQuestion.SelectedItem = currentQuestion
+                lblVerifyQuestionText.Text  = currentQuestion
+
+                ' Require security verification before showing settings
+                pnlVerification.Visible    = True
+                pnlSettingsContent.Visible = False
+                btnLockSettings.Visible    = False
+                txtVerifyAnswer.Clear()
+                lblVerifyStatus.Visible    = False
+                txtVerifyAnswer.Focus()
             Else
+                ' No question set yet: directly unlock settings so user can set one up
                 cboSecQuestion.SelectedIndex = 0
+                lblVerifyQuestionText.Text   = "No security question set yet."
+                pnlVerification.Visible      = False
+                pnlSettingsContent.Visible   = True
+                btnLockSettings.Visible      = False
             End If
 
             LoadBannerPreview()
@@ -31,6 +47,70 @@ Public Class UcSettings
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    ' ── Security Question Verification ──────────────────────────────────────
+
+    Private Sub btnVerifySecurity_Click(sender As Object, e As EventArgs) Handles btnVerifySecurity.Click
+        Dim answer = txtVerifyAnswer.Text.Trim()
+        If answer = "" Then
+            lblVerifyStatus.Text    = "Please enter your security answer."
+            lblVerifyStatus.Visible = True
+            txtVerifyAnswer.Focus()
+            Exit Sub
+        End If
+
+        Try
+            Dim isCorrect = UserRepository.VerifySecurityAnswer(SessionManager.Username, answer)
+            If Not isCorrect Then
+                lblVerifyStatus.Text    = "Incorrect security answer. Please try again."
+                lblVerifyStatus.Visible = True
+                ActivityLogger.Log(SessionManager.Username, Constants.LogFailed,
+                                   "Failed security question verification in Settings.")
+                txtVerifyAnswer.SelectAll()
+                txtVerifyAnswer.Focus()
+                Exit Sub
+            End If
+
+            ' Verification passed — unlock settings
+            lblVerifyStatus.Visible    = False
+            txtVerifyAnswer.Clear()
+            pnlVerification.Visible    = False
+            pnlSettingsContent.Visible = True
+            btnLockSettings.Visible    = True
+
+            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                               "Security question verified. Settings unlocked.")
+        Catch ex As Exception
+            lblVerifyStatus.Text    = "Database error: " & ex.Message
+            lblVerifyStatus.Visible = True
+        End Try
+    End Sub
+
+    Private Sub txtVerifyAnswer_KeyDown(sender As Object, e As KeyEventArgs) Handles txtVerifyAnswer.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            btnVerifySecurity_Click(btnVerifySecurity, EventArgs.Empty)
+        End If
+    End Sub
+
+    Private Sub chkShowVerifyAnswer_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowVerifyAnswer.CheckedChanged
+        txtVerifyAnswer.PasswordChar = If(chkShowVerifyAnswer.Checked, ChrW(0), "*"c)
+    End Sub
+
+    Private Sub btnLockSettings_Click(sender As Object, e As EventArgs) Handles btnLockSettings.Click
+        Dim currentQuestion = UserRepository.GetSecurityQuestion(SessionManager.Username)
+        If currentQuestion <> "" Then
+            lblVerifyQuestionText.Text = currentQuestion
+            pnlSettingsContent.Visible = False
+            pnlVerification.Visible    = True
+            btnLockSettings.Visible    = False
+            txtVerifyAnswer.Clear()
+            lblVerifyStatus.Visible    = False
+            txtVerifyAnswer.Focus()
+        End If
+    End Sub
+
+    ' ── Banner Image Management ─────────────────────────────────────────────
 
     Private Sub LoadBannerPreview()
         picBanner.Image?.Dispose()
@@ -72,6 +152,8 @@ Public Class UcSettings
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    ' ── Account Settings ────────────────────────────────────────────────────
 
     Private Sub btnSaveAccount_Click(sender As Object, e As EventArgs) Handles btnSaveAccount.Click
         Dim newUsername = txtUsername.Text.Trim()
@@ -121,26 +203,7 @@ Public Class UcSettings
         End Try
     End Sub
 
-    Private Sub btnSaveSystem_Click(sender As Object, e As EventArgs) Handles btnSaveSystem.Click
-        If txtStationName.Text.Trim() = "" Then
-            MessageBox.Show("Station name cannot be empty.", "Validation",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
-
-        Try
-            SettingsRepository.SetValue("StationName",    txtStationName.Text.Trim())
-            SettingsRepository.SetValue("StationAddress", txtStationAddr.Text.Trim())
-
-            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
-                               "System settings updated.")
-            MessageBox.Show("System information saved successfully.", "Settings",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show("Failed to save system settings: " & ex.Message,
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
+    ' ── Security Question Management ─────────────────────────────────────────
 
     Private Sub btnSaveSecQuestion_Click(sender As Object, e As EventArgs) Handles btnSaveSecQuestion.Click
         If cboSecQuestion.SelectedItem Is Nothing Then
@@ -159,12 +222,37 @@ Public Class UcSettings
             Dim answerHash = PasswordHelper.HashPassword(txtSecAnswer.Text.Trim().ToLower())
             UserRepository.UpdateSecurityQuestion(SessionManager.Username, question, answerHash)
 
+            lblVerifyQuestionText.Text = question
             txtSecAnswer.Clear()
-            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess, "Security question updated.")
-            MessageBox.Show("Security question saved successfully.", "Settings",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                               "Security question updated.")
+            MessageBox.Show("Security question saved successfully. This will be used for password recovery and settings verification.",
+                            "Settings", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             MessageBox.Show("Failed to save security question: " & ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    ' ── System Information ──────────────────────────────────────────────────
+
+    Private Sub btnSaveSystem_Click(sender As Object, e As EventArgs) Handles btnSaveSystem.Click
+        If txtStationName.Text.Trim() = "" Then
+            MessageBox.Show("Station name cannot be empty.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Try
+            SettingsRepository.SetValue("StationName",    txtStationName.Text.Trim())
+            SettingsRepository.SetValue("StationAddress", txtStationAddr.Text.Trim())
+
+            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                               "System settings updated.")
+            MessageBox.Show("System information saved successfully.", "Settings",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Failed to save system settings: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
