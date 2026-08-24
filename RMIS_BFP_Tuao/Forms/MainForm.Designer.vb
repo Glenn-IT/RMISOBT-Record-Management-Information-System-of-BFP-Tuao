@@ -299,7 +299,7 @@ Partial Class MainForm
         MinimumSize = New Size(1000, 620)
         Name = "MainForm"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "BFP Tuao � Record Management Information System"
+        Text = "BFP Tuao - Record Management Information System"
         WindowState = FormWindowState.Maximized
         pnlTopBar.ResumeLayout(False)
         pnlSidebar.ResumeLayout(False)

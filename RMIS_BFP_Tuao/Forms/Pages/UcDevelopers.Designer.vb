@@ -80,7 +80,7 @@ Partial Class UcDevelopers
         lblPageSub.Name = "lblPageSub"
         lblPageSub.Size = New Size(700, 22)
         lblPageSub.TabIndex = 1
-        lblPageSub.Text = "System information and development team behind RMIS � BFP Tuao."
+        lblPageSub.Text = "System information and development team behind RMIS - BFP Tuao."
         ' 
         ' pnlDivider
         ' 
@@ -133,7 +133,7 @@ Partial Class UcDevelopers
         lblAppName.Name = "lblAppName"
         lblAppName.Size = New Size(398, 30)
         lblAppName.TabIndex = 2
-        lblAppName.Text = "RMIS � BFP Tuao"
+        lblAppName.Text = "RMIS - BFP Tuao"
         ' 
         ' lblAppDesc
         ' 
@@ -143,7 +143,7 @@ Partial Class UcDevelopers
         lblAppDesc.Name = "lblAppDesc"
         lblAppDesc.Size = New Size(398, 44)
         lblAppDesc.TabIndex = 3
-        lblAppDesc.Text = "Record Management Information System" & vbCrLf & "Bureau of Fire Protection � Tuao Fire Station"
+        lblAppDesc.Text = "Record Management Information System" & vbCrLf & "Bureau of Fire Protection - Tuao Fire Station"
         ' 
         ' lblVersion
         ' 

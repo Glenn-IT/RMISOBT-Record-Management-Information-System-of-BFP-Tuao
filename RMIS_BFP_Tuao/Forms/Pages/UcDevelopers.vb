@@ -3,11 +3,11 @@ Public Class UcDevelopers
 
     Private Sub UcDevelopers_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Application info
-        lblAppName.Text    = "RMIS — BFP Tuao"
+        lblAppName.Text    = "RMIS - BFP Tuao"
         lblAppDesc.Text    = "Record Management Information System" & Environment.NewLine &
-                             "Bureau of Fire Protection — Tuao Fire Station"
+                             "Bureau of Fire Protection - Tuao Fire Station"
         lblVersionVal.Text = "1.0.0"
-        lblBuiltVal.Text   = "VB.NET · WinForms · .NET 8 · SQL Server"
+        lblBuiltVal.Text   = "VB.NET / WinForms / .NET 8 / SQL Server"
 
         ' Developer 1
         lblDev1Name.Text = "Developer 1"

@@ -54,7 +54,7 @@ Public Class MainForm
 
     Private Sub btnNavDevelopers_Click(sender As Object, e As EventArgs) Handles btnNavDevelopers.Click
         SetActiveButton(btnNavDevelopers)
-        LoadPage(New UcUnderConstruction())
+        LoadPage(New UcDevelopers())
     End Sub
 
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
