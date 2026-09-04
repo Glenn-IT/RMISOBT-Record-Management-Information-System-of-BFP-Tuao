@@ -32,6 +32,7 @@ Partial Class MainForm
         btnNavReports = New Button()
         btnNavSettings = New Button()
         btnNavDevelopers = New Button()
+        btnNavManual = New Button()
         btnLogout = New Button()
         pnlPageContainer = New Panel()
         pnlTopBar.SuspendLayout()
@@ -97,6 +98,7 @@ Partial Class MainForm
         pnlSidebar.Controls.Add(btnNavReports)
         pnlSidebar.Controls.Add(btnNavSettings)
         pnlSidebar.Controls.Add(btnNavDevelopers)
+        pnlSidebar.Controls.Add(btnNavManual)
         pnlSidebar.Controls.Add(btnLogout)
         pnlSidebar.Dock = DockStyle.Left
         pnlSidebar.Location = New Point(0, 60)
@@ -255,6 +257,24 @@ Partial Class MainForm
         btnNavDevelopers.TextAlign = ContentAlignment.MiddleLeft
         btnNavDevelopers.UseVisualStyleBackColor = False
         '
+        ' btnNavManual
+        '
+        btnNavManual.BackColor = Color.FromArgb(CByte(160), CByte(18), CByte(18))
+        btnNavManual.Cursor = Cursors.Hand
+        btnNavManual.FlatAppearance.BorderSize = 0
+        btnNavManual.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(220), CByte(50), CByte(50))
+        btnNavManual.FlatStyle = FlatStyle.Flat
+        btnNavManual.Font = New Font("Segoe UI", 10F)
+        btnNavManual.ForeColor = Color.FromArgb(CByte(255), CByte(220), CByte(220))
+        btnNavManual.Location = New Point(0, 440)
+        btnNavManual.Name = "btnNavManual"
+        btnNavManual.Padding = New Padding(20, 0, 0, 0)
+        btnNavManual.Size = New Size(220, 46)
+        btnNavManual.TabIndex = 7
+        btnNavManual.Text = "  Manual"
+        btnNavManual.TextAlign = ContentAlignment.MiddleLeft
+        btnNavManual.UseVisualStyleBackColor = False
+        '
         ' btnLogout
         '
         btnLogout.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
@@ -269,7 +289,7 @@ Partial Class MainForm
         btnLogout.Name = "btnLogout"
         btnLogout.Padding = New Padding(20, 0, 0, 0)
         btnLogout.Size = New Size(220, 46)
-        btnLogout.TabIndex = 7
+        btnLogout.TabIndex = 8
         btnLogout.Text = "  Logout"
         btnLogout.TextAlign = ContentAlignment.MiddleLeft
         btnLogout.UseVisualStyleBackColor = False
@@ -326,6 +346,8 @@ Partial Class MainForm
     Friend WithEvents btnNavReports     As Button
     Friend WithEvents btnNavSettings    As Button
     Friend WithEvents btnNavDevelopers  As Button
+    Friend WithEvents btnNavManual      As Button
     Friend WithEvents btnLogout         As Button
 
 End Class
+

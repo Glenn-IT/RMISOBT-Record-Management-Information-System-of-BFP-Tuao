@@ -57,6 +57,11 @@ Public Class MainForm
         LoadPage(New UcDevelopers())
     End Sub
 
+    Private Sub btnNavManual_Click(sender As Object, e As EventArgs) Handles btnNavManual.Click
+        SetActiveButton(btnNavManual)
+        LoadPage(New UcManual())
+    End Sub
+
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         Dim result = MessageBox.Show("Are you sure you want to logout?", "Logout",
                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -73,7 +78,7 @@ Public Class MainForm
     Public Sub SetActiveButton(activeBtn As Button)
         Dim navButtons As Button() = {
             btnNavDashboard, btnNavAddRecord, btnNavViewRecords,
-            btnNavReports, btnNavSettings, btnNavDevelopers
+            btnNavReports, btnNavSettings, btnNavDevelopers, btnNavManual
         }
         For Each btn In navButtons
             btn.BackColor = Color.FromArgb(160, 18, 18)
