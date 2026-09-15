@@ -9,6 +9,7 @@ Public Class UcReports
             InitFilters()
             ApplyFilters()
         Catch ex As Exception
+            If ManualScreenshotGenerator.IsCapturingManual Then Return
             MessageBox.Show("Failed to load report data: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

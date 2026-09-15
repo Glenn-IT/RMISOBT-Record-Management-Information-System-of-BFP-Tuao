@@ -8,6 +8,10 @@ Public Class dbconstring
                 Environment.CurrentDirectory, "config.txt")
 
             If Not File.Exists(configPath) Then
+                configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.txt")
+            End If
+
+            If Not File.Exists(configPath) Then
                 Throw New InvalidOperationException(
                     "config.txt not found in the application directory." &
                     Environment.NewLine &

@@ -11,6 +11,7 @@ Public Class UcViewRecords
             InitFilters()
             ApplyFilters()
         Catch ex As Exception
+            If ManualScreenshotGenerator.IsCapturingManual Then Return
             MessageBox.Show("Failed to load records: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

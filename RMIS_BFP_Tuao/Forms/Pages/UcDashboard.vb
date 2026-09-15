@@ -24,6 +24,7 @@ Public Class UcDashboard
                                    r.InvolvedProperty, r.Status)
             Next
         Catch ex As Exception
+            If ManualScreenshotGenerator.IsCapturingManual Then Return
             MessageBox.Show("Failed to load dashboard data: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

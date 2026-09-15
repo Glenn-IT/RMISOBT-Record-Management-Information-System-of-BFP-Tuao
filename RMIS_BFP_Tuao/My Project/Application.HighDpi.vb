@@ -30,6 +30,10 @@ Namespace My
             commandLineArgs As Collections.ObjectModel.ReadOnlyCollection(Of String)) As Boolean
 
             Me.HighDpiMode = HighDpiMode.PerMonitorV2
+            If commandLineArgs IsNot Nothing AndAlso commandLineArgs.Contains("--generate-manual-screenshots") Then
+                ManualScreenshotGenerator.GenerateAllScreenshots()
+                Return False
+            End If
             Return MyBase.OnInitialize(commandLineArgs)
         End Function
 

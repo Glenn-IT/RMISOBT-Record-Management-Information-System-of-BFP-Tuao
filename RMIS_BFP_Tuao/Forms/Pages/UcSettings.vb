@@ -43,6 +43,7 @@ Public Class UcSettings
 
             LoadBannerPreview()
         Catch ex As Exception
+            If ManualScreenshotGenerator.IsCapturingManual Then Return
             MessageBox.Show("Failed to load settings: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

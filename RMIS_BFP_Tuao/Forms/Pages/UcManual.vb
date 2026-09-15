@@ -1,10 +1,15 @@
-﻿Imports System.Text
+Imports System.Drawing
+Imports System.IO
+Imports System.Text
+Imports System.Windows.Forms
 
 Public Class UcManual
     Inherits UserControl
 
+    Private _currentTopicId As Integer = 1
+
     Private Sub UcManual_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ShowTopic(1)
+        ShowTopic(_currentTopicId)
     End Sub
 
     Private Sub SetActiveTopicButton(activeBtn As Button)
@@ -23,6 +28,20 @@ Public Class UcManual
     End Sub
 
     Public Sub ShowTopic(topicId As Integer)
+        _currentTopicId = topicId
+
+        If topicId >= 1 AndAlso topicId <= 6 Then
+            pnlScreenshotContainer.Visible = True
+            pnlScreenshotDivider.Visible = True
+            btnViewFullImage.Visible = True
+            LoadTopicScreenshot(topicId)
+        Else
+            pnlScreenshotContainer.Visible = False
+            pnlScreenshotDivider.Visible = False
+            btnViewFullImage.Visible = False
+            picScreenshot.Image = Nothing
+        End If
+
         Select Case topicId
             Case 1
                 SetActiveTopicButton(btnTopicOverview)
@@ -59,6 +78,35 @@ Public Class UcManual
                 lblContentTopic.Text = "7. Development Team & Technical Support"
                 rtbContent.Rtf = GetRtfDevelopers()
         End Select
+
+        ' Scroll back to top whenever topic changes
+        rtbContent.SelectionStart = 0
+        rtbContent.ScrollToCaret()
+    End Sub
+
+    Private Sub LoadTopicScreenshot(topicId As Integer)
+        Try
+            Dim imgPath = ManualScreenshotGenerator.GetScreenshotPath(topicId)
+            If Not File.Exists(imgPath) Then
+                Try
+                    ManualScreenshotGenerator.GenerateAllScreenshots()
+                Catch
+                End Try
+            End If
+
+            If File.Exists(imgPath) Then
+                Using fs As New FileStream(imgPath, FileMode.Open, FileAccess.Read, FileShare.Read)
+                    Using tempBmp As New Bitmap(fs)
+                        picScreenshot.Image?.Dispose()
+                        picScreenshot.Image = New Bitmap(tempBmp)
+                    End Using
+                End Using
+            Else
+                picScreenshot.Image = Nothing
+            End If
+        Catch ex As Exception
+            picScreenshot.Image = Nothing
+        End Try
     End Sub
 
     ' --- RTF Content Generators ---
@@ -69,6 +117,8 @@ Public Class UcManual
         sb.AppendLine("{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}")
         sb.AppendLine("{\colortbl ;\red180\green20\blue20;\red60\green60\blue60;\red120\green120\blue120;\red0\green100\blue180;}")
         sb.AppendLine("\viewkind4\uc1\pard\lang1033\f0\fs22")
+        sb.AppendLine("\b\cf1 User Authentication & Login Screen (Preview Above)\b0\cf2\par")
+        sb.AppendLine("The upper preview shows the official BFP Tuao login screen. Authentication protects all station records and maintains data integrity.\par\par")
         sb.AppendLine("\b\cf1 System Purpose\b0\cf2\par")
         sb.AppendLine("The Record Management Information System (RMIS) is specifically designed for the Bureau of Fire Protection - Tuao Fire Station (Cagayan). It provides a secure, efficient, and centralized repository for recording, retrieving, and reporting fire incidents, emergency alarms, and station activities.\par\par")
         sb.AppendLine("\b\cf1 User Authentication & Login\b0\cf2\par")
@@ -96,7 +146,7 @@ Public Class UcManual
         sb.AppendLine("{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}")
         sb.AppendLine("{\colortbl ;\red180\green20\blue20;\red60\green60\blue60;\red0\green130\blue30;\red220\green120\blue0;}")
         sb.AppendLine("\viewkind4\uc1\pard\lang1033\f0\fs22")
-        sb.AppendLine("\b\cf1 Dashboard Overview\b0\cf2\par")
+        sb.AppendLine("\b\cf1 Dashboard Overview (Preview Above)\b0\cf2\par")
         sb.AppendLine("The Dashboard is the home screen of RMIS, providing duty officers with immediate real-time statistics and visibility into station incidents.\par\par")
         sb.AppendLine("\b\cf1 Key Performance Indicator (KPI) Cards\b0\cf2\par")
         sb.AppendLine("  \b\cf1 1. Total Incidents:\b0\cf2  Cumulative number of incident records registered in the system.\par")
@@ -118,8 +168,8 @@ Public Class UcManual
         sb.AppendLine("{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}")
         sb.AppendLine("{\colortbl ;\red180\green20\blue20;\red60\green60\blue60;\red120\green120\blue120;}")
         sb.AppendLine("\viewkind4\uc1\pard\lang1033\f0\fs22")
-        sb.AppendLine("\b\cf1 Creating a New Incident Record\b0\cf2\par")
-        sb.AppendLine("Follow these steps to record a fire incident or station response:\par\par")
+        sb.AppendLine("\b\cf1 Creating a New Incident Record (Preview Above)\b0\cf2\par")
+        sb.AppendLine("The screenshot above illustrates the Add Record entry form with all required BFP incident fields.\par\par")
         sb.AppendLine("\b\cf1 Step-by-Step Instructions\b0\cf2\par")
         sb.AppendLine("\b Step 1:\b0  Navigate to \b Add Record\b0  from the left sidebar.\par")
         sb.AppendLine("\b Step 2:\b0  The \b Incident ID\b0  is automatically generated by the system using the official format (e.g., \b REC-2026-001\b0 ). This ID is unique and immutable.\par")
@@ -145,7 +195,7 @@ Public Class UcManual
         sb.AppendLine("{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}")
         sb.AppendLine("{\colortbl ;\red180\green20\blue20;\red60\green60\blue60;\red0\green100\blue180;}")
         sb.AppendLine("\viewkind4\uc1\pard\lang1033\f0\fs22")
-        sb.AppendLine("\b\cf1 View Records Module\b0\cf2\par")
+        sb.AppendLine("\b\cf1 View Records Module (Preview Above)\b0\cf2\par")
         sb.AppendLine("The View Records page contains the complete database grid of all recorded incidents with search, filtering, editing, and deletion tools.\par\par")
         sb.AppendLine("\b\cf1 Live Search & Filtering\b0\cf2\par")
         sb.AppendLine("  \b\cf1 \bullet \cf2 Search Box:\b0  Type any keyword (Incident ID, Location, Caller, Officer, or Remarks). The table dynamically filters results in real-time as you type.\par")
@@ -171,7 +221,7 @@ Public Class UcManual
         sb.AppendLine("{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}")
         sb.AppendLine("{\colortbl ;\red180\green20\blue20;\red60\green60\blue60;\red0\green100\blue180;}")
         sb.AppendLine("\viewkind4\uc1\pard\lang1033\f0\fs22")
-        sb.AppendLine("\b\cf1 Incident Reports & Statistics\b0\cf2\par")
+        sb.AppendLine("\b\cf1 Incident Reports & Statistics (Preview Above)\b0\cf2\par")
         sb.AppendLine("The Reports module provides comprehensive analytics, summary breakdown matrices, and formal export capabilities for station documentation and regional submissions.\par\par")
         sb.AppendLine("\b\cf1 Breakdown Table\b0\cf2\par")
         sb.AppendLine("The breakdown matrix categorizes every incident type by:\par")
@@ -197,7 +247,7 @@ Public Class UcManual
         sb.AppendLine("{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}")
         sb.AppendLine("{\colortbl ;\red180\green20\blue20;\red60\green60\blue60;\red0\green100\blue180;}")
         sb.AppendLine("\viewkind4\uc1\pard\lang1033\f0\fs22")
-        sb.AppendLine("\b\cf1 Settings & Account Management\b0\cf2\par")
+        sb.AppendLine("\b\cf1 Settings & Account Management (Preview Above)\b0\cf2\par")
         sb.AppendLine("The Settings module allows users to configure account credentials, security recovery options, station information, and visual branding.\par\par")
         sb.AppendLine("\b\cf1 1. Account Settings\b0\cf2\par")
         sb.AppendLine("  \b\cf1 \bullet \cf2 Change Username:\b0  Update the active login username.\par")
@@ -266,6 +316,60 @@ Public Class UcManual
 
     Private Sub btnTopicDevelopers_Click(sender As Object, e As EventArgs) Handles btnTopicDevelopers.Click
         ShowTopic(7)
+    End Sub
+
+    Private Sub btnViewFullImage_Click(sender As Object, e As EventArgs) Handles btnViewFullImage.Click, picScreenshot.Click, lblScreenshotHint.Click
+        Dim imgPath = ManualScreenshotGenerator.GetScreenshotPath(_currentTopicId)
+        If File.Exists(imgPath) Then
+            Using viewer As New Form()
+                viewer.Text = "RMIS Manual Preview - " & lblContentTopic.Text
+                viewer.Size = New Size(1020, 720)
+                viewer.StartPosition = FormStartPosition.CenterParent
+                viewer.BackColor = Color.FromArgb(30, 30, 30)
+
+                Dim pnlTop As New Panel() With {
+                    .Dock = DockStyle.Top,
+                    .Height = 44,
+                    .BackColor = Color.FromArgb(20, 20, 20)
+                }
+                Dim lblTitle As New Label() With {
+                    .Dock = DockStyle.Left,
+                    .Text = "  " & lblContentTopic.Text,
+                    .Font = New Font("Segoe UI", 10.5F, FontStyle.Bold),
+                    .ForeColor = Color.White,
+                    .TextAlign = ContentAlignment.MiddleLeft,
+                    .AutoSize = True
+                }
+                Dim btnClose As New Button() With {
+                    .Dock = DockStyle.Right,
+                    .Text = "Close",
+                    .Width = 80,
+                    .FlatStyle = FlatStyle.Flat,
+                    .ForeColor = Color.White,
+                    .BackColor = Color.FromArgb(180, 20, 20),
+                    .Cursor = Cursors.Hand
+                }
+                AddHandler btnClose.Click, Sub() viewer.Close()
+                pnlTop.Controls.Add(lblTitle)
+                pnlTop.Controls.Add(btnClose)
+
+                Dim pb As New PictureBox() With {
+                    .Dock = DockStyle.Fill,
+                    .SizeMode = PictureBoxSizeMode.Zoom,
+                    .BackColor = Color.FromArgb(40, 40, 40)
+                }
+                Using fs As New FileStream(imgPath, FileMode.Open, FileAccess.Read, FileShare.Read)
+                    Using tempBmp As New Bitmap(fs)
+                        pb.Image = New Bitmap(tempBmp)
+                    End Using
+                End Using
+
+                viewer.Controls.Add(pb)
+                viewer.Controls.Add(pnlTop)
+                viewer.ShowDialog(Me)
+                pb.Image?.Dispose()
+            End Using
+        End If
     End Sub
 
 End Class

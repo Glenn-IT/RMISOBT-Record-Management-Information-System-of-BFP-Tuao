@@ -4,6 +4,12 @@ Namespace My
     Partial Friend Class MyApplication
 
         Private Sub MyApplication_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
+            If e.CommandLine.Contains("--generate-manual-screenshots") Then
+                ManualScreenshotGenerator.GenerateAllScreenshots()
+                e.Cancel = True
+                Return
+            End If
+
             Try
                 DatabaseInitializer.Initialize()
             Catch ex As Exception

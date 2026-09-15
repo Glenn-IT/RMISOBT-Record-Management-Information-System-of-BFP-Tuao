@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UcManual
     Inherits System.Windows.Forms.UserControl
 
@@ -234,8 +234,16 @@ Partial Class UcManual
         ' pnlContent
         ' 
         pnlContent.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        pnlContent.BackColor = Color.White
-        pnlContent.Controls.Add(rtbContent)
+        btnViewFullImage = New Button()
+        pnlBody = New Panel()
+        pnlScreenshotContainer = New Panel()
+        picScreenshot = New PictureBox()
+        lblScreenshotHint = New Label()
+        pnlScreenshotDivider = New Panel()
+        rtbContent = New RichTextBox()
+
+        pnlContent.Controls.Add(btnViewFullImage)
+        pnlContent.Controls.Add(pnlBody)
         pnlContent.Controls.Add(lblContentDivider)
         pnlContent.Controls.Add(lblContentTopic)
         pnlContent.Location = New Point(290, 120)
@@ -250,9 +258,25 @@ Partial Class UcManual
         lblContentTopic.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         lblContentTopic.Location = New Point(20, 12)
         lblContentTopic.Name = "lblContentTopic"
-        lblContentTopic.Size = New Size(614, 30)
+        lblContentTopic.Size = New Size(420, 30)
         lblContentTopic.TabIndex = 0
         lblContentTopic.Text = "Topic Header"
+        ' 
+        ' btnViewFullImage
+        ' 
+        btnViewFullImage.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnViewFullImage.BackColor = Color.FromArgb(CByte(245), CByte(245), CByte(245))
+        btnViewFullImage.Cursor = Cursors.Hand
+        btnViewFullImage.FlatAppearance.BorderColor = Color.FromArgb(CByte(220), CByte(220), CByte(220))
+        btnViewFullImage.FlatStyle = FlatStyle.Flat
+        btnViewFullImage.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        btnViewFullImage.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
+        btnViewFullImage.Location = New Point(450, 9)
+        btnViewFullImage.Name = "btnViewFullImage"
+        btnViewFullImage.Size = New Size(184, 30)
+        btnViewFullImage.TabIndex = 3
+        btnViewFullImage.Text = "🔍 View Full Screenshot"
+        btnViewFullImage.UseVisualStyleBackColor = True
         ' 
         ' lblContentDivider
         ' 
@@ -263,18 +287,75 @@ Partial Class UcManual
         lblContentDivider.Size = New Size(614, 1)
         lblContentDivider.TabIndex = 1
         ' 
+        ' pnlBody
+        ' 
+        pnlBody.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        pnlBody.Controls.Add(rtbContent)
+        pnlBody.Controls.Add(pnlScreenshotDivider)
+        pnlBody.Controls.Add(pnlScreenshotContainer)
+        pnlBody.Location = New Point(20, 52)
+        pnlBody.Name = "pnlBody"
+        pnlBody.Size = New Size(614, 365)
+        pnlBody.TabIndex = 4
+        ' 
+        ' pnlScreenshotContainer
+        ' 
+        pnlScreenshotContainer.BackColor = Color.FromArgb(CByte(248), CByte(250), CByte(252))
+        pnlScreenshotContainer.BorderStyle = BorderStyle.FixedSingle
+        pnlScreenshotContainer.Controls.Add(picScreenshot)
+        pnlScreenshotContainer.Controls.Add(lblScreenshotHint)
+        pnlScreenshotContainer.Dock = DockStyle.Top
+        pnlScreenshotContainer.Location = New Point(0, 0)
+        pnlScreenshotContainer.Name = "pnlScreenshotContainer"
+        pnlScreenshotContainer.Size = New Size(614, 185)
+        pnlScreenshotContainer.TabIndex = 0
+        ' 
+        ' picScreenshot
+        ' 
+        picScreenshot.BackColor = Color.FromArgb(CByte(245), CByte(247), CByte(250))
+        picScreenshot.Cursor = Cursors.Hand
+        picScreenshot.Dock = DockStyle.Fill
+        picScreenshot.Location = New Point(0, 0)
+        picScreenshot.Name = "picScreenshot"
+        picScreenshot.Size = New Size(612, 165)
+        picScreenshot.SizeMode = PictureBoxSizeMode.Zoom
+        picScreenshot.TabIndex = 0
+        picScreenshot.TabStop = False
+        ' 
+        ' lblScreenshotHint
+        ' 
+        lblScreenshotHint.BackColor = Color.FromArgb(CByte(240), CByte(243), CByte(246))
+        lblScreenshotHint.Cursor = Cursors.Hand
+        lblScreenshotHint.Dock = DockStyle.Bottom
+        lblScreenshotHint.Font = New Font("Segoe UI", 8.0F)
+        lblScreenshotHint.ForeColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
+        lblScreenshotHint.Location = New Point(0, 165)
+        lblScreenshotHint.Name = "lblScreenshotHint"
+        lblScreenshotHint.Size = New Size(612, 18)
+        lblScreenshotHint.TabIndex = 1
+        lblScreenshotHint.Text = "🔍 Click image to enlarge full screen"
+        lblScreenshotHint.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' pnlScreenshotDivider
+        ' 
+        pnlScreenshotDivider.Dock = DockStyle.Top
+        pnlScreenshotDivider.Location = New Point(0, 185)
+        pnlScreenshotDivider.Name = "pnlScreenshotDivider"
+        pnlScreenshotDivider.Size = New Size(614, 8)
+        pnlScreenshotDivider.TabIndex = 1
+        ' 
         ' rtbContent
         ' 
-        rtbContent.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         rtbContent.BackColor = Color.White
         rtbContent.BorderStyle = BorderStyle.None
+        rtbContent.Dock = DockStyle.Fill
         rtbContent.Font = New Font("Segoe UI", 9.75F)
         rtbContent.ForeColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        rtbContent.Location = New Point(20, 54)
+        rtbContent.Location = New Point(0, 193)
         rtbContent.Name = "rtbContent"
         rtbContent.ReadOnly = True
         rtbContent.ScrollBars = RichTextBoxScrollBars.Vertical
-        rtbContent.Size = New Size(614, 360)
+        rtbContent.Size = New Size(614, 172)
         rtbContent.TabIndex = 2
         rtbContent.Text = ""
         ' 
@@ -313,6 +394,12 @@ Partial Class UcManual
     Friend WithEvents pnlContent         As Panel
     Friend WithEvents lblContentTopic    As Label
     Friend WithEvents lblContentDivider  As Panel
-    Friend WithEvents rtbContent         As RichTextBox
+    Friend WithEvents rtbContent               As RichTextBox
+    Friend WithEvents btnViewFullImage         As Button
+    Friend WithEvents pnlBody                  As Panel
+    Friend WithEvents pnlScreenshotContainer   As Panel
+    Friend WithEvents picScreenshot            As PictureBox
+    Friend WithEvents lblScreenshotHint        As Label
+    Friend WithEvents pnlScreenshotDivider     As Panel
 
 End Class
