@@ -1,11 +1,6 @@
+Imports RMIS_BFP_Tuao.Helpers
+
 Public Class LoginForm
-
-    ' Tracks failed attempts and lockout per username for this app session
-    Private Shared _failedAttempts As New Dictionary(Of String, Integer)()
-    Private Shared _lockedUntil As New Dictionary(Of String, DateTime)()
-
-    Private Const MaxAttempts As Integer = 3
-    Private Const LockoutSeconds As Integer = 15
 
     ' Username currently under an active lockout countdown (drives tmrLockout / btnLogin text)
     Private _countdownUsername As String = Nothing
@@ -31,7 +26,11 @@ Public Class LoginForm
         End If
 
         ' Check lockout before hitting the database
-        If IsLockedOut(username) Then Exit Sub
+        Dim lockout = LoginAttemptTracker.CheckLockout(username)
+        If lockout.IsLockedOut Then
+            StartLockoutCountdown(username)
+            Exit Sub
+        End If
 
         Try
             Dim dt = UserRepository.GetByUsername(username)
@@ -40,15 +39,21 @@ Public Class LoginForm
             If dt.Rows.Count = 0 OrElse
                Not String.Equals(dt.Rows(0)("Username").ToString(), username, StringComparison.Ordinal) OrElse
                Not PasswordHelper.VerifyPassword(password, dt.Rows(0)("PasswordHash").ToString()) Then
-                RecordFailedAttempt(username)
+                
+                Dim result = LoginAttemptTracker.RecordFailedAttempt(username)
                 ActivityLogger.Log(username, Constants.LogFailed, "Login failed — wrong credentials.")
                 ClearCredentialFields()
+
+                If result.IsLockedOut Then
+                    StartLockoutCountdown(username)
+                Else
+                    ShowError($"Invalid username or password. {result.RemainingAttempts} attempt(s) remaining before lockout.")
+                End If
                 Exit Sub
             End If
 
             ' Success — clear lockout state for this user
-            _failedAttempts.Remove(username)
-            _lockedUntil.Remove(username)
+            LoginAttemptTracker.Reset(username)
 
             SessionManager.Username = dt.Rows(0)("Username").ToString()
             SessionManager.UserType = dt.Rows(0)("UserType").ToString()
@@ -64,51 +69,25 @@ Public Class LoginForm
         End Try
     End Sub
 
-    ' ── Lockout helpers ───────────────────────────────────────────────────────
-
-    Private Function IsLockedOut(username As String) As Boolean
-        If Not _lockedUntil.ContainsKey(username) Then Return False
-
-        Dim remaining = (_lockedUntil(username) - DateTime.Now).TotalSeconds
-        If remaining > 0 Then
-            StartLockoutCountdown(username)
-            Return True
-        End If
-
-        ' Lockout expired — clean up
-        _lockedUntil.Remove(username)
-        _failedAttempts.Remove(username)
-        Return False
-    End Function
-
-    Private Sub RecordFailedAttempt(username As String)
-        If Not _failedAttempts.ContainsKey(username) Then _failedAttempts(username) = 0
-        _failedAttempts(username) += 1
-
-        If _failedAttempts(username) >= MaxAttempts Then
-            _lockedUntil(username) = DateTime.Now.AddSeconds(LockoutSeconds)
-            _failedAttempts.Remove(username)
-            StartLockoutCountdown(username)
-        Else
-            Dim remaining = MaxAttempts - _failedAttempts(username)
-            ShowError($"Invalid username or password. {remaining} attempt(s) remaining before lockout.")
-        End If
-    End Sub
-
     ' ── Countdown on the Login button ────────────────────────────────────────
 
     Private Sub StartLockoutCountdown(username As String)
         _countdownUsername = username
         btnLogin.Enabled = False
-        lblError.Visible = False
         UpdateCountdownDisplay()
         tmrLockout.Start()
     End Sub
 
     Private Sub UpdateCountdownDisplay()
-        Dim remaining = CInt(Math.Ceiling((_lockedUntil(_countdownUsername) - DateTime.Now).TotalSeconds))
-        If remaining > 0 Then
-            btnLogin.Text = $"LOCKED ({remaining}s)"
+        If String.IsNullOrEmpty(_countdownUsername) Then
+            EndLockoutCountdown()
+            Return
+        End If
+
+        Dim lockout = LoginAttemptTracker.CheckLockout(_countdownUsername)
+        If lockout.IsLockedOut Then
+            btnLogin.Text = $"LOCKED ({lockout.RemainingSeconds}s)"
+            ShowError($"Too many failed attempts. Account locked for {lockout.RemainingSeconds} second(s).")
         Else
             EndLockoutCountdown()
         End If
@@ -116,9 +95,14 @@ Public Class LoginForm
 
     Private Sub EndLockoutCountdown()
         tmrLockout.Stop()
+        If Not String.IsNullOrEmpty(_countdownUsername) Then
+            LoginAttemptTracker.Reset(_countdownUsername)
+        End If
         _countdownUsername = Nothing
         btnLogin.Text = "LOGIN"
         btnLogin.Enabled = True
+        lblError.Visible = False
+        txtPassword.Focus()
     End Sub
 
     Private Sub tmrLockout_Tick(sender As Object, e As EventArgs) Handles tmrLockout.Tick
@@ -141,13 +125,30 @@ Public Class LoginForm
     End Sub
 
     Private Sub ClearCredentialFields()
-        txtUsername.Clear()
         txtPassword.Clear()
-        txtUsername.Focus()
+        txtPassword.Focus()
+    End Sub
+
+    Private Sub txtUsername_KeyDown(sender As Object, e As KeyEventArgs) Handles txtUsername.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            If txtPassword.Text.Trim() = "" Then
+                txtPassword.Focus()
+            ElseIf btnLogin.Enabled Then
+                btnLogin.PerformClick()
+            End If
+            e.Handled = True
+            e.SuppressKeyPress = True
+        End If
     End Sub
 
     Private Sub txtPassword_KeyDown(sender As Object, e As KeyEventArgs) Handles txtPassword.KeyDown
-        If e.KeyCode = Keys.Enter Then btnLogin.PerformClick()
+        If e.KeyCode = Keys.Enter Then
+            If btnLogin.Enabled Then
+                btnLogin.PerformClick()
+            End If
+            e.Handled = True
+            e.SuppressKeyPress = True
+        End If
     End Sub
 
     Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
