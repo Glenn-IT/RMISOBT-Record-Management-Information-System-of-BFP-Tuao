@@ -234,9 +234,9 @@ Public Class UcManual
         sb.AppendLine("  \b 2.\b0  Choose your desired save destination in the File Dialog.\par")
         sb.AppendLine("  \b 3.\b0  Click \b Save\b0 . The resulting CSV file can be opened directly in Microsoft Excel, Google Sheets, or LibreOffice Calc for spreadsheet analysis.\par\par")
         sb.AppendLine("\b\cf1 Printing Official Reports\b0\cf2\par")
-        sb.AppendLine("  \b 1.\b0  Click the \b Print Report\b0  button.\par")
-        sb.AppendLine("  \b 2.\b0  A print preview window will display formatted report pages featuring the official BFP header, summary breakdown, and signature validation blocks.\par")
-        sb.AppendLine("  \b 3.\b0  Send the document directly to a connected printer or save as PDF.\par")
+        sb.AppendLine("  \b 1.\b0  Click the \b Print Report\b0  button on the top right header.\par")
+        sb.AppendLine("  \b 2.\b0  The system automatically generates an official PDF report featuring the station logo, header title, summary metrics, breakdown table, and footer.\par")
+        sb.AppendLine("  \b 3.\b0  The document opens directly in your web browser where you can view, download, or print (Ctrl+P).\par")
         sb.AppendLine("}")
         Return sb.ToString()
     End Function
