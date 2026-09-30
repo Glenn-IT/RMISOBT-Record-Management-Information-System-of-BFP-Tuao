@@ -461,30 +461,35 @@ Partial Class UcReports
         ' 
         ' colType
         ' 
+        colType.HeaderText = "Incident Type"
         colType.MinimumWidth = 6
         colType.Name = "colType"
         colType.ReadOnly = True
         ' 
         ' colCount
         ' 
+        colCount.HeaderText = "Total Count"
         colCount.MinimumWidth = 6
         colCount.Name = "colCount"
         colCount.ReadOnly = True
         ' 
         ' colActive
         ' 
+        colActive.HeaderText = "Active"
         colActive.MinimumWidth = 6
         colActive.Name = "colActive"
         colActive.ReadOnly = True
         ' 
         ' colResolved
         ' 
+        colResolved.HeaderText = "Resolved"
         colResolved.MinimumWidth = 6
         colResolved.Name = "colResolved"
         colResolved.ReadOnly = True
         ' 
         ' colOther
         ' 
+        colOther.HeaderText = "Other"
         colOther.MinimumWidth = 6
         colOther.Name = "colOther"
         colOther.ReadOnly = True

@@ -106,11 +106,15 @@ Public Class UcReports
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim stationName = SettingsRepository.GetValue("StationName", "BFP Tuao Fire Station")
+            Dim stationName As String = "BFP Tuao Fire Station"
+            Try
+                stationName = SettingsRepository.GetValue("StationName", "BFP Tuao Fire Station")
+            Catch
+            End Try
             ReportPrinter.Preview(_filteredRecords, stationName, SessionManager.Username)
         Catch ex As Exception
-            MessageBox.Show("Failed to generate print preview: " & ex.Message,
-                            "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Failed to generate PDF report: " & ex.Message,
+                            "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

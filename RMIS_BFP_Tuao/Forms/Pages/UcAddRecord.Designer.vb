@@ -418,7 +418,7 @@ Partial Class UcAddRecord
         ' 
         ' lblRemarks
         ' 
-        lblRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblRemarks.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         lblRemarks.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblRemarks.Location = New Point(26, 511)
@@ -429,7 +429,7 @@ Partial Class UcAddRecord
         ' 
         ' txtRemarks
         ' 
-        txtRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        txtRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         txtRemarks.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtRemarks.BorderStyle = BorderStyle.FixedSingle
         txtRemarks.Font = New Font("Segoe UI", 10F)

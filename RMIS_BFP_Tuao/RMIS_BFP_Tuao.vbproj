@@ -36,11 +36,15 @@
     <None Update="Assets\Manual\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Banner\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.*" />
+    <PackageReference Include="PDFsharp" Version="6.2.4" />
   </ItemGroup>
 
 </Project>

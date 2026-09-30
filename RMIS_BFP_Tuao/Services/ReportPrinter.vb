@@ -1,209 +1,390 @@
-Imports System.Drawing.Printing
+Imports System.IO
+Imports System.Diagnostics
+Imports Microsoft.Win32
+Imports PdfSharp
+Imports PdfSharp.Pdf
+Imports PdfSharp.Drawing
 
 Public Module ReportPrinter
 
-    Private _records As List(Of RecordModel)
-    Private _stationName As String
-    Private _printedBy As String
-
-    Public Sub Preview(records As List(Of RecordModel), stationName As String, printedBy As String)
-        _records    = records
-        _stationName = stationName
-        _printedBy  = printedBy
-
-        Dim doc As New PrintDocument()
-        doc.DocumentName = "RMIS Fire Incident Report"
-        doc.DefaultPageSettings.Margins = New Margins(80, 80, 80, 80)
-        AddHandler doc.PrintPage, AddressOf DrawPage
-
-        Using dlg As New PrintPreviewDialog()
-            dlg.Document     = doc
-            dlg.WindowState  = FormWindowState.Maximized
-            dlg.Text         = "Print Preview — Fire Incident Report"
-            dlg.ShowDialog()
-        End Using
+    ''' <summary>
+    ''' Generates a PDF fire incident report and opens it directly in the web browser.
+    ''' </summary>
+    Public Sub PrintToPdfAndOpen(records As List(Of RecordModel), stationName As String, printedBy As String)
+        Dim pdfPath = GeneratePdf(records, stationName, printedBy)
+        OpenInWebBrowser(pdfPath)
     End Sub
 
-    Private Sub DrawPage(sender As Object, e As PrintPageEventArgs)
-        Dim g  = e.Graphics
-        Dim b  = e.MarginBounds
-        Dim y  = b.Top
+    ''' <summary>
+    ''' Backward-compatible preview method that opens the generated PDF report in the web browser.
+    ''' </summary>
+    Public Sub Preview(records As List(Of RecordModel), stationName As String, printedBy As String)
+        PrintToPdfAndOpen(records, stationName, printedBy)
+    End Sub
+
+    ''' <summary>
+    ''' Generates the PDF document and returns the path to the saved file.
+    ''' </summary>
+    Public Function GeneratePdf(records As List(Of RecordModel), stationName As String, printedBy As String) As String
+        WindowsFontResolver.EnsureRegistered()
+
+        Dim doc As New PdfDocument()
+        doc.Info.Title = "RMIS Fire Incident Report"
+        doc.Info.Author = If(String.IsNullOrWhiteSpace(printedBy), "RMIS System", printedBy)
+        doc.Info.Subject = "Fire Incident Summary and Breakdown Report"
+
+        Dim page = doc.AddPage()
+        page.Size = PageSize.Letter
+        page.Orientation = PageOrientation.Portrait
+
+        Using gfx = XGraphics.FromPdfPage(page)
+            DrawReportPage(gfx, page, records, stationName, printedBy)
+        End Using
+
+        Dim outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "RMIS_Reports")
+        Try
+            If Not Directory.Exists(outputFolder) Then
+                Directory.CreateDirectory(outputFolder)
+            End If
+        Catch
+            outputFolder = Path.GetTempPath()
+        End Try
+
+        Dim safeFileName = $"RMIS_Fire_Report_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid().ToString("N").Substring(0, 6)}.pdf"
+        Dim fullPath = Path.Combine(outputFolder, safeFileName)
+        doc.Save(fullPath)
+        Return fullPath
+    End Function
+
+    Private Sub DrawReportPage(gfx As XGraphics, page As PdfPage, records As List(Of RecordModel), stationName As String, printedBy As String)
+        ' ── Margins & Bounds (Letter = 612 x 792 pt) ─────────────
+        Dim leftMargin   = 40.0
+        Dim rightMargin  = 572.0
+        Dim contentWidth = rightMargin - leftMargin ' 532 pt
+        Dim topMargin    = 40.0
+        Dim footerY      = 746.0
 
         ' ── Fonts ────────────────────────────────────────────────
-        Dim fStation  = New Font("Segoe UI", 10, FontStyle.Bold)
-        Dim fTitle    = New Font("Segoe UI", 18, FontStyle.Bold)
-        Dim fSub      = New Font("Segoe UI", 9)
-        Dim fSection  = New Font("Segoe UI", 10, FontStyle.Bold)
-        Dim fColHdr   = New Font("Segoe UI", 9,  FontStyle.Bold)
-        Dim fCell     = New Font("Segoe UI", 9)
-        Dim fTotals   = New Font("Segoe UI", 9,  FontStyle.Bold)
-        Dim fFooter   = New Font("Segoe UI", 7.5F)
-        Dim fCardNum  = New Font("Segoe UI", 20, FontStyle.Bold)
-        Dim fCardLbl  = New Font("Segoe UI", 8)
+        Dim fStation    = New XFont("Segoe UI", 10, XFontStyleEx.Bold)
+        Dim fTitle      = New XFont("Segoe UI", 18, XFontStyleEx.Bold)
+        Dim fSub        = New XFont("Segoe UI", 8.5, XFontStyleEx.Regular)
+        Dim fMeta       = New XFont("Segoe UI", 8, XFontStyleEx.Regular)
+        Dim fSection    = New XFont("Segoe UI", 10, XFontStyleEx.Bold)
+        Dim fColHdr     = New XFont("Segoe UI", 9, XFontStyleEx.Bold)
+        Dim fCell       = New XFont("Segoe UI", 9, XFontStyleEx.Regular)
+        Dim fTotals     = New XFont("Segoe UI", 9.5, XFontStyleEx.Bold)
+        Dim fFooter     = New XFont("Segoe UI", 7.5, XFontStyleEx.Regular)
+        Dim fFooterBold = New XFont("Segoe UI", 8, XFontStyleEx.Bold)
+        Dim fCardNum    = New XFont("Segoe UI", 18, XFontStyleEx.Bold)
+        Dim fCardLbl    = New XFont("Segoe UI", 8, XFontStyleEx.Regular)
 
-        ' ── Brushes & Pens ───────────────────────────────────────
-        Dim red       = Color.FromArgb(180, 20, 20)
-        Dim brRed     = New SolidBrush(red)
-        Dim brBlack   = New SolidBrush(Color.FromArgb(30, 30, 30))
-        Dim brGray    = New SolidBrush(Color.Gray)
-        Dim brWhite   = New SolidBrush(Color.White)
-        Dim brRowAlt  = New SolidBrush(Color.FromArgb(250, 250, 250))
-        Dim brOrange  = New SolidBrush(Color.FromArgb(220, 120, 0))
-        Dim brGreen   = New SolidBrush(Color.FromArgb(30, 130, 30))
-        Dim brDkGray  = New SolidBrush(Color.FromArgb(100, 100, 100))
-        Dim penRed    = New Pen(red, 2)
-        Dim penLight  = New Pen(Color.FromArgb(210, 210, 210), 0.5F)
-        Dim penDark   = New Pen(Color.FromArgb(170, 170, 170), 1)
+        ' ── Brushes & Colors ─────────────────────────────────────
+        Dim colRed     = XColor.FromArgb(180, 20, 20)
+        Dim brRed      = New XSolidBrush(colRed)
+        Dim brBlack    = New XSolidBrush(XColor.FromArgb(30, 30, 30))
+        Dim brDarkGray = New XSolidBrush(XColor.FromArgb(80, 80, 80))
+        Dim brGray     = New XSolidBrush(XColor.FromArgb(120, 120, 120))
+        Dim brWhite    = XBrushes.White
+        Dim brOrange   = New XSolidBrush(XColor.FromArgb(210, 100, 0))
+        Dim brGreen    = New XSolidBrush(XColor.FromArgb(30, 130, 30))
+        Dim brCardBg   = New XSolidBrush(XColor.FromArgb(248, 249, 250))
+        Dim brAltRow   = New XSolidBrush(XColor.FromArgb(250, 251, 252))
+        Dim brTotalBg  = New XSolidBrush(XColor.FromArgb(240, 242, 245))
 
-        ' ── String formats ───────────────────────────────────────
-        Dim sfLeft   As New StringFormat() With {.LineAlignment = StringAlignment.Center}
-        Dim sfCenter As New StringFormat() With {.Alignment = StringAlignment.Center,
-                                                  .LineAlignment = StringAlignment.Center}
-        Dim sfRight  As New StringFormat() With {.Alignment = StringAlignment.Far,
-                                                  .LineAlignment = StringAlignment.Center}
+        ' ── Pens ─────────────────────────────────────────────────
+        Dim penRed        = New XPen(colRed, 1.5)
+        Dim penLight      = New XPen(XColor.FromArgb(220, 220, 220), 0.75)
+        Dim penCardBorder = New XPen(XColor.FromArgb(215, 215, 215), 0.75)
+
+        ' ── String Formats ───────────────────────────────────────
+        Dim sfLeft As New XStringFormat() With {
+            .Alignment = XStringAlignment.Near,
+            .LineAlignment = XLineAlignment.Center
+        }
+        Dim sfCenter As New XStringFormat() With {
+            .Alignment = XStringAlignment.Center,
+            .LineAlignment = XLineAlignment.Center
+        }
+        Dim sfRight As New XStringFormat() With {
+            .Alignment = XStringAlignment.Far,
+            .LineAlignment = XLineAlignment.Center
+        }
 
         ' ════════════════════════════════════════════════════════
-        ' HEADER
+        ' HEADER (LOGO + TITLE + METADATA)
         ' ════════════════════════════════════════════════════════
-        g.DrawString(_stationName.ToUpper(), fStation, brRed, b.Left, y)
-        y += 22
-        g.DrawString("Fire Incident Report", fTitle, brBlack, b.Left, y)
-        y += 34
-        g.DrawString("Bureau of Fire Protection — Tuao Fire Station", fSub, brGray, b.Left, y)
-        y += 18
-        g.DrawString(
-            "Date Generated: " & DateTime.Now.ToString("MMMM dd, yyyy  hh:mm tt") &
-            "     Generated by: " & _printedBy,
-            fSub, brGray, b.Left, y)
-        y += 14
-        g.DrawLine(penRed, b.Left, y, b.Right, y)
-        y += 18
+        Dim logoPath = GetLogoPath()
+        Dim logoW = 52.0
+        Dim logoH = 52.0
+        Dim logoX = leftMargin
+        Dim logoY = topMargin
+        Dim textX = leftMargin
+
+        If Not String.IsNullOrEmpty(logoPath) AndAlso File.Exists(logoPath) Then
+            Try
+                Using img = XImage.FromFile(logoPath)
+                    gfx.DrawImage(img, logoX, logoY, logoW, logoH)
+                    textX = logoX + logoW + 14.0
+                End Using
+            Catch
+                textX = leftMargin
+            End Try
+        End If
+
+        Dim textWidth = rightMargin - textX
+        Dim curY = topMargin
+
+        Dim stName = If(String.IsNullOrWhiteSpace(stationName), "BFP TUAO FIRE STATION", stationName.Trim().ToUpper())
+        gfx.DrawString(stName, fStation, brRed, New XRect(textX, curY, textWidth, 14), sfLeft)
+        curY += 15.0
+
+        gfx.DrawString("Fire Incident Report", fTitle, brBlack, New XRect(textX, curY, textWidth, 22), sfLeft)
+        curY += 22.0
+
+        gfx.DrawString("Bureau of Fire Protection • Tuao Fire Station", fSub, brDarkGray, New XRect(textX, curY, textWidth, 13), sfLeft)
+        curY += 14.0
+
+        Dim userDisplay = If(String.IsNullOrWhiteSpace(printedBy), "System", printedBy)
+        Dim metaText = $"Date Generated: {DateTime.Now:MMMM dd, yyyy  hh:mm tt}    |    Generated by: {userDisplay}"
+        gfx.DrawString(metaText, fMeta, brGray, New XRect(textX, curY, textWidth, 12), sfLeft)
+        curY += 18.0
+
+        If curY < (logoY + logoH + 10.0) Then
+            curY = logoY + logoH + 10.0
+        End If
+
+        ' Red divider bar below header
+        gfx.DrawLine(penRed, leftMargin, curY, rightMargin, curY)
+        curY += 14.0
 
         ' ════════════════════════════════════════════════════════
         ' SUMMARY CARDS
         ' ════════════════════════════════════════════════════════
-        Dim total    = _records.Count
-        Dim active   = _records.Where(Function(r) r.Status = "Active").Count()
-        Dim resolved = _records.Where(Function(r) r.Status = "Resolved").Count()
-        Dim closed   = _records.Where(Function(r) r.Status = "Closed").Count()
-        Dim other    = total - active - resolved - closed
+        Dim total    = If(records IsNot Nothing, records.Count, 0)
+        Dim active   = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Active").Count(), 0)
+        Dim resolved = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Resolved").Count(), 0)
+        Dim closed   = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Closed").Count(), 0)
 
-        g.DrawString("SUMMARY", fSection, brBlack, b.Left, y)
-        y += 20
+        gfx.DrawString("SUMMARY", fSection, brBlack, New XRect(leftMargin, curY, contentWidth, 14), sfLeft)
+        curY += 18.0
 
-        Dim gap  = 10
-        Dim boxW = (b.Width - gap * 3) \ 4
-        Dim boxH = 56
+        Dim gap = 10.0
+        Dim cardW = (contentWidth - (gap * 3.0)) / 4.0
+        Dim cardH = 50.0
 
         Dim cards = {
-            ("Total Incidents", total.ToString(),    brBlack),
-            ("Active",          active.ToString(),   brOrange),
+            ("Total Incidents", total.ToString(), brBlack),
+            ("Active",          active.ToString(), brOrange),
             ("Resolved",        resolved.ToString(), brGreen),
-            ("Closed",          closed.ToString(),   brDkGray)
+            ("Closed",          closed.ToString(), brDarkGray)
         }
 
         For i = 0 To 3
-            Dim cx = b.Left + i * (boxW + gap)
-            Dim cardRect = New Rectangle(cx, y, boxW, boxH)
-            g.FillRectangle(New SolidBrush(Color.FromArgb(248, 248, 248)), cardRect)
-            g.DrawRectangle(penDark, cardRect)
-            g.DrawString(cards(i).Item1, fCardLbl, brGray,
-                         New Rectangle(cx + 8, y + 6, boxW - 12, 16), sfLeft)
-            g.DrawString(cards(i).Item2, fCardNum, cards(i).Item3,
-                         New Rectangle(cx + 6, y + 20, boxW - 12, 32), sfLeft)
+            Dim cx = leftMargin + i * (cardW + gap)
+            Dim cardRect As New XRect(cx, curY, cardW, cardH)
+
+            gfx.DrawRectangle(penCardBorder, brCardBg, cardRect)
+            gfx.DrawString(cards(i).Item1, fCardLbl, brGray,
+                           New XRect(cx + 8, curY + 6, cardW - 16, 12), sfLeft)
+            gfx.DrawString(cards(i).Item2, fCardNum, cards(i).Item3,
+                           New XRect(cx + 8, curY + 20, cardW - 16, 24), sfLeft)
         Next
-        y += boxH + 20
+
+        curY += cardH + 20.0
 
         ' ════════════════════════════════════════════════════════
         ' BREAKDOWN TABLE
         ' ════════════════════════════════════════════════════════
-        g.DrawLine(penLight, b.Left, y, b.Right, y)
-        y += 12
-        g.DrawString("BREAKDOWN BY INCIDENT TYPE", fSection, brBlack, b.Left, y)
-        y += 20
+        gfx.DrawLine(penLight, leftMargin, curY, rightMargin, curY)
+        curY += 12.0
 
-        ' Column x positions & widths
-        Dim c0w = CInt(b.Width * 0.36)
-        Dim c1w = CInt(b.Width * 0.16)
-        Dim c2w = CInt(b.Width * 0.16)
-        Dim c3w = CInt(b.Width * 0.16)
-        Dim c4w = b.Width - c0w - c1w - c2w - c3w
+        gfx.DrawString("BREAKDOWN BY INCIDENT TYPE", fSection, brBlack, New XRect(leftMargin, curY, contentWidth, 14), sfLeft)
+        curY += 18.0
 
-        Dim x0 = b.Left
-        Dim x1 = x0 + c0w
-        Dim x2 = x1 + c1w
-        Dim x3 = x2 + c2w
-        Dim x4 = x3 + c3w
+        Dim colTypeW = 212.0
+        Dim colNumW  = 80.0 ' 4 columns * 80 = 320 -> Total = 532
 
-        Dim rowH = 24
+        Dim x0 = leftMargin
+        Dim x1 = x0 + colTypeW
+        Dim x2 = x1 + colNumW
+        Dim x3 = x2 + colNumW
+        Dim x4 = x3 + colNumW
 
-        ' Header row
-        g.FillRectangle(brRed, New Rectangle(b.Left, y, b.Width, rowH))
-        g.DrawString("Incident Type", fColHdr, brWhite, New Rectangle(x0 + 6, y, c0w, rowH), sfLeft)
-        g.DrawString("Total",    fColHdr, brWhite, New Rectangle(x1, y, c1w, rowH), sfCenter)
-        g.DrawString("Active",   fColHdr, brWhite, New Rectangle(x2, y, c2w, rowH), sfCenter)
-        g.DrawString("Resolved", fColHdr, brWhite, New Rectangle(x3, y, c3w, rowH), sfCenter)
-        g.DrawString("Other",    fColHdr, brWhite, New Rectangle(x4, y, c4w, rowH), sfCenter)
-        y += rowH
+        Dim rowH = 22.0
 
-        ' Data rows
-        Dim types = _records.Select(Function(r) r.IncidentType).Distinct().OrderBy(Function(t) t).ToList()
-        Dim alt   = False
+        ' Header Row
+        Dim headerRect As New XRect(leftMargin, curY, contentWidth, rowH)
+        gfx.DrawRectangle(brRed, headerRect)
+
+        gfx.DrawString("Incident Type", fColHdr, brWhite, New XRect(x0 + 8, curY, colTypeW - 8, rowH), sfLeft)
+        gfx.DrawString("Total Count",   fColHdr, brWhite, New XRect(x1, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString("Active",        fColHdr, brWhite, New XRect(x2, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString("Resolved",      fColHdr, brWhite, New XRect(x3, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString("Other",         fColHdr, brWhite, New XRect(x4, curY, colNumW, rowH), sfCenter)
+
+        curY += rowH
+
+        ' Data Rows
+        Dim types = If(records IsNot Nothing,
+                       records.Select(Function(r) r.IncidentType).Distinct().OrderBy(Function(t) t).ToList(),
+                       New List(Of String)())
+
+        Dim alt = False
         For Each incType In types
-            Dim grp       = _records.Where(Function(r) r.IncidentType = incType).ToList()
+            Dim grp       = records.Where(Function(r) r.IncidentType = incType).ToList()
             Dim gActive   = grp.Where(Function(r) r.Status = "Active").Count()
             Dim gResolved = grp.Where(Function(r) r.Status = "Resolved").Count()
             Dim gOther    = grp.Count - gActive - gResolved
 
-            Dim rowBrush = If(alt, brRowAlt, New SolidBrush(Color.White))
-            g.FillRectangle(rowBrush, New Rectangle(b.Left, y, b.Width, rowH))
-            g.DrawLine(penLight, b.Left, y + rowH, b.Right, y + rowH)
+            Dim rowRect As New XRect(leftMargin, curY, contentWidth, rowH)
+            If alt Then
+                gfx.DrawRectangle(brAltRow, rowRect)
+            End If
 
-            g.DrawString(incType,           fCell, brBlack, New Rectangle(x0 + 6, y, c0w - 6, rowH), sfLeft)
-            g.DrawString(grp.Count.ToString(), fCell, brBlack, New Rectangle(x1, y, c1w, rowH), sfCenter)
-            g.DrawString(gActive.ToString(),   fCell, brBlack, New Rectangle(x2, y, c2w, rowH), sfCenter)
-            g.DrawString(gResolved.ToString(), fCell, brBlack, New Rectangle(x3, y, c3w, rowH), sfCenter)
-            g.DrawString(gOther.ToString(),    fCell, brBlack, New Rectangle(x4, y, c4w, rowH), sfCenter)
+            gfx.DrawLine(penLight, leftMargin, curY + rowH, rightMargin, curY + rowH)
 
-            y += rowH
+            gfx.DrawString(incType,            fCell, brBlack, New XRect(x0 + 8, curY, colTypeW - 8, rowH), sfLeft)
+            gfx.DrawString(grp.Count.ToString(), fCell, brBlack, New XRect(x1, curY, colNumW, rowH), sfCenter)
+            gfx.DrawString(gActive.ToString(), fCell, brBlack, New XRect(x2, curY, colNumW, rowH), sfCenter)
+            gfx.DrawString(gResolved.ToString(), fCell, brBlack, New XRect(x3, curY, colNumW, rowH), sfCenter)
+            gfx.DrawString(gOther.ToString(),  fCell, brBlack, New XRect(x4, curY, colNumW, rowH), sfCenter)
+
+            curY += rowH
             alt = Not alt
         Next
 
-        ' Totals row
-        y += 2
-        g.DrawLine(penRed, b.Left, y, b.Right, y)
-        y += 2
-        g.FillRectangle(New SolidBrush(Color.FromArgb(245, 245, 245)),
-                        New Rectangle(b.Left, y, b.Width, rowH))
-        g.DrawString("TOTAL",          fTotals, brBlack, New Rectangle(x0 + 6, y, c0w - 6, rowH), sfLeft)
-        g.DrawString(total.ToString(), fTotals, brBlack, New Rectangle(x1, y, c1w, rowH), sfCenter)
-        g.DrawString(active.ToString(), fTotals, brBlack, New Rectangle(x2, y, c2w, rowH), sfCenter)
-        g.DrawString(resolved.ToString(), fTotals, brBlack, New Rectangle(x3, y, c3w, rowH), sfCenter)
-        g.DrawString(other.ToString(), fTotals, brBlack, New Rectangle(x4, y, c4w, rowH), sfCenter)
+        If types.Count = 0 Then
+            Dim noDataRect As New XRect(leftMargin, curY, contentWidth, rowH)
+            gfx.DrawString("No incident records found matching the current criteria.", fCell, brGray, noDataRect, sfCenter)
+            gfx.DrawLine(penLight, leftMargin, curY + rowH, rightMargin, curY + rowH)
+            curY += rowH
+        End If
+
+        ' Totals Row
+        Dim totalRect As New XRect(leftMargin, curY, contentWidth, rowH)
+        gfx.DrawRectangle(brTotalBg, totalRect)
+        gfx.DrawLine(penRed, leftMargin, curY, rightMargin, curY)
+        gfx.DrawLine(penLight, leftMargin, curY + rowH, rightMargin, curY + rowH)
+
+        Dim otherTotal = total - active - resolved
+
+        gfx.DrawString("TOTAL",                fTotals, brBlack, New XRect(x0 + 8, curY, colTypeW - 8, rowH), sfLeft)
+        gfx.DrawString(total.ToString(),       fTotals, brBlack, New XRect(x1, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString(active.ToString(),      fTotals, brBlack, New XRect(x2, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString(resolved.ToString(),    fTotals, brBlack, New XRect(x3, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString(otherTotal.ToString(),  fTotals, brBlack, New XRect(x4, curY, colNumW, rowH), sfCenter)
 
         ' ════════════════════════════════════════════════════════
         ' FOOTER
         ' ════════════════════════════════════════════════════════
-        Dim fy = b.Bottom - 20
-        g.DrawLine(penLight, b.Left, fy, b.Right, fy)
-        g.DrawString(
-            "Bureau of Fire Protection — Tuao Fire Station  |  This report is system-generated.",
-            fFooter, brGray, b.Left, fy + 4)
-        g.DrawString("Page 1", fFooter, brGray,
-                     New Rectangle(b.Left, fy + 4, b.Width, 16), sfRight)
+        gfx.DrawLine(penLight, leftMargin, footerY, rightMargin, footerY)
 
-        ' ── Dispose ──────────────────────────────────────────────
-        For Each f In {fStation, fTitle, fSub, fSection, fColHdr, fCell, fTotals, fFooter, fCardNum, fCardLbl}
-            f.Dispose()
-        Next
-        For Each br In {brRed, brBlack, brGray, brWhite, brRowAlt, brOrange, brGreen, brDkGray}
-            br.Dispose()
-        Next
-        penRed.Dispose()
-        penLight.Dispose()
-        penDark.Dispose()
+        Dim fNotice1 = "Bureau of Fire Protection • Tuao Fire Station  |  Republic of the Philippines"
+        Dim fNotice2 = "RMIS (Records Management Information System) — Official System Generated Report"
 
-        e.HasMorePages = False
+        gfx.DrawString(fNotice1, fFooter, brDarkGray, New XRect(leftMargin, footerY + 5, 380, 11), sfLeft)
+        gfx.DrawString(fNotice2, fFooter, brGray, New XRect(leftMargin, footerY + 17, 380, 11), sfLeft)
+        gfx.DrawString("Page 1 of 1", fFooterBold, brBlack, New XRect(rightMargin - 120, footerY + 8, 120, 14), sfRight)
     End Sub
+
+    ''' <summary>
+    ''' Attempts to open the specified PDF file in the user's web browser.
+    ''' </summary>
+    Public Sub OpenInWebBrowser(pdfPath As String)
+        If String.IsNullOrWhiteSpace(pdfPath) OrElse Not File.Exists(pdfPath) Then Return
+
+        ' 1. Try reading the default browser path from the Windows registry
+        Dim browserExe = GetDefaultBrowserPath()
+        If Not String.IsNullOrEmpty(browserExe) AndAlso File.Exists(browserExe) Then
+            Try
+                Dim psi As New ProcessStartInfo() With {
+                    .FileName = browserExe,
+                    .Arguments = $"""{pdfPath}""",
+                    .UseShellExecute = False
+                }
+                Process.Start(psi)
+                Return
+            Catch
+            End Try
+        End If
+
+        ' 2. Try known browsers
+        Dim commonBrowsers = {
+            "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+            "C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+            "C:\Program Files\Google\Chrome\Application\chrome.exe",
+            "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+            "C:\Program Files\Mozilla Firefox\firefox.exe"
+        }
+
+        For Each b In commonBrowsers
+            If File.Exists(b) Then
+                Try
+                    Dim psi As New ProcessStartInfo() With {
+                        .FileName = b,
+                        .Arguments = $"""{pdfPath}""",
+                        .UseShellExecute = False
+                    }
+                    Process.Start(psi)
+                    Return
+                Catch
+                End Try
+            End If
+        Next
+
+        ' 3. Fallback: Shell Execute
+        Dim shellPsi As New ProcessStartInfo(pdfPath) With {
+            .UseShellExecute = True
+        }
+        Process.Start(shellPsi)
+    End Sub
+
+    Private Function GetDefaultBrowserPath() As String
+        Try
+            Using key = Registry.ClassesRoot.OpenSubKey("http\shell\open\command")
+                If key IsNot Nothing Then
+                    Dim val = TryCast(key.GetValue(""), String)
+                    If Not String.IsNullOrWhiteSpace(val) Then
+                        val = val.Trim()
+                        If val.StartsWith(""""c) Then
+                            Dim secondQuote = val.IndexOf(""""c, 1)
+                            If secondQuote > 1 Then
+                                Return val.Substring(1, secondQuote - 1)
+                            End If
+                        Else
+                            Dim firstSpace = val.IndexOf(" "c)
+                            If firstSpace > 0 Then
+                                Return val.Substring(0, firstSpace)
+                            Else
+                                Return val
+                            End If
+                        End If
+                    End If
+                End If
+            End Using
+        Catch
+        End Try
+        Return ""
+    End Function
+
+    Private Function GetLogoPath() As String
+        Try
+            Dim path = BannerHelper.GetCurrentBannerPath()
+            If Not String.IsNullOrEmpty(path) AndAlso File.Exists(path) Then
+                Return path
+            End If
+        Catch
+            ' Ignore database/settings connection errors and fall back to local file
+        End Try
+
+        Dim baseDir = AppDomain.CurrentDomain.BaseDirectory
+        Dim defaultBanner = System.IO.Path.Combine(baseDir, "Assets", "Banner", "banner_current.png")
+        If File.Exists(defaultBanner) Then Return defaultBanner
+
+        Dim curBanner = System.IO.Path.Combine(Environment.CurrentDirectory, "Assets", "Banner", "banner_current.png")
+        If File.Exists(curBanner) Then Return curBanner
+
+        Return ""
+    End Function
 
 End Module
