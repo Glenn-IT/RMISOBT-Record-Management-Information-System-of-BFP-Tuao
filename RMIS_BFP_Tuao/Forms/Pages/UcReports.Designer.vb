@@ -23,6 +23,7 @@ Partial Class UcReports
         lblPageTitle = New Label()
         lblPageSub = New Label()
         pnlDivider = New Panel()
+        btnSignatories = New Button()
         btnExport = New Button()
         btnPrint = New Button()
         pnlToolbar = New Panel()
@@ -74,6 +75,7 @@ Partial Class UcReports
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Controls.Add(lblPageSub)
         pnlHeader.Controls.Add(pnlDivider)
+        pnlHeader.Controls.Add(btnSignatories)
         pnlHeader.Controls.Add(btnExport)
         pnlHeader.Controls.Add(btnPrint)
         pnlHeader.Location = New Point(24, 18)
@@ -109,6 +111,22 @@ Partial Class UcReports
         pnlDivider.Name = "pnlDivider"
         pnlDivider.Size = New Size(1026, 3)
         pnlDivider.TabIndex = 2
+        ' 
+        ' btnSignatories
+        ' 
+        btnSignatories.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnSignatories.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        btnSignatories.Cursor = Cursors.Hand
+        btnSignatories.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnSignatories.FlatStyle = FlatStyle.Flat
+        btnSignatories.Font = New Font("Segoe UI", 9F)
+        btnSignatories.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnSignatories.Location = New Point(716, 20)
+        btnSignatories.Name = "btnSignatories"
+        btnSignatories.Size = New Size(110, 30)
+        btnSignatories.TabIndex = 2
+        btnSignatories.Text = "Signatories"
+        btnSignatories.UseVisualStyleBackColor = False
         ' 
         ' btnExport
         ' 
@@ -524,6 +542,7 @@ Partial Class UcReports
     Friend WithEvents pnlDivider           As Panel
     Friend WithEvents lblPageTitle         As Label
     Friend WithEvents lblPageSub           As Label
+    Friend WithEvents btnSignatories       As Button
     Friend WithEvents btnExport            As Button
     Friend WithEvents btnPrint             As Button
     Friend WithEvents pnlToolbar           As Panel

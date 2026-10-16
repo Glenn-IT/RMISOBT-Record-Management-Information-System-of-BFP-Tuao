@@ -187,7 +187,7 @@ Partial Class UcAddRecord
         ' 
         ' dtpIncidentDateTime
         ' 
-        dtpIncidentDateTime.CustomFormat = "MM/dd/yyyy HHmm"
+        dtpIncidentDateTime.CustomFormat = "MM/dd/yyyy hh:mm tt"
         dtpIncidentDateTime.Font = New Font("Segoe UI", 10F)
         dtpIncidentDateTime.Format = DateTimePickerFormat.Custom
         dtpIncidentDateTime.Location = New Point(26, 189)
@@ -226,11 +226,11 @@ Partial Class UcAddRecord
         lblResponseTime.Name = "lblResponseTime"
         lblResponseTime.Size = New Size(431, 22)
         lblResponseTime.TabIndex = 11
-        lblResponseTime.Text = "Response Time"
+        lblResponseTime.Text = "Response Time (hh:mm AM/PM)"
         ' 
         ' dtpResponseTime
         ' 
-        dtpResponseTime.CustomFormat = "HHmm"
+        dtpResponseTime.CustomFormat = "hh:mm tt"
         dtpResponseTime.Font = New Font("Segoe UI", 10F)
         dtpResponseTime.Format = DateTimePickerFormat.Custom
         dtpResponseTime.Location = New Point(26, 243)
@@ -357,7 +357,7 @@ Partial Class UcAddRecord
         lblCasualties.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
         lblCasualties.Location = New Point(26, 446)
         lblCasualties.Name = "lblCasualties"
-        lblCasualties.Size = New Size(146, 22)
+        lblCasualties.Size = New Size(240, 22)
         lblCasualties.TabIndex = 23
         lblCasualties.Text = "No. of Casualties"
         ' 

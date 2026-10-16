@@ -21,8 +21,8 @@ Public Class EditRecordForm
         txtOwnerOccupant.Text     = _record.OwnerOccupant
         txtCallerInformation.Text = _record.CallerInformation
         cboAlarmLevel.Text        = _record.AlarmLevel
-        txtCasualties.Text        = _record.Casualties
-        txtDamageEstimate.Text    = _record.DamageEstimate
+        txtCasualties.Text        = NumberHelper.FormatCasualties(_record.Casualties)
+        txtDamageEstimate.Text    = NumberHelper.FormatDamageNumber(_record.DamageEstimate)
         txtCauseOfFire.Text       = _record.CauseOfFire
         txtRemarks.Text           = _record.Remarks
         cboStatus.Text            = _record.Status
@@ -61,24 +61,22 @@ Public Class EditRecordForm
         End If
 
         Dim casualties = txtCasualties.Text.Trim()
-        Dim damage = txtDamageEstimate.Text.Trim()
+        Dim damage = txtDamageEstimate.Text.Replace(",", "").Trim()
+        Dim casualtiesVal As Long = 0
+        Dim damageVal As Long = 0
 
-        If casualties <> "" Then
-            Dim dummy As Integer
-            If Not Integer.TryParse(casualties, dummy) OrElse dummy < 0 Then
-                MessageBox.Show("Casualties must be a whole number (e.g. 0, 3).", "Validation",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
+        If Not NumberHelper.IsValidInteger(casualties, casualtiesVal) Then
+            MessageBox.Show("Casualties must be a whole integer number (e.g. 0, 3).", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtCasualties.Focus()
+            Exit Sub
         End If
 
-        If damage <> "" Then
-            Dim dummy As Decimal
-            If Not Decimal.TryParse(damage, dummy) OrElse dummy < 0 Then
-                MessageBox.Show("Damage Estimate must be a number (e.g. 50000).", "Validation",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
+        If Not NumberHelper.IsValidInteger(damage, damageVal) Then
+            MessageBox.Show("Estimated Damage must be a whole integer amount in PHP (e.g. 500000). Decimals and special characters are not allowed.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtDamageEstimate.Focus()
+            Exit Sub
         End If
 
         Try
@@ -91,8 +89,8 @@ Public Class EditRecordForm
             _record.AlarmLevel        = cboAlarmLevel.SelectedItem?.ToString()
             _record.ResponseTime      = If(dtpResponseTime.Checked, dtpResponseTime.Value.TimeOfDay, CType(Nothing, TimeSpan?))
             _record.CauseOfFire       = txtCauseOfFire.Text.Trim()
-            _record.Casualties        = txtCasualties.Text.Trim()
-            _record.DamageEstimate    = txtDamageEstimate.Text.Trim()
+            _record.Casualties        = casualtiesVal.ToString()
+            _record.DamageEstimate    = damageVal.ToString()
             _record.Remarks           = txtRemarks.Text.Trim()
             _record.Status            = cboStatus.SelectedItem?.ToString()
 
@@ -116,6 +114,12 @@ Public Class EditRecordForm
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
+    End Sub
+
+    Private Sub NumericOnly_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCasualties.KeyPress, txtDamageEstimate.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
 End Class

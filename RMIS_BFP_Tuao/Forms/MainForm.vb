@@ -3,7 +3,8 @@ Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToScreen()
         lblTopDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy")
-        lblTopUser.Text = "[ " & SessionManager.Username & " ]"
+        Dim roleDisplay = If(SessionManager.IsSuperAdmin(), "Super Admin", "Sub Admin")
+        lblTopUser.Text = $"[ {SessionManager.Username} ({roleDisplay}) ]"
         ApplyRoleRestrictions()
         RefreshBanner()
         LoadPage(New UcDashboard())
@@ -16,6 +17,10 @@ Public Class MainForm
     End Sub
 
     Private Sub ApplyRoleRestrictions()
+        ' Show Settings tab in the sidebar for all users, but make it not clickable for Sub Admin
+        btnNavSettings.Visible = True
+        btnNavSettings.Enabled = SessionManager.IsSuperAdmin()
+        btnNavSettings.Cursor  = If(SessionManager.IsSuperAdmin(), Cursors.Hand, Cursors.Default)
     End Sub
 
     ' ?? Page Loader: clears container and loads a UserControl ?????
@@ -48,6 +53,9 @@ Public Class MainForm
     End Sub
 
     Private Sub btnNavSettings_Click(sender As Object, e As EventArgs) Handles btnNavSettings.Click
+        If Not SessionManager.IsSuperAdmin() Then
+            Exit Sub
+        End If
         SetActiveButton(btnNavSettings)
         LoadPage(New UcSettings())
     End Sub

@@ -51,24 +51,22 @@ Public Class UcAddRecord
         End If
 
         Dim casualties = txtCasualties.Text.Trim()
-        Dim damage = txtDamageEstimate.Text.Trim()
+        Dim damage = txtDamageEstimate.Text.Replace(",", "").Trim()
+        Dim casualtiesVal As Long = 0
+        Dim damageVal As Long = 0
 
-        If casualties <> "" Then
-            Dim dummy As Integer
-            If Not Integer.TryParse(casualties, dummy) OrElse dummy < 0 Then
-                MessageBox.Show("Casualties must be a whole number (e.g. 0, 3).", "Validation",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
+        If Not NumberHelper.IsValidInteger(casualties, casualtiesVal) Then
+            MessageBox.Show("Casualties must be a whole integer number (e.g. 0, 3).", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtCasualties.Focus()
+            Exit Sub
         End If
 
-        If damage <> "" Then
-            Dim dummy As Decimal
-            If Not Decimal.TryParse(damage, dummy) OrElse dummy < 0 Then
-                MessageBox.Show("Damage Estimate must be a number (e.g. 50000).", "Validation",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
+        If Not NumberHelper.IsValidInteger(damage, damageVal) Then
+            MessageBox.Show("Estimated Damage must be a whole integer amount in PHP (e.g. 500000). Decimals and special characters are not allowed.", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtDamageEstimate.Focus()
+            Exit Sub
         End If
 
         Try
@@ -83,8 +81,8 @@ Public Class UcAddRecord
                 .AlarmLevel        = cboAlarmLevel.SelectedItem?.ToString(),
                 .ResponseTime      = If(dtpResponseTime.Checked, dtpResponseTime.Value.TimeOfDay, CType(Nothing, TimeSpan?)),
                 .CauseOfFire       = txtCauseOfFire.Text.Trim(),
-                .Casualties        = txtCasualties.Text.Trim(),
-                .DamageEstimate    = txtDamageEstimate.Text.Trim(),
+                .Casualties        = casualtiesVal.ToString(),
+                .DamageEstimate    = damageVal.ToString(),
                 .Remarks           = txtRemarks.Text.Trim(),
                 .Status            = cboStatus.SelectedItem?.ToString(),
                 .DocumentPath      = DocumentStorage.SaveDocument(_documentPath, txtIncidentNo.Text.Trim())
@@ -125,6 +123,12 @@ Public Class UcAddRecord
         Catch
             txtIncidentNo.Clear()
         End Try
+    End Sub
+
+    Private Sub NumericOnly_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCasualties.KeyPress, txtDamageEstimate.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
 End Class

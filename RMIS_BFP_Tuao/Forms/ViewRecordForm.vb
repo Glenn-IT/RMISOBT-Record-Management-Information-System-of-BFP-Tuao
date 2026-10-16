@@ -12,16 +12,16 @@ Public Class ViewRecordForm
     Private Sub ViewRecordForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtRecordID.Text          = _record.RecordID
         txtIncidentType.Text      = _record.IncidentType
-        txtIncidentDateTime.Text  = _record.IncidentDateTime.ToString("MM/dd/yyyy") & " " & DateTimeHelper.ToMilitaryTime(_record.IncidentDateTime)
+        txtIncidentDateTime.Text  = DateTimeHelper.FormatIncidentDateTime(_record.IncidentDateTime)
         txtAlarmLevel.Text        = _record.AlarmLevel
-        txtResponseTime.Text      = If(_record.ResponseTime.HasValue, DateTimeHelper.ToMilitaryTime(_record.ResponseTime.Value), "Not recorded")
+        txtResponseTime.Text      = DateTimeHelper.FormatResponseTime(_record.ResponseTime)
         txtStatus.Text            = _record.Status
         txtInvolvedProperty.Text  = _record.InvolvedProperty
         txtAddress.Text           = _record.Address
         txtOwnerOccupant.Text     = _record.OwnerOccupant
         txtCallerInformation.Text = _record.CallerInformation
-        txtCasualties.Text        = _record.Casualties
-        txtDamageEstimate.Text    = _record.DamageEstimate
+        txtCasualties.Text        = NumberHelper.FormatCasualties(_record.Casualties)
+        txtDamageEstimate.Text    = NumberHelper.FormatDamage(_record.DamageEstimate)
         txtCauseOfFire.Text       = _record.CauseOfFire
         txtRemarks.Text           = _record.Remarks
         txtDocumentName.Text      = If(String.IsNullOrEmpty(_record.DocumentPath), "No document attached.", IO.Path.GetFileName(_record.DocumentPath))

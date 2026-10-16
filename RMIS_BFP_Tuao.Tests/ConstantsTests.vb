@@ -42,6 +42,12 @@ Public Class ConstantsTests
     Public Sub UserTypeConstants_HaveExpectedValues()
         Assert.AreEqual("Admin", Constants.UserTypeAdmin)
         Assert.AreEqual("Staff", Constants.UserTypeStaff)
+        Assert.AreEqual("Super Admin", Constants.UserTypeSuperAdmin)
+        Assert.AreEqual("Sub Admin", Constants.UserTypeSubAdmin)
+        Assert.AreEqual(2, Constants.Roles.Length)
+        Assert.IsTrue(Constants.Roles.Contains("Super Admin"))
+        Assert.IsTrue(Constants.Roles.Contains("Sub Admin"))
+        Assert.IsFalse(Constants.Roles.Contains("Staff"))
     End Sub
 
 End Class

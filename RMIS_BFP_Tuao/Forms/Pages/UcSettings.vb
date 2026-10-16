@@ -13,7 +13,7 @@ Public Class UcSettings
 
     Private Sub UcSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            txtUsername.Text    = SessionManager.Username
+            LoadAccountSection()
             txtStationName.Text = SettingsRepository.GetValue("StationName", "BFP Tuao Fire Station")
             txtStationAddr.Text = SettingsRepository.GetValue("StationAddress", "Tuao, Cagayan")
 
@@ -42,6 +42,7 @@ Public Class UcSettings
             End If
 
             LoadBannerPreview()
+            btnManageUsers.Visible = SessionManager.IsSuperAdmin()
         Catch ex As Exception
             If ManualScreenshotGenerator.IsCapturingManual Then Return
             MessageBox.Show("Failed to load settings: " & ex.Message,
@@ -156,52 +157,268 @@ Public Class UcSettings
 
     ' ── Account Settings ────────────────────────────────────────────────────
 
+    Private Sub LoadAccountSection()
+        cboRole.Items.Clear()
+        For Each r In Constants.Roles
+            cboRole.Items.Add(r)
+        Next
+
+        If Not SessionManager.IsSuperAdmin() Then
+            lblTargetUser.Visible = False
+            cboTargetUser.Visible = False
+            lblRole.Visible = False
+            cboRole.Visible = False
+            btnManageUsers.Visible = False
+            txtUsername.Text = SessionManager.Username
+            txtUsername.Enabled = True
+            lblPassword.Text = "New Password (leave blank to keep current)"
+            btnSaveAccount.Text = "Save Account"
+            Return
+        End If
+
+        lblTargetUser.Visible = True
+        cboTargetUser.Visible = True
+        lblRole.Visible = True
+        cboRole.Visible = True
+        btnManageUsers.Visible = True
+
+        ' Populate user accounts
+        cboTargetUser.Items.Clear()
+        Dim dt = UserRepository.GetAllUsers()
+        For Each row As DataRow In dt.Rows
+            Dim uName = row("Username").ToString()
+            Dim uRole = row("UserType").ToString()
+            cboTargetUser.Items.Add($"{uName} ({uRole})")
+        Next
+        cboTargetUser.Items.Add("+ Add New User Account...")
+
+        ' Select current user if in list
+        Dim targetIdx = -1
+        For i As Integer = 0 To cboTargetUser.Items.Count - 2
+            If cboTargetUser.Items(i).ToString().StartsWith(SessionManager.Username & " (", StringComparison.OrdinalIgnoreCase) Then
+                targetIdx = i
+                Exit For
+            End If
+        Next
+        If targetIdx >= 0 Then
+            cboTargetUser.SelectedIndex = targetIdx
+        ElseIf cboTargetUser.Items.Count > 0 Then
+            cboTargetUser.SelectedIndex = 0
+        End If
+    End Sub
+
+    Private Sub cboTargetUser_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTargetUser.SelectedIndexChanged
+        If cboTargetUser.SelectedItem Is Nothing Then Exit Sub
+        Dim itemText = cboTargetUser.SelectedItem.ToString()
+
+        If itemText = "+ Add New User Account..." Then
+            txtUsername.Clear()
+            txtUsername.Focus()
+            cboRole.SelectedIndex = If(cboRole.Items.Count > 1, 1, 0) ' Default to Sub Admin
+            txtPassword.Clear()
+            txtConfirmPw.Clear()
+            lblPassword.Text = "Password:"
+            btnSaveAccount.Text = "+ Add User"
+        Else
+            ' Parse "username (role)"
+            Dim openParen = itemText.LastIndexOf("("c)
+            Dim closeParen = itemText.LastIndexOf(")"c)
+            If openParen > 0 AndAlso closeParen > openParen Then
+                Dim uName = itemText.Substring(0, openParen).Trim()
+                Dim uRole = itemText.Substring(openParen + 1, closeParen - openParen - 1).Trim()
+                If String.Equals(uRole, "Admin", StringComparison.OrdinalIgnoreCase) Then
+                    uRole = Constants.UserTypeSuperAdmin
+                End If
+
+                txtUsername.Text = uName
+                cboRole.SelectedItem = uRole
+                txtPassword.Clear()
+                txtConfirmPw.Clear()
+                lblPassword.Text = "New Password (leave blank to keep current)"
+                btnSaveAccount.Text = "Save / Update Account"
+            End If
+        End If
+    End Sub
+
     Private Sub btnSaveAccount_Click(sender As Object, e As EventArgs) Handles btnSaveAccount.Click
         Dim newUsername = txtUsername.Text.Trim()
         If newUsername = "" Then
             MessageBox.Show("Username cannot be empty.", "Validation",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtUsername.Focus()
             Exit Sub
         End If
 
         Dim newPassword = txtPassword.Text
         Dim confirmPw   = txtConfirmPw.Text
 
-        If newPassword <> "" AndAlso newPassword <> confirmPw Then
-            MessageBox.Show("Passwords do not match. Please try again.", "Validation",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+        If SessionManager.IsSuperAdmin() AndAlso cboTargetUser.Visible Then
+            Dim selectedItem = cboTargetUser.SelectedItem?.ToString()
+            Dim selectedRole = cboRole.SelectedItem?.ToString()
 
-        Try
-            Dim oldUsername = SessionManager.Username
-
-            If newPassword <> "" Then
-                Dim hash = PasswordHelper.HashPassword(newPassword)
-                UserRepository.UpdatePassword(oldUsername, hash)
+            If String.IsNullOrWhiteSpace(selectedRole) Then
+                MessageBox.Show("Please select a role.", "Validation",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                cboRole.Focus()
+                Exit Sub
             End If
 
-            If newUsername <> oldUsername Then
-                UserRepository.UpdateUsername(oldUsername, newUsername)
-                SessionManager.Username = newUsername
-
-                Dim main = TryCast(Me.ParentForm, MainForm)
-                If main IsNot Nothing Then
-                    main.lblTopUser.Text = "[ " & newUsername & " ]"
+            If selectedItem = "+ Add New User Account..." Then
+                ' ── Add New User ─────────────────────────────────────────────
+                If String.IsNullOrEmpty(newPassword) Then
+                    MessageBox.Show("Please enter a password for the new user.", "Validation",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    txtPassword.Focus()
+                    Exit Sub
                 End If
+
+                If newPassword.Length < 4 Then
+                    MessageBox.Show("Password must be at least 4 characters long.", "Validation",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    txtPassword.Focus()
+                    Exit Sub
+                End If
+
+                If newPassword <> confirmPw Then
+                    MessageBox.Show("Passwords do not match. Please try again.", "Validation",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    txtConfirmPw.Focus()
+                    Exit Sub
+                End If
+
+                Try
+                    If UserRepository.Exists(newUsername) Then
+                        MessageBox.Show($"The username '{newUsername}' already exists. Please choose a different username.",
+                                        "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        txtUsername.SelectAll()
+                        txtUsername.Focus()
+                        Exit Sub
+                    End If
+
+                    Dim hash = PasswordHelper.HashPassword(newPassword)
+                    UserRepository.Insert(newUsername, hash, selectedRole)
+                    ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                                       $"Created new {selectedRole} account: {newUsername}")
+
+                    MessageBox.Show($"User account '{newUsername}' ({selectedRole}) created successfully!",
+                                    "User Created", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    LoadAccountSection()
+
+                Catch ex As Exception
+                    MessageBox.Show("Failed to create user account: " & ex.Message,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                ' ── Update Existing User Credentials ─────────────────────────
+                Dim openParen = selectedItem.LastIndexOf("("c)
+                Dim targetOriginalUsername = If(openParen > 0, selectedItem.Substring(0, openParen).Trim(), selectedItem)
+
+                If Not String.Equals(newUsername, targetOriginalUsername, StringComparison.OrdinalIgnoreCase) Then
+                    If UserRepository.Exists(newUsername) Then
+                        MessageBox.Show($"The username '{newUsername}' is already taken. Please choose another.",
+                                        "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        txtUsername.SelectAll()
+                        txtUsername.Focus()
+                        Exit Sub
+                    End If
+                End If
+
+                Dim newHash = ""
+                If Not String.IsNullOrEmpty(newPassword) Then
+                    If newPassword.Length < 4 Then
+                        MessageBox.Show("Password must be at least 4 characters long.", "Validation",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        txtPassword.Focus()
+                        Exit Sub
+                    End If
+
+                    If newPassword <> confirmPw Then
+                        MessageBox.Show("Passwords do not match. Please try again.", "Validation",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        txtConfirmPw.Focus()
+                        Exit Sub
+                    End If
+
+                    newHash = PasswordHelper.HashPassword(newPassword)
+                End If
+
+                Try
+                    UserRepository.UpdateUser(targetOriginalUsername, newUsername, selectedRole, newHash)
+
+                    If String.Equals(targetOriginalUsername, SessionManager.Username, StringComparison.OrdinalIgnoreCase) Then
+                        SessionManager.Username = newUsername
+                        SessionManager.UserType = selectedRole
+                        Dim main = TryCast(Me.ParentForm, MainForm)
+                        If main IsNot Nothing Then
+                            main.lblTopUser.Text = $"[ {newUsername} ({selectedRole}) ]"
+                        End If
+                    End If
+
+                    txtPassword.Clear()
+                    txtConfirmPw.Clear()
+
+                    ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                                       $"Updated credentials for user '{targetOriginalUsername}' (New Name: '{newUsername}', Role: {selectedRole}).")
+
+                    MessageBox.Show($"Credentials for user '{newUsername}' updated successfully.", "Settings",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    LoadAccountSection()
+
+                Catch ex As Exception
+                    MessageBox.Show("Failed to update user account: " & ex.Message,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        Else
+            ' Standard user updating own account
+            If newPassword <> "" AndAlso newPassword <> confirmPw Then
+                MessageBox.Show("Passwords do not match. Please try again.", "Validation",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
             End If
 
-            txtPassword.Clear()
-            txtConfirmPw.Clear()
+            Try
+                Dim oldUsername = SessionManager.Username
 
-            ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
-                               "Account settings updated.")
-            MessageBox.Show("Account settings saved successfully.", "Settings",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show("Failed to save account settings: " & ex.Message,
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+                If newPassword <> "" Then
+                    If newPassword.Length < 4 Then
+                        MessageBox.Show("Password must be at least 4 characters long.", "Validation",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Exit Sub
+                    End If
+                    Dim hash = PasswordHelper.HashPassword(newPassword)
+                    UserRepository.UpdatePassword(oldUsername, hash)
+                End If
+
+                If newUsername <> oldUsername Then
+                    If UserRepository.Exists(newUsername) Then
+                        MessageBox.Show($"The username '{newUsername}' already exists.", "Validation",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Exit Sub
+                    End If
+                    UserRepository.UpdateUsername(oldUsername, newUsername)
+                    SessionManager.Username = newUsername
+
+                    Dim main = TryCast(Me.ParentForm, MainForm)
+                    If main IsNot Nothing Then
+                        main.lblTopUser.Text = $"[ {newUsername} ({SessionManager.UserType}) ]"
+                    End If
+                End If
+
+                txtPassword.Clear()
+                txtConfirmPw.Clear()
+
+                ActivityLogger.Log(SessionManager.Username, Constants.LogSuccess,
+                                   "Account settings updated.")
+                MessageBox.Show("Account settings saved successfully.", "Settings",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("Failed to save account settings: " & ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
 
     ' ── Security Question Management ─────────────────────────────────────────
@@ -256,6 +473,19 @@ Public Class UcSettings
             MessageBox.Show("Failed to save system settings: " & ex.Message,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub btnManageSignatories_Click(sender As Object, e As EventArgs) Handles btnManageSignatories.Click
+        Using dlg As New SignatoriesForm()
+            dlg.ShowDialog(Me)
+        End Using
+    End Sub
+
+    Private Sub btnManageUsers_Click(sender As Object, e As EventArgs) Handles btnManageUsers.Click
+        Using dlg As New UserManagementForm()
+            dlg.ShowDialog(Me)
+        End Using
+        LoadAccountSection()
     End Sub
 
 End Class

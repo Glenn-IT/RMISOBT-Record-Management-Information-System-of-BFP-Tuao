@@ -192,7 +192,7 @@ Partial Class EditRecordForm
         ' 
         ' dtpIncidentDateTime
         ' 
-        dtpIncidentDateTime.CustomFormat = "MM/dd/yyyy HHmm"
+        dtpIncidentDateTime.CustomFormat = "MM/dd/yyyy hh:mm tt"
         dtpIncidentDateTime.Font = New Font("Segoe UI", 10F)
         dtpIncidentDateTime.Format = DateTimePickerFormat.Custom
         dtpIncidentDateTime.Location = New Point(18, 115)
@@ -228,11 +228,11 @@ Partial Class EditRecordForm
         lblResponseTime.Name = "lblResponseTime"
         lblResponseTime.Size = New Size(265, 24)
         lblResponseTime.TabIndex = 8
-        lblResponseTime.Text = "Response Time"
+        lblResponseTime.Text = "Response Time (hh:mm AM/PM)"
         ' 
         ' dtpResponseTime
         ' 
-        dtpResponseTime.CustomFormat = "HHmm"
+        dtpResponseTime.CustomFormat = "hh:mm tt"
         dtpResponseTime.Font = New Font("Segoe UI", 10F)
         dtpResponseTime.Format = DateTimePickerFormat.Custom
         dtpResponseTime.Location = New Point(18, 188)

@@ -3,10 +3,9 @@ Public Class UcViewRecords
 
     Private Sub UcViewRecords_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dgvRecords.ApplyDpiScaling()
-        If SessionManager.UserType <> Constants.UserTypeAdmin Then
-            btnEdit.Visible = False
-            btnDelete.Visible = False
-        End If
+        ' Both Super Admin and Sub Admin can Edit records; Only Super Admin can Delete
+        btnEdit.Visible = True
+        btnDelete.Visible = SessionManager.IsSuperAdmin()
         Try
             InitFilters()
             ApplyFilters()
@@ -37,7 +36,7 @@ Public Class UcViewRecords
         dgvRecords.Rows.Clear()
         For Each r In data
             dgvRecords.Rows.Add(r.RecordID, r.IncidentType,
-                            r.IncidentDateTime.ToString("MM/dd/yyyy") & " " & DateTimeHelper.ToMilitaryTime(r.IncidentDateTime),
+                            DateTimeHelper.FormatIncidentDateTime(r.IncidentDateTime),
                             r.InvolvedProperty, r.Status)
         Next
         lblRecordCount.Text = "Total Records: " & data.Count
@@ -136,8 +135,8 @@ Public Class UcViewRecords
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        If SessionManager.UserType <> Constants.UserTypeAdmin Then
-            MessageBox.Show("Access denied. Only Admins can delete records.",
+        If Not SessionManager.IsSuperAdmin() Then
+            MessageBox.Show("Access denied. Only the Super Admin can delete incident records.",
                             "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If

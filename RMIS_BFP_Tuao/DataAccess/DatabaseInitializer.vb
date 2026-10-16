@@ -38,7 +38,7 @@ Public Class DatabaseInitializer
                     UserID              INT             NOT NULL IDENTITY(1,1) PRIMARY KEY,
                     Username            NVARCHAR(100)   NOT NULL UNIQUE,
                     PasswordHash        NVARCHAR(255)   NOT NULL,
-                    UserType            NVARCHAR(50)    NOT NULL DEFAULT 'Staff',
+                    UserType            NVARCHAR(50)    NOT NULL DEFAULT 'Sub Admin',
                     SecurityQuestion    NVARCHAR(255)   NOT NULL DEFAULT '',
                     SecurityAnswerHash  NVARCHAR(255)   NOT NULL DEFAULT '',
                     CreatedAt           DATETIME        NOT NULL DEFAULT GETDATE()
@@ -94,7 +94,10 @@ Public Class DatabaseInitializer
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'Address')
                     ALTER TABLE tbl_IncidentRecords ADD Address NVARCHAR(255) NULL;
                  IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('tbl_IncidentRecords') AND name = 'CauseOfFire')
-                    ALTER TABLE tbl_IncidentRecords ADD CauseOfFire NVARCHAR(255) NULL;"
+                    ALTER TABLE tbl_IncidentRecords ADD CauseOfFire NVARCHAR(255) NULL;
+
+                 UPDATE tbl_Users SET UserType = 'Super Admin' WHERE UserType = 'Admin';
+                 UPDATE tbl_Users SET UserType = 'Sub Admin' WHERE UserType = 'Staff';"
             Using cmd As New SqlCommand(migrate, con)
                 cmd.ExecuteNonQuery()
             End Using
@@ -108,7 +111,27 @@ Public Class DatabaseInitializer
                 "IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'StationName')
                     INSERT INTO tbl_Settings VALUES ('StationName', 'BFP Tuao Fire Station');
                  IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'StationAddress')
-                    INSERT INTO tbl_Settings VALUES ('StationAddress', 'Tuao, Cagayan');"
+                    INSERT INTO tbl_Settings VALUES ('StationAddress', 'Tuao, Cagayan');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory1_Label')
+                    INSERT INTO tbl_Settings VALUES ('Signatory1_Label', 'Prepared by:');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory1_Name')
+                    INSERT INTO tbl_Settings VALUES ('Signatory1_Name', 'FO3 Juan Dela Cruz, BFP');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory1_Title')
+                    INSERT INTO tbl_Settings VALUES ('Signatory1_Title', 'Duty Desk Officer / Fire Investigator');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory2_Label')
+                    INSERT INTO tbl_Settings VALUES ('Signatory2_Label', 'Noted by:');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory2_Name')
+                    INSERT INTO tbl_Settings VALUES ('Signatory2_Name', 'CINSP Pedro Penduko, BFP');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory2_Title')
+                    INSERT INTO tbl_Settings VALUES ('Signatory2_Title', 'Municipal Fire Marshal');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory3_Enabled')
+                    INSERT INTO tbl_Settings VALUES ('Signatory3_Enabled', 'False');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory3_Label')
+                    INSERT INTO tbl_Settings VALUES ('Signatory3_Label', 'Approved by:');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory3_Name')
+                    INSERT INTO tbl_Settings VALUES ('Signatory3_Name', '');
+                 IF NOT EXISTS (SELECT 1 FROM tbl_Settings WHERE SettingKey = 'Signatory3_Title')
+                    INSERT INTO tbl_Settings VALUES ('Signatory3_Title', '');"
             Using cmd As New SqlCommand(sql, con)
                 cmd.ExecuteNonQuery()
             End Using
@@ -127,7 +150,7 @@ Public Class DatabaseInitializer
             Dim answerHash As String = PasswordHelper.HashPassword("admin")
             Using cmd As New SqlCommand(
                 "INSERT INTO tbl_Users (Username, PasswordHash, UserType, SecurityQuestion, SecurityAnswerHash) " &
-                "VALUES ('admin', @hash, 'Admin', @question, @answer)", con)
+                "VALUES ('admin', @hash, 'Super Admin', @question, @answer)", con)
                 cmd.Parameters.AddWithValue("@hash",     hash)
                 cmd.Parameters.AddWithValue("@question", "What is your mother's maiden name?")
                 cmd.Parameters.AddWithValue("@answer",   answerHash)

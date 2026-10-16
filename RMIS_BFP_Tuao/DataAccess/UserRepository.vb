@@ -82,4 +82,61 @@ Public Module UserRepository
         End Using
     End Sub
 
+    Public Function GetAllUsers() As DataTable
+        Dim dt As New DataTable()
+        Using con As New SqlConnection(dbconstring.Connection)
+            con.Open()
+            Using cmd As New SqlCommand(
+                "SELECT UserID, Username, UserType, CreatedAt FROM tbl_Users ORDER BY UserID ASC", con)
+                Dim adapter As New SqlDataAdapter(cmd)
+                adapter.Fill(dt)
+            End Using
+        End Using
+        Return dt
+    End Function
+
+    Public Sub DeleteUser(username As String)
+        Using con As New SqlConnection(dbconstring.Connection)
+            con.Open()
+            Using cmd As New SqlCommand(
+                "DELETE FROM tbl_Users WHERE Username = @username", con)
+                cmd.Parameters.AddWithValue("@username", username)
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+    End Sub
+
+    Public Sub UpdateUser(oldUsername As String, newUsername As String, newUserType As String, Optional newPasswordHash As String = "")
+        Using con As New SqlConnection(dbconstring.Connection)
+            con.Open()
+            Dim sql As String
+            If Not String.IsNullOrEmpty(newPasswordHash) Then
+                sql = "UPDATE tbl_Users SET Username = @newUsername, UserType = @newRole, PasswordHash = @newPasswordHash WHERE Username = @oldUsername"
+            Else
+                sql = "UPDATE tbl_Users SET Username = @newUsername, UserType = @newRole WHERE Username = @oldUsername"
+            End If
+            Using cmd As New SqlCommand(sql, con)
+                cmd.Parameters.AddWithValue("@newUsername", newUsername)
+                cmd.Parameters.AddWithValue("@newRole", newUserType)
+                If Not String.IsNullOrEmpty(newPasswordHash) Then
+                    cmd.Parameters.AddWithValue("@newPasswordHash", newPasswordHash)
+                End If
+                cmd.Parameters.AddWithValue("@oldUsername", oldUsername)
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+    End Sub
+
+    Public Function Exists(username As String) As Boolean
+        Using con As New SqlConnection(dbconstring.Connection)
+            con.Open()
+            Using cmd As New SqlCommand(
+                "SELECT COUNT(1) FROM tbl_Users WHERE Username = @username COLLATE Latin1_General_CS_AS", con)
+                cmd.Parameters.AddWithValue("@username", username)
+                Dim count = CInt(cmd.ExecuteScalar())
+                Return count > 0
+            End Using
+        End Using
+    End Function
+
 End Module

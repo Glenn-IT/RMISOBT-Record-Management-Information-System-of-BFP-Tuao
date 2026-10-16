@@ -104,6 +104,12 @@ Public Class UcReports
         Next
     End Sub
 
+    Private Sub btnSignatories_Click(sender As Object, e As EventArgs) Handles btnSignatories.Click
+        Using dlg As New SignatoriesForm()
+            dlg.ShowDialog(Me)
+        End Using
+    End Sub
+
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim stationName As String = "BFP Tuao Fire Station"

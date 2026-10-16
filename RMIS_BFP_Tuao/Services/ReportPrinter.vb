@@ -275,6 +275,54 @@ Public Module ReportPrinter
         gfx.DrawString(otherTotal.ToString(),  fTotals, brBlack, New XRect(x4, curY, colNumW, rowH), sfCenter)
 
         ' ════════════════════════════════════════════════════════
+        ' SIGNATORIES SECTION
+        ' ════════════════════════════════════════════════════════
+        Dim sigY = Math.Max(curY + 40.0, 625.0)
+        If sigY + 85.0 > footerY Then sigY = footerY - 90.0
+
+        Dim fSigHdr   = New XFont("Segoe UI", 8.5, XFontStyleEx.Regular)
+        Dim fSigName  = New XFont("Segoe UI", 9.5, XFontStyleEx.Bold)
+        Dim fSigTitle = New XFont("Segoe UI", 8.0, XFontStyleEx.Regular)
+        Dim penSig    = New XPen(XColor.FromArgb(50, 50, 50), 0.75)
+
+        Dim sigs = SignatoryHelper.GetSignatories()
+        Dim activeSigs = sigs.Where(Function(s) s.Enabled AndAlso Not String.IsNullOrWhiteSpace(s.Name)).ToList()
+
+        If activeSigs.Count = 3 Then
+            Dim colW = 160.0
+            Dim totalColsW = colW * 3.0
+            Dim sigGap = (contentWidth - totalColsW) / 2.0
+            For i = 0 To 2
+                Dim s = activeSigs(i)
+                Dim sigX = leftMargin + (i * (colW + sigGap))
+                gfx.DrawString(s.Label, fSigHdr, brDarkGray, New XRect(sigX, sigY, colW, 14), sfLeft)
+                gfx.DrawLine(penSig, sigX, sigY + 45.0, sigX + colW - 5, sigY + 45.0)
+                gfx.DrawString(s.Name.ToUpper(), fSigName, brBlack, New XRect(sigX, sigY + 49.0, colW - 5, 14), sfCenter)
+                gfx.DrawString(s.Title, fSigTitle, brDarkGray, New XRect(sigX, sigY + 63.0, colW - 5, 12), sfCenter)
+            Next
+        Else
+            ' Default 2 Signatories (Left & Right)
+            Dim s1 = If(activeSigs.Count > 0, activeSigs(0), New SignatoryItem With {.Label = "Prepared by:", .Name = "FO3 Juan Dela Cruz, BFP", .Title = "Duty Desk Officer / Fire Investigator"})
+            Dim s2 = If(activeSigs.Count > 1, activeSigs(1), New SignatoryItem With {.Label = "Noted by:", .Name = "CINSP Pedro Penduko, BFP", .Title = "Municipal Fire Marshal"})
+
+            Dim colW = 210.0
+            Dim sig1X = leftMargin
+            Dim sig2X = rightMargin - colW
+
+            ' Signatory 1
+            gfx.DrawString(s1.Label, fSigHdr, brDarkGray, New XRect(sig1X, sigY, colW, 14), sfLeft)
+            gfx.DrawLine(penSig, sig1X, sigY + 45.0, sig1X + colW - 10, sigY + 45.0)
+            gfx.DrawString(s1.Name.ToUpper(), fSigName, brBlack, New XRect(sig1X, sigY + 49.0, colW - 10, 14), sfCenter)
+            gfx.DrawString(s1.Title, fSigTitle, brDarkGray, New XRect(sig1X, sigY + 63.0, colW - 10, 12), sfCenter)
+
+            ' Signatory 2
+            gfx.DrawString(s2.Label, fSigHdr, brDarkGray, New XRect(sig2X, sigY, colW, 14), sfLeft)
+            gfx.DrawLine(penSig, sig2X, sigY + 45.0, sig2X + colW - 10, sigY + 45.0)
+            gfx.DrawString(s2.Name.ToUpper(), fSigName, brBlack, New XRect(sig2X, sigY + 49.0, colW - 10, 14), sfCenter)
+            gfx.DrawString(s2.Title, fSigTitle, brDarkGray, New XRect(sig2X, sigY + 63.0, colW - 10, 12), sfCenter)
+        End If
+
+        ' ════════════════════════════════════════════════════════
         ' FOOTER
         ' ════════════════════════════════════════════════════════
         gfx.DrawLine(penLight, leftMargin, footerY, rightMargin, footerY)

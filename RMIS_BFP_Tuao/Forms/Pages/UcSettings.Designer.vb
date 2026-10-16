@@ -37,6 +37,10 @@ Partial Class UcSettings
         pnlAccount = New Panel()
         lblAccTitle = New Label()
         lblAccDivider = New Panel()
+        lblTargetUser = New Label()
+        cboTargetUser = New ComboBox()
+        lblRole = New Label()
+        cboRole = New ComboBox()
         lblUsername = New Label()
         txtUsername = New TextBox()
         lblPassword = New Label()
@@ -44,6 +48,7 @@ Partial Class UcSettings
         lblConfirmPw = New Label()
         txtConfirmPw = New TextBox()
         btnSaveAccount = New Button()
+        btnManageUsers = New Button()
         pnlSecQuestion = New Panel()
         lblSecTitle = New Label()
         lblSecDivider = New Panel()
@@ -67,6 +72,7 @@ Partial Class UcSettings
         lblStationAddr = New Label()
         txtStationAddr = New TextBox()
         btnSaveSystem = New Button()
+        btnManageSignatories = New Button()
         pnlHeader.SuspendLayout()
         pnlVerification.SuspendLayout()
         pnlSettingsContent.SuspendLayout()
@@ -280,6 +286,10 @@ Partial Class UcSettings
         pnlAccount.BackColor = Color.White
         pnlAccount.Controls.Add(lblAccTitle)
         pnlAccount.Controls.Add(lblAccDivider)
+        pnlAccount.Controls.Add(lblTargetUser)
+        pnlAccount.Controls.Add(cboTargetUser)
+        pnlAccount.Controls.Add(lblRole)
+        pnlAccount.Controls.Add(cboRole)
         pnlAccount.Controls.Add(lblUsername)
         pnlAccount.Controls.Add(txtUsername)
         pnlAccount.Controls.Add(lblPassword)
@@ -287,9 +297,10 @@ Partial Class UcSettings
         pnlAccount.Controls.Add(lblConfirmPw)
         pnlAccount.Controls.Add(txtConfirmPw)
         pnlAccount.Controls.Add(btnSaveAccount)
+        pnlAccount.Controls.Add(btnManageUsers)
         pnlAccount.Location = New Point(0, 0)
         pnlAccount.Name = "pnlAccount"
-        pnlAccount.Size = New Size(540, 310)
+        pnlAccount.Size = New Size(540, 355)
         pnlAccount.TabIndex = 0
         ' 
         ' lblAccTitle
@@ -305,19 +316,59 @@ Partial Class UcSettings
         ' lblAccDivider
         ' 
         lblAccDivider.BackColor = Color.FromArgb(CByte(220), CByte(220), CByte(220))
-        lblAccDivider.Location = New Point(20, 45)
+        lblAccDivider.Location = New Point(20, 42)
         lblAccDivider.Name = "lblAccDivider"
         lblAccDivider.Size = New Size(500, 1)
         lblAccDivider.TabIndex = 1
+        ' 
+        ' lblTargetUser
+        ' 
+        lblTargetUser.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblTargetUser.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblTargetUser.Location = New Point(20, 48)
+        lblTargetUser.Name = "lblTargetUser"
+        lblTargetUser.Size = New Size(240, 18)
+        lblTargetUser.TabIndex = 2
+        lblTargetUser.Text = "Account to Manage:"
+        ' 
+        ' cboTargetUser
+        ' 
+        cboTargetUser.DropDownStyle = ComboBoxStyle.DropDownList
+        cboTargetUser.Font = New Font("Segoe UI", 9F)
+        cboTargetUser.FormattingEnabled = True
+        cboTargetUser.Location = New Point(20, 68)
+        cboTargetUser.Name = "cboTargetUser"
+        cboTargetUser.Size = New Size(240, 23)
+        cboTargetUser.TabIndex = 3
+        ' 
+        ' lblRole
+        ' 
+        lblRole.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblRole.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
+        lblRole.Location = New Point(280, 48)
+        lblRole.Name = "lblRole"
+        lblRole.Size = New Size(240, 18)
+        lblRole.TabIndex = 4
+        lblRole.Text = "Role:"
+        ' 
+        ' cboRole
+        ' 
+        cboRole.DropDownStyle = ComboBoxStyle.DropDownList
+        cboRole.Font = New Font("Segoe UI", 9F)
+        cboRole.FormattingEnabled = True
+        cboRole.Location = New Point(280, 68)
+        cboRole.Name = "cboRole"
+        cboRole.Size = New Size(240, 23)
+        cboRole.TabIndex = 5
         ' 
         ' lblUsername
         ' 
         lblUsername.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         lblUsername.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
-        lblUsername.Location = New Point(20, 58)
+        lblUsername.Location = New Point(20, 98)
         lblUsername.Name = "lblUsername"
-        lblUsername.Size = New Size(500, 20)
-        lblUsername.TabIndex = 2
+        lblUsername.Size = New Size(500, 18)
+        lblUsername.TabIndex = 6
         lblUsername.Text = "Username"
         ' 
         ' txtUsername
@@ -325,19 +376,19 @@ Partial Class UcSettings
         txtUsername.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtUsername.BorderStyle = BorderStyle.FixedSingle
         txtUsername.Font = New Font("Segoe UI", 10F)
-        txtUsername.Location = New Point(20, 80)
+        txtUsername.Location = New Point(20, 118)
         txtUsername.Name = "txtUsername"
         txtUsername.Size = New Size(500, 27)
-        txtUsername.TabIndex = 3
+        txtUsername.TabIndex = 7
         ' 
         ' lblPassword
         ' 
         lblPassword.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         lblPassword.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
-        lblPassword.Location = New Point(20, 115)
+        lblPassword.Location = New Point(20, 151)
         lblPassword.Name = "lblPassword"
-        lblPassword.Size = New Size(500, 20)
-        lblPassword.TabIndex = 4
+        lblPassword.Size = New Size(500, 18)
+        lblPassword.TabIndex = 8
         lblPassword.Text = "New Password (leave blank to keep current)"
         ' 
         ' txtPassword
@@ -345,20 +396,20 @@ Partial Class UcSettings
         txtPassword.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtPassword.BorderStyle = BorderStyle.FixedSingle
         txtPassword.Font = New Font("Segoe UI", 10F)
-        txtPassword.Location = New Point(20, 137)
+        txtPassword.Location = New Point(20, 171)
         txtPassword.Name = "txtPassword"
-        txtPassword.PasswordChar = "?"c
+        txtPassword.PasswordChar = "*"c
         txtPassword.Size = New Size(500, 27)
-        txtPassword.TabIndex = 5
+        txtPassword.TabIndex = 9
         ' 
         ' lblConfirmPw
         ' 
         lblConfirmPw.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         lblConfirmPw.ForeColor = Color.FromArgb(CByte(70), CByte(70), CByte(70))
-        lblConfirmPw.Location = New Point(20, 172)
+        lblConfirmPw.Location = New Point(20, 204)
         lblConfirmPw.Name = "lblConfirmPw"
-        lblConfirmPw.Size = New Size(500, 20)
-        lblConfirmPw.TabIndex = 6
+        lblConfirmPw.Size = New Size(500, 18)
+        lblConfirmPw.TabIndex = 10
         lblConfirmPw.Text = "Confirm Password"
         ' 
         ' txtConfirmPw
@@ -366,11 +417,11 @@ Partial Class UcSettings
         txtConfirmPw.BackColor = Color.FromArgb(CByte(250), CByte(250), CByte(250))
         txtConfirmPw.BorderStyle = BorderStyle.FixedSingle
         txtConfirmPw.Font = New Font("Segoe UI", 10F)
-        txtConfirmPw.Location = New Point(20, 194)
+        txtConfirmPw.Location = New Point(20, 224)
         txtConfirmPw.Name = "txtConfirmPw"
-        txtConfirmPw.PasswordChar = "?"c
+        txtConfirmPw.PasswordChar = "*"c
         txtConfirmPw.Size = New Size(500, 27)
-        txtConfirmPw.TabIndex = 7
+        txtConfirmPw.TabIndex = 11
         ' 
         ' btnSaveAccount
         ' 
@@ -380,12 +431,27 @@ Partial Class UcSettings
         btnSaveAccount.FlatStyle = FlatStyle.Flat
         btnSaveAccount.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         btnSaveAccount.ForeColor = Color.White
-        btnSaveAccount.Location = New Point(20, 240)
+        btnSaveAccount.Location = New Point(20, 268)
         btnSaveAccount.Name = "btnSaveAccount"
-        btnSaveAccount.Size = New Size(180, 40)
-        btnSaveAccount.TabIndex = 8
+        btnSaveAccount.Size = New Size(180, 38)
+        btnSaveAccount.TabIndex = 12
         btnSaveAccount.Text = "Save Account"
         btnSaveAccount.UseVisualStyleBackColor = False
+        ' 
+        ' btnManageUsers
+        ' 
+        btnManageUsers.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        btnManageUsers.Cursor = Cursors.Hand
+        btnManageUsers.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnManageUsers.FlatStyle = FlatStyle.Flat
+        btnManageUsers.Font = New Font("Segoe UI", 9.5F)
+        btnManageUsers.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnManageUsers.Location = New Point(210, 268)
+        btnManageUsers.Name = "btnManageUsers"
+        btnManageUsers.Size = New Size(200, 38)
+        btnManageUsers.TabIndex = 13
+        btnManageUsers.Text = "Manage All Users..."
+        btnManageUsers.UseVisualStyleBackColor = False
         ' 
         ' pnlSecQuestion
         ' 
@@ -397,9 +463,9 @@ Partial Class UcSettings
         pnlSecQuestion.Controls.Add(lblSecAnswer)
         pnlSecQuestion.Controls.Add(txtSecAnswer)
         pnlSecQuestion.Controls.Add(btnSaveSecQuestion)
-        pnlSecQuestion.Location = New Point(0, 325)
+        pnlSecQuestion.Location = New Point(0, 365)
         pnlSecQuestion.Name = "pnlSecQuestion"
-        pnlSecQuestion.Size = New Size(540, 260)
+        pnlSecQuestion.Size = New Size(540, 250)
         pnlSecQuestion.TabIndex = 1
         ' 
         ' lblSecTitle
@@ -569,6 +635,7 @@ Partial Class UcSettings
         pnlSystem.Controls.Add(lblStationAddr)
         pnlSystem.Controls.Add(txtStationAddr)
         pnlSystem.Controls.Add(btnSaveSystem)
+        pnlSystem.Controls.Add(btnManageSignatories)
         pnlSystem.Location = New Point(560, 265)
         pnlSystem.Name = "pnlSystem"
         pnlSystem.Size = New Size(540, 320)
@@ -650,6 +717,21 @@ Partial Class UcSettings
         btnSaveSystem.Text = "Save Changes"
         btnSaveSystem.UseVisualStyleBackColor = False
         ' 
+        ' btnManageSignatories
+        ' 
+        btnManageSignatories.BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
+        btnManageSignatories.Cursor = Cursors.Hand
+        btnManageSignatories.FlatAppearance.BorderColor = Color.FromArgb(CByte(200), CByte(200), CByte(200))
+        btnManageSignatories.FlatStyle = FlatStyle.Flat
+        btnManageSignatories.Font = New Font("Segoe UI", 9.5F)
+        btnManageSignatories.ForeColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
+        btnManageSignatories.Location = New Point(210, 235)
+        btnManageSignatories.Name = "btnManageSignatories"
+        btnManageSignatories.Size = New Size(190, 40)
+        btnManageSignatories.TabIndex = 7
+        btnManageSignatories.Text = "Manage Signatories"
+        btnManageSignatories.UseVisualStyleBackColor = False
+        ' 
         ' UcSettings
         ' 
         AutoScaleDimensions = New SizeF(106F, 106F)
@@ -699,6 +781,10 @@ Partial Class UcSettings
     Friend WithEvents pnlAccount As Panel
     Friend WithEvents lblAccTitle As Label
     Friend WithEvents lblAccDivider As Panel
+    Friend WithEvents lblTargetUser As Label
+    Friend WithEvents cboTargetUser As ComboBox
+    Friend WithEvents lblRole As Label
+    Friend WithEvents cboRole As ComboBox
     Friend WithEvents lblUsername As Label
     Friend WithEvents txtUsername As TextBox
     Friend WithEvents lblPassword As Label
@@ -706,6 +792,7 @@ Partial Class UcSettings
     Friend WithEvents lblConfirmPw As Label
     Friend WithEvents txtConfirmPw As TextBox
     Friend WithEvents btnSaveAccount As Button
+    Friend WithEvents btnManageUsers As Button
 
     Friend WithEvents pnlSecQuestion As Panel
     Friend WithEvents lblSecTitle As Label
@@ -732,5 +819,6 @@ Partial Class UcSettings
     Friend WithEvents lblStationAddr As Label
     Friend WithEvents txtStationAddr As TextBox
     Friend WithEvents btnSaveSystem As Button
+    Friend WithEvents btnManageSignatories As Button
 
 End Class
