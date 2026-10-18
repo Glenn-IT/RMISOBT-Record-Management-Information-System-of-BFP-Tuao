@@ -24,12 +24,12 @@ Public Class ConstantsTests
         Assert.IsTrue(Constants.Statuses.Contains("Active"))
         Assert.IsTrue(Constants.Statuses.Contains("Resolved"))
         Assert.IsTrue(Constants.Statuses.Contains("Under Investigation"))
-        Assert.IsTrue(Constants.Statuses.Contains("Closed"))
+        Assert.IsFalse(Constants.Statuses.Contains("Closed"))
     End Sub
 
     <TestMethod>
-    Public Sub Statuses_HasFourEntries()
-        Assert.AreEqual(4, Constants.Statuses.Length)
+    Public Sub Statuses_HasThreeEntries()
+        Assert.AreEqual(3, Constants.Statuses.Length)
     End Sub
 
     <TestMethod>

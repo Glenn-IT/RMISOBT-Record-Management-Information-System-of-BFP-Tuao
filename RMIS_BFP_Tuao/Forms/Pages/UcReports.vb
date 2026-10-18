@@ -51,7 +51,7 @@ Public Class UcReports
                 Dim matchesType = (selectedType = "All Types") OrElse
                     r.IncidentType.Equals(selectedType, StringComparison.OrdinalIgnoreCase)
 
-                ' Status matching (Active, Resolved, Closed, Under Investigation)
+                ' Status matching (Active, Resolved, Under Investigation)
                 Dim matchesStatus = (selectedStatus = "All Statuses") OrElse
                     r.Status.Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
 
@@ -85,12 +85,12 @@ Public Class UcReports
         Dim total    = records.Count
         Dim active   = records.Where(Function(r) r.Status = "Active").Count()
         Dim resolved = records.Where(Function(r) r.Status = "Resolved").Count()
-        Dim closed   = records.Where(Function(r) r.Status = "Closed").Count()
+        Dim underInv = records.Where(Function(r) r.Status = "Under Investigation").Count()
 
         lblCardTotalValue.Text    = total.ToString()
         lblCardActiveValue.Text   = active.ToString()
         lblCardResolvedValue.Text = resolved.ToString()
-        lblCardClosedValue.Text   = closed.ToString()
+        lblCardClosedValue.Text   = underInv.ToString()
         lblRecordCount.Text       = "Total Records: " & total
 
         dgvBreakdown.Rows.Clear()
@@ -99,8 +99,8 @@ Public Class UcReports
             Dim group     = records.Where(Function(r) r.IncidentType = incType).ToList()
             Dim gActive   = group.Where(Function(r) r.Status = "Active").Count()
             Dim gResolved = group.Where(Function(r) r.Status = "Resolved").Count()
-            Dim gOther    = group.Count - gActive - gResolved
-            dgvBreakdown.Rows.Add(incType, group.Count, gActive, gResolved, gOther)
+            Dim gUnderInv = group.Where(Function(r) r.Status = "Under Investigation").Count()
+            dgvBreakdown.Rows.Add(incType, group.Count, gActive, gResolved, gUnderInv)
         Next
     End Sub
 

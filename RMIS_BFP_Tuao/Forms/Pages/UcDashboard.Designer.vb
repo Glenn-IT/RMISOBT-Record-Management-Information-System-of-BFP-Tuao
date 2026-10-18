@@ -21,6 +21,7 @@ Partial Class UcDashboard
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         lblPageTitle = New Label()
         lblWelcomeSub = New Label()
+        tlpCards = New TableLayoutPanel()
         pnlCard1 = New Panel()
         lblCard1Icon = New Label()
         lblCard1Title = New Label()
@@ -45,6 +46,7 @@ Partial Class UcDashboard
         DataGridViewTextBoxColumn3 = New DataGridViewTextBoxColumn()
         DataGridViewTextBoxColumn4 = New DataGridViewTextBoxColumn()
         DataGridViewTextBoxColumn5 = New DataGridViewTextBoxColumn()
+        tlpCards.SuspendLayout()
         pnlCard1.SuspendLayout()
         pnlCard2.SuspendLayout()
         pnlCard3.SuspendLayout()
@@ -73,16 +75,36 @@ Partial Class UcDashboard
         lblWelcomeSub.TabIndex = 1
         lblWelcomeSub.Text = "Welcome, Admin"
         ' 
+        ' tlpCards
+        ' 
+        tlpCards.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        tlpCards.ColumnCount = 4
+        tlpCards.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpCards.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpCards.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpCards.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.0F))
+        tlpCards.Controls.Add(pnlCard1, 0, 0)
+        tlpCards.Controls.Add(pnlCard2, 1, 0)
+        tlpCards.Controls.Add(pnlCard3, 2, 0)
+        tlpCards.Controls.Add(pnlCard4, 3, 0)
+        tlpCards.Location = New Point(24, 90)
+        tlpCards.Margin = New Padding(0)
+        tlpCards.Name = "tlpCards"
+        tlpCards.RowCount = 1
+        tlpCards.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
+        tlpCards.Size = New Size(1063, 100)
+        tlpCards.TabIndex = 2
+        ' 
         ' pnlCard1
         ' 
         pnlCard1.BackColor = Color.White
         pnlCard1.Controls.Add(lblCard1Icon)
         pnlCard1.Controls.Add(lblCard1Title)
         pnlCard1.Controls.Add(lblCard1Value)
-        pnlCard1.Location = New Point(24, 90)
+        pnlCard1.Dock = DockStyle.Fill
+        pnlCard1.Margin = New Padding(0, 0, 8, 0)
         pnlCard1.Name = "pnlCard1"
-        pnlCard1.Size = New Size(188, 100)
-        pnlCard1.TabIndex = 2
+        pnlCard1.TabIndex = 0
         ' 
         ' lblCard1Icon
         ' 
@@ -97,21 +119,23 @@ Partial Class UcDashboard
         ' 
         ' lblCard1Title
         ' 
+        lblCard1Title.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard1Title.Font = New Font("Segoe UI", 8.5F)
         lblCard1Title.ForeColor = Color.Gray
         lblCard1Title.Location = New Point(72, 22)
         lblCard1Title.Name = "lblCard1Title"
-        lblCard1Title.Size = New Size(110, 22)
+        lblCard1Title.Size = New Size(180, 22)
         lblCard1Title.TabIndex = 1
         lblCard1Title.Text = "Total Records"
         ' 
         ' lblCard1Value
         ' 
+        lblCard1Value.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard1Value.Font = New Font("Segoe UI", 22F, FontStyle.Bold)
         lblCard1Value.ForeColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         lblCard1Value.Location = New Point(70, 44)
         lblCard1Value.Name = "lblCard1Value"
-        lblCard1Value.Size = New Size(110, 46)
+        lblCard1Value.Size = New Size(180, 46)
         lblCard1Value.TabIndex = 2
         lblCard1Value.Text = "0"
         ' 
@@ -121,10 +145,10 @@ Partial Class UcDashboard
         pnlCard2.Controls.Add(lblCard2Icon)
         pnlCard2.Controls.Add(lblCard2Title)
         pnlCard2.Controls.Add(lblCard2Value)
-        pnlCard2.Location = New Point(224, 90)
+        pnlCard2.Dock = DockStyle.Fill
+        pnlCard2.Margin = New Padding(8, 0, 8, 0)
         pnlCard2.Name = "pnlCard2"
-        pnlCard2.Size = New Size(188, 100)
-        pnlCard2.TabIndex = 3
+        pnlCard2.TabIndex = 1
         ' 
         ' lblCard2Icon
         ' 
@@ -139,21 +163,23 @@ Partial Class UcDashboard
         ' 
         ' lblCard2Title
         ' 
+        lblCard2Title.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard2Title.Font = New Font("Segoe UI", 8.5F)
         lblCard2Title.ForeColor = Color.Gray
         lblCard2Title.Location = New Point(72, 22)
         lblCard2Title.Name = "lblCard2Title"
-        lblCard2Title.Size = New Size(110, 22)
+        lblCard2Title.Size = New Size(180, 22)
         lblCard2Title.TabIndex = 1
         lblCard2Title.Text = "Active Cases"
         ' 
         ' lblCard2Value
         ' 
+        lblCard2Value.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard2Value.Font = New Font("Segoe UI", 22F, FontStyle.Bold)
         lblCard2Value.ForeColor = Color.FromArgb(CByte(220), CByte(120), CByte(0))
         lblCard2Value.Location = New Point(70, 44)
         lblCard2Value.Name = "lblCard2Value"
-        lblCard2Value.Size = New Size(110, 46)
+        lblCard2Value.Size = New Size(180, 46)
         lblCard2Value.TabIndex = 2
         lblCard2Value.Text = "0"
         ' 
@@ -163,10 +189,10 @@ Partial Class UcDashboard
         pnlCard3.Controls.Add(lblCard3Icon)
         pnlCard3.Controls.Add(lblCard3Title)
         pnlCard3.Controls.Add(lblCard3Value)
-        pnlCard3.Location = New Point(424, 90)
+        pnlCard3.Dock = DockStyle.Fill
+        pnlCard3.Margin = New Padding(8, 0, 8, 0)
         pnlCard3.Name = "pnlCard3"
-        pnlCard3.Size = New Size(188, 100)
-        pnlCard3.TabIndex = 4
+        pnlCard3.TabIndex = 2
         ' 
         ' lblCard3Icon
         ' 
@@ -181,21 +207,23 @@ Partial Class UcDashboard
         ' 
         ' lblCard3Title
         ' 
+        lblCard3Title.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard3Title.Font = New Font("Segoe UI", 8.5F)
         lblCard3Title.ForeColor = Color.Gray
         lblCard3Title.Location = New Point(72, 22)
         lblCard3Title.Name = "lblCard3Title"
-        lblCard3Title.Size = New Size(110, 22)
+        lblCard3Title.Size = New Size(180, 22)
         lblCard3Title.TabIndex = 1
         lblCard3Title.Text = "Resolved"
         ' 
         ' lblCard3Value
         ' 
+        lblCard3Value.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard3Value.Font = New Font("Segoe UI", 22F, FontStyle.Bold)
         lblCard3Value.ForeColor = Color.FromArgb(CByte(30), CByte(130), CByte(30))
         lblCard3Value.Location = New Point(70, 44)
         lblCard3Value.Name = "lblCard3Value"
-        lblCard3Value.Size = New Size(110, 46)
+        lblCard3Value.Size = New Size(180, 46)
         lblCard3Value.TabIndex = 2
         lblCard3Value.Text = "0"
         ' 
@@ -205,10 +233,10 @@ Partial Class UcDashboard
         pnlCard4.Controls.Add(lblCard4Icon)
         pnlCard4.Controls.Add(lblCard4Title)
         pnlCard4.Controls.Add(lblCard4Value)
-        pnlCard4.Location = New Point(624, 90)
+        pnlCard4.Dock = DockStyle.Fill
+        pnlCard4.Margin = New Padding(8, 0, 0, 0)
         pnlCard4.Name = "pnlCard4"
-        pnlCard4.Size = New Size(188, 100)
-        pnlCard4.TabIndex = 5
+        pnlCard4.TabIndex = 3
         ' 
         ' lblCard4Icon
         ' 
@@ -223,21 +251,23 @@ Partial Class UcDashboard
         ' 
         ' lblCard4Title
         ' 
+        lblCard4Title.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard4Title.Font = New Font("Segoe UI", 8.5F)
         lblCard4Title.ForeColor = Color.Gray
         lblCard4Title.Location = New Point(72, 22)
         lblCard4Title.Name = "lblCard4Title"
-        lblCard4Title.Size = New Size(110, 22)
+        lblCard4Title.Size = New Size(180, 22)
         lblCard4Title.TabIndex = 1
         lblCard4Title.Text = "Personnel"
         ' 
         ' lblCard4Value
         ' 
+        lblCard4Value.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lblCard4Value.Font = New Font("Segoe UI", 22F, FontStyle.Bold)
         lblCard4Value.ForeColor = Color.FromArgb(CByte(20), CByte(80), CByte(180))
         lblCard4Value.Location = New Point(70, 44)
         lblCard4Value.Name = "lblCard4Value"
-        lblCard4Value.Size = New Size(110, 46)
+        lblCard4Value.Size = New Size(180, 46)
         lblCard4Value.TabIndex = 2
         lblCard4Value.Text = "0"
         ' 
@@ -245,43 +275,47 @@ Partial Class UcDashboard
         ' 
         pnlActivity.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         pnlActivity.BackColor = Color.White
-        pnlActivity.Controls.Add(lblActivityTitle)
         pnlActivity.Controls.Add(dgvRecent)
+        pnlActivity.Controls.Add(lblActivityTitle)
         pnlActivity.Location = New Point(24, 210)
         pnlActivity.Name = "pnlActivity"
-        pnlActivity.Size = New Size(1065, 300)
-        pnlActivity.TabIndex = 6
+        pnlActivity.Padding = New Padding(16, 10, 16, 16)
+        pnlActivity.Size = New Size(1063, 516)
+        pnlActivity.TabIndex = 3
         ' 
         ' lblActivityTitle
         ' 
-        lblActivityTitle.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        lblActivityTitle.Dock = DockStyle.Top
         lblActivityTitle.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         lblActivityTitle.ForeColor = Color.FromArgb(CByte(30), CByte(30), CByte(30))
         lblActivityTitle.Location = New Point(16, 10)
         lblActivityTitle.Name = "lblActivityTitle"
-        lblActivityTitle.Size = New Size(1025, 36)
+        lblActivityTitle.Size = New Size(1031, 36)
         lblActivityTitle.TabIndex = 0
         lblActivityTitle.Text = "Recent Records"
+        lblActivityTitle.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' dgvRecent
         ' 
         dgvRecent.AllowUserToAddRows = False
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(252), CByte(245), CByte(245))
         dgvRecent.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
-        dgvRecent.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvRecent.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvRecent.BackgroundColor = Color.White
         dgvRecent.BorderStyle = BorderStyle.None
+        dgvRecent.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(180), CByte(20), CByte(20))
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         DataGridViewCellStyle2.ForeColor = Color.White
+        DataGridViewCellStyle2.Padding = New Padding(8, 0, 0, 0)
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
         dgvRecent.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         dgvRecent.ColumnHeadersHeight = 34
         dgvRecent.Columns.AddRange(New DataGridViewColumn() {DataGridViewTextBoxColumn1, DataGridViewTextBoxColumn2, DataGridViewTextBoxColumn3, DataGridViewTextBoxColumn4, DataGridViewTextBoxColumn5})
+        dgvRecent.Dock = DockStyle.Fill
         dgvRecent.EnableHeadersVisualStyles = False
         dgvRecent.Font = New Font("Segoe UI", 9F)
         dgvRecent.GridColor = Color.FromArgb(CByte(230), CByte(230), CByte(230))
@@ -291,7 +325,7 @@ Partial Class UcDashboard
         dgvRecent.RowHeadersVisible = False
         dgvRecent.RowHeadersWidth = 45
         dgvRecent.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvRecent.Size = New Size(1033, 244)
+        dgvRecent.Size = New Size(1031, 454)
         dgvRecent.TabIndex = 1
         ' 
         ' DataGridViewTextBoxColumn1
@@ -334,16 +368,14 @@ Partial Class UcDashboard
         BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
         Controls.Add(lblPageTitle)
         Controls.Add(lblWelcomeSub)
-        Controls.Add(pnlCard1)
-        Controls.Add(pnlCard2)
-        Controls.Add(pnlCard3)
-        Controls.Add(pnlCard4)
+        Controls.Add(tlpCards)
         Controls.Add(pnlActivity)
         Font = New Font("Segoe UI", 9F)
         AutoScaleDimensions = New SizeF(96.0F, 96.0F)
         AutoScaleMode = AutoScaleMode.Dpi
         Name = "UcDashboard"
         Size = New Size(1111, 750)
+        tlpCards.ResumeLayout(False)
         pnlCard1.ResumeLayout(False)
         pnlCard2.ResumeLayout(False)
         pnlCard3.ResumeLayout(False)
@@ -356,6 +388,7 @@ Partial Class UcDashboard
 
     Friend WithEvents lblPageTitle     As Label
     Friend WithEvents lblWelcomeSub    As Label
+    Friend WithEvents tlpCards         As TableLayoutPanel
     Friend WithEvents pnlCard1         As Panel
     Friend WithEvents pnlCard2         As Panel
     Friend WithEvents pnlCard3         As Panel

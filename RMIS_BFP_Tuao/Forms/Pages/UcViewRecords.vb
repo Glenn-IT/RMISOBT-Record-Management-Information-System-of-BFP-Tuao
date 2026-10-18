@@ -62,7 +62,7 @@ Public Class UcViewRecords
                 Dim matchesType = (selectedType = "All Types") OrElse
                     r.IncidentType.Equals(selectedType, StringComparison.OrdinalIgnoreCase)
 
-                ' Status matching (Active, Resolved, Closed, Under Investigation)
+                ' Status matching (Active, Resolved, Under Investigation)
                 Dim matchesStatus = (selectedStatus = "All Statuses") OrElse
                     r.Status.Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
 

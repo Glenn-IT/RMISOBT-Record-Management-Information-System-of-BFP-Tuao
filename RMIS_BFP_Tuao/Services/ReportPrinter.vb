@@ -163,7 +163,7 @@ Public Module ReportPrinter
         Dim total    = If(records IsNot Nothing, records.Count, 0)
         Dim active   = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Active").Count(), 0)
         Dim resolved = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Resolved").Count(), 0)
-        Dim closed   = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Closed").Count(), 0)
+        Dim underInv = If(records IsNot Nothing, records.Where(Function(r) r.Status = "Under Investigation").Count(), 0)
 
         gfx.DrawString("SUMMARY", fSection, brBlack, New XRect(leftMargin, curY, contentWidth, 14), sfLeft)
         curY += 18.0
@@ -173,10 +173,10 @@ Public Module ReportPrinter
         Dim cardH = 50.0
 
         Dim cards = {
-            ("Total Incidents", total.ToString(), brBlack),
-            ("Active",          active.ToString(), brOrange),
-            ("Resolved",        resolved.ToString(), brGreen),
-            ("Closed",          closed.ToString(), brDarkGray)
+            ("Total Incidents",     total.ToString(),    brBlack),
+            ("Active",              active.ToString(),   brOrange),
+            ("Resolved",            resolved.ToString(), brGreen),
+            ("Under Investigation", underInv.ToString(), brDarkGray)
         }
 
         For i = 0 To 3
@@ -220,7 +220,7 @@ Public Module ReportPrinter
         gfx.DrawString("Total Count",   fColHdr, brWhite, New XRect(x1, curY, colNumW, rowH), sfCenter)
         gfx.DrawString("Active",        fColHdr, brWhite, New XRect(x2, curY, colNumW, rowH), sfCenter)
         gfx.DrawString("Resolved",      fColHdr, brWhite, New XRect(x3, curY, colNumW, rowH), sfCenter)
-        gfx.DrawString("Other",         fColHdr, brWhite, New XRect(x4, curY, colNumW, rowH), sfCenter)
+        gfx.DrawString("Under Inv",     fColHdr, brWhite, New XRect(x4, curY, colNumW, rowH), sfCenter)
 
         curY += rowH
 
@@ -234,7 +234,7 @@ Public Module ReportPrinter
             Dim grp       = records.Where(Function(r) r.IncidentType = incType).ToList()
             Dim gActive   = grp.Where(Function(r) r.Status = "Active").Count()
             Dim gResolved = grp.Where(Function(r) r.Status = "Resolved").Count()
-            Dim gOther    = grp.Count - gActive - gResolved
+            Dim gUnderInv = grp.Where(Function(r) r.Status = "Under Investigation").Count()
 
             Dim rowRect As New XRect(leftMargin, curY, contentWidth, rowH)
             If alt Then
@@ -243,11 +243,11 @@ Public Module ReportPrinter
 
             gfx.DrawLine(penLight, leftMargin, curY + rowH, rightMargin, curY + rowH)
 
-            gfx.DrawString(incType,            fCell, brBlack, New XRect(x0 + 8, curY, colTypeW - 8, rowH), sfLeft)
+            gfx.DrawString(incType,              fCell, brBlack, New XRect(x0 + 8, curY, colTypeW - 8, rowH), sfLeft)
             gfx.DrawString(grp.Count.ToString(), fCell, brBlack, New XRect(x1, curY, colNumW, rowH), sfCenter)
-            gfx.DrawString(gActive.ToString(), fCell, brBlack, New XRect(x2, curY, colNumW, rowH), sfCenter)
+            gfx.DrawString(gActive.ToString(),   fCell, brBlack, New XRect(x2, curY, colNumW, rowH), sfCenter)
             gfx.DrawString(gResolved.ToString(), fCell, brBlack, New XRect(x3, curY, colNumW, rowH), sfCenter)
-            gfx.DrawString(gOther.ToString(),  fCell, brBlack, New XRect(x4, curY, colNumW, rowH), sfCenter)
+            gfx.DrawString(gUnderInv.ToString(), fCell, brBlack, New XRect(x4, curY, colNumW, rowH), sfCenter)
 
             curY += rowH
             alt = Not alt

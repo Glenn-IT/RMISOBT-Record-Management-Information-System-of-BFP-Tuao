@@ -5,7 +5,7 @@ Public Module Constants
         "Industrial Fire", "Electrical Fire", "Other"}
 
     Public ReadOnly Statuses As String() = {
-        "Active", "Resolved", "Under Investigation", "Closed"}
+        "Active", "Resolved", "Under Investigation"}
 
     Public ReadOnly AlarmLevels As String() = {
         "1st Alarm", "2nd Alarm", "3rd Alarm", "4th Alarm", "5th Alarm", "General Alarm"}

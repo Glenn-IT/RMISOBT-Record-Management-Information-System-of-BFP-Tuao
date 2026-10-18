@@ -402,7 +402,7 @@ Partial Class UcReports
         lblCardClosedTitle.Name = "lblCardClosedTitle"
         lblCardClosedTitle.Size = New Size(180, 20)
         lblCardClosedTitle.TabIndex = 0
-        lblCardClosedTitle.Text = "Closed"
+        lblCardClosedTitle.Text = "Under Investigation"
         ' 
         ' lblCardClosedValue
         ' 
@@ -507,7 +507,7 @@ Partial Class UcReports
         ' 
         ' colOther
         ' 
-        colOther.HeaderText = "Other"
+        colOther.HeaderText = "Under Investigation"
         colOther.MinimumWidth = 6
         colOther.Name = "colOther"
         colOther.ReadOnly = True
